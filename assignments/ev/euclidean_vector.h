@@ -19,9 +19,11 @@ class EuclideanVector {
 
  public:
   // constructors
-  explicit EuclideanVector(int) : EuclideanVector(1, 0.0){}
+  explicit EuclideanVector(int i = 1) : EuclideanVector(i, 0.0){}
   EuclideanVector(int x, double y);
   EuclideanVector(std::vector<double>::const_iterator, std::vector<double>::const_iterator );
+  EuclideanVector(const EuclideanVector&);
+  EuclideanVector(EuclideanVector&&);
 
   // overloads
   friend std::ostream& operator<<(std::ostream& os, const EuclideanVector& v);
