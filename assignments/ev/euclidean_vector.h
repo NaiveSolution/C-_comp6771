@@ -26,11 +26,11 @@ class EuclideanVector {
   EuclideanVector(EuclideanVector&&);
 
   // overloads
-  friend std::ostream& operator<<(std::ostream& os, const EuclideanVector& v);
-  friend EuclideanVector operator+(const EuclideanVector& lhs, const EuclideanVector& rhs);
+  //friend std::ostream& operator<<(std::ostream& os, const EuclideanVector& v);
+  //friend EuclideanVector operator+(const EuclideanVector& lhs, const EuclideanVector& rhs);
 
   // methods
-  int GetNumDimensions();
+  int GetNumDimensions() { return num_dimensions_;}
 
  private:
   int num_dimensions_;

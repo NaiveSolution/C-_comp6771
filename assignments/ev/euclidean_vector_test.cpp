@@ -11,4 +11,7 @@
 #include "assignments/ev/euclidean_vector.h"
 #include "catch.h"
 
-// TODO(students): Fill this in.
+EuclideanVector a{4,5.5};
+TEST_CASE("Testing the constructor", "[constructor]"){
+  REQUIRE(a.GetNumDimensions() == 4);
+}
