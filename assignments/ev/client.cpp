@@ -30,7 +30,7 @@ int main() {
   std::cout << e << '\n';
   std::cout << f << '\n';
 
-  // test the move constructor
+/*  // test the move constructor
   EuclideanVector g = std::move(f);
   std::cout << g << '\n';
   std::cout << f << '\n';
@@ -64,5 +64,5 @@ int main() {
 
   for (auto d : lj) {
     std::cout << d << '\n';
-  }
+  }*/
 }

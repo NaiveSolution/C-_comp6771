@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 class EuclideanVectorError : public std::exception {
 
@@ -20,20 +21,32 @@ class EuclideanVector {
 
  public:
   // constructors
-  explicit EuclideanVector(int i = 1) : EuclideanVector(i, 0.0){}
-  EuclideanVector(int x, double y);
-  EuclideanVector(std::vector<double>::const_iterator, std::vector<double>::const_iterator );
-  EuclideanVector(const EuclideanVector&);
-  //EuclideanVector(EuclideanVector&&);
+  explicit EuclideanVector(int i = 1) : EuclideanVector(i, 0.0){} // default
+  EuclideanVector(int x, double y); // alternate
+  EuclideanVector(std::vector<double>::const_iterator, std::vector<double>::const_iterator ); // alternate
+  EuclideanVector(const EuclideanVector&);  // copy
+  //EuclideanVector(EuclideanVector&&); // move
+
+  // friend overloads
+  friend std::ostream& operator<<(std::ostream& os, const EuclideanVector& v);
+  friend EuclideanVector operator+(const EuclideanVector&, const EuclideanVector&);
+  friend double operator*(const EuclideanVector&, const EuclideanVector&);
+  friend EuclideanVector operator*(const EuclideanVector&, const double&);
+  friend EuclideanVector operator*(const double&, const EuclideanVector&);
+  friend EuclideanVector operator/(const EuclideanVector&, const double&);
+  friend EuclideanVector operator-(const EuclideanVector&, const EuclideanVector&);
+  friend bool operator==(const EuclideanVector&, const EuclideanVector&);
+  friend bool operator!=(const EuclideanVector&, const EuclideanVector&);
 
   // overloads
-  //friend std::ostream& operator<<(std::ostream& os, const EuclideanVector& v);
-  //friend EuclideanVector operator+(const EuclideanVector& lhs, const EuclideanVector& rhs);
+  EuclideanVector& operator+=(const EuclideanVector& ev);
+  EuclideanVector& operator-=(const EuclideanVector& ev);
 
   // methods
   int GetNumDimensions() { return num_dimensions_;}
   double at(int);
   double GetEuclideanNorm();
+  EuclideanVector CreateUnitVector();
 
  private:
   int num_dimensions_;
@@ -41,12 +54,3 @@ class EuclideanVector {
 
 
 };
-/*
-
-EuclideanVector operator+(const EuclideanVector& lhs, const EuclideanVector& rhs){
-
-}
-
-int EuclideanVector::GetNumDimensions() {
-
-}*/
