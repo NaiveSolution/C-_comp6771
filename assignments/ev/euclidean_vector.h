@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <cmath>
 
 class EuclideanVectorError : public std::exception {
 
@@ -32,6 +33,7 @@ class EuclideanVector {
   // methods
   int GetNumDimensions() { return num_dimensions_;}
   double at(int);
+  double GetEuclideanNorm();
 
  private:
   int num_dimensions_;

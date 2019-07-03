@@ -38,7 +38,6 @@ EuclideanVector::EuclideanVector(const EuclideanVector& original){
   {
     this->magnitudes_.get()[i] = original.magnitudes_.get()[i];
   }
-
 }
 
 double EuclideanVector::at(int index) {
@@ -48,3 +47,11 @@ double EuclideanVector::at(int index) {
   return this->magnitudes_.get()[index];
 }
 
+double EuclideanVector::GetEuclideanNorm(void){
+  double sum_of_squares;
+  for (int i = 0; i < this->num_dimensions_; i++)
+  {
+    sum_of_squares += std::pow(this->magnitudes_.get()[i], 2);
+  }
+  return std::sqrt(sum_of_squares);
+}

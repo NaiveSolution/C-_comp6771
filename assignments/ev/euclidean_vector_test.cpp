@@ -67,6 +67,12 @@ TEST_CASE("Testing the at method", "[at()]"){
 
   REQUIRE_THROWS_WITH(a.at(-1), "Index X is not valid for this EuclideanVector object");
   REQUIRE_THROWS_WITH(a.at(7), "Index X is not valid for this EuclideanVector object");
-
 }
 
+TEST_CASE("Testing the GetEuclideanNorm method", "[Get Norm]"){
+  std::vector<double> v1{4, 3};
+
+  EuclideanVector a{v1.begin(), v1.end()};
+  REQUIRE(a.GetEuclideanNorm() == 5);
+
+}
