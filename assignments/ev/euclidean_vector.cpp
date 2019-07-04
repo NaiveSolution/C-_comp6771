@@ -195,3 +195,11 @@ EuclideanVector& EuclideanVector::operator-=(const EuclideanVector& ev) {
   }
   return *this;
 }
+
+EuclideanVector& EuclideanVector::operator*=(const double& scalar){
+  std::vector<double> to_vector;
+  for (int i = 0; i < this->num_dimensions_; i++) {
+      this->magnitudes_.get()[i] = this->magnitudes_.get()[i] * scalar;
+  }
+  return *this;
+}

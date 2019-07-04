@@ -39,8 +39,9 @@ class EuclideanVector {
   friend bool operator!=(const EuclideanVector&, const EuclideanVector&);
 
   // overloads
-  EuclideanVector& operator+=(const EuclideanVector& ev);
-  EuclideanVector& operator-=(const EuclideanVector& ev);
+  EuclideanVector& operator+=(const EuclideanVector&);
+  EuclideanVector& operator-=(const EuclideanVector&);
+  EuclideanVector& operator*=(const double&);
 
   // methods
   int GetNumDimensions() { return num_dimensions_;}

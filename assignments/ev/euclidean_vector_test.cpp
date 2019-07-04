@@ -88,10 +88,13 @@ TEST_CASE("Testing the GetEuclideanNorm() method", "[Get Norm]"){
 TEST_CASE("Testing the CreateUnitVector() method", "[create unit vector]"){
   std::vector<double> v1{4, 3};
   std::vector<double> v2{4, 3, 3, 1, 1};
+  std::vector<double> v3{0, 0, 0, 0};
+
   EuclideanVector a{v1.begin(), v1.end()};
   EuclideanVector b{v2.begin(), v2.end()};
   EuclideanVector e{0};
   EuclideanVector f{};
+  EuclideanVector g{v3.begin(), v3.end()};
 
   EuclideanVector c = a.CreateUnitVector();
   EuclideanVector d = b.CreateUnitVector();
@@ -108,6 +111,7 @@ TEST_CASE("Testing the CreateUnitVector() method", "[create unit vector]"){
 
   REQUIRE_THROWS_WITH(e.CreateUnitVector(), "EuclideanVector with no dimensions does not have a unit vector");
   REQUIRE_THROWS_WITH(f.CreateUnitVector(), "EuclideanVector with euclidean normal of 0 does not have a unit vector");
+  REQUIRE_THROWS_WITH(g.CreateUnitVector(), "EuclideanVector with euclidean normal of 0 does not have a unit vector");
 }
 
 TEST_CASE("Testing overloaded operator+", "[operator+]"){
