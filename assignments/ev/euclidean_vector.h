@@ -49,6 +49,7 @@ class EuclideanVector {
   EuclideanVector& operator=(const EuclideanVector&);
   void operator=(EuclideanVector&&) noexcept;
   double& operator[](const int);
+  const double& operator[](const int) const;
   explicit operator std::vector<double>();
   explicit operator std::list<double>();
 

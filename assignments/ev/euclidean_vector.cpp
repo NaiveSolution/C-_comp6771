@@ -265,6 +265,11 @@ double& EuclideanVector::operator[](const int index) {
   return this->magnitudes_[index];
 }
 
+const double& EuclideanVector::operator[](const int index) const{
+  assert(index >= 0 && index <= this->num_dimensions_);
+  return this->magnitudes_[index];
+}
+
 EuclideanVector::operator std::vector<double>() {
   std::vector<double> to_vector(&this->magnitudes_[0],
                                 &this->magnitudes_[0] + this->num_dimensions_);
