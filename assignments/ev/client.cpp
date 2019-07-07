@@ -30,7 +30,7 @@ int main() {
   std::cout << e << '\n';
   std::cout << f << '\n';
 
-/*  // test the move constructor
+  // test the move constructor
   EuclideanVector g = std::move(f);
   std::cout << g << '\n';
   std::cout << f << '\n';
@@ -62,7 +62,11 @@ int main() {
   // type cast from EuclideanVector to a std::vector
   auto lj = std::vector<double>{j};
 
-  for (auto d : lj) {
-    std::cout << d << '\n';
-  }*/
+  for (auto poo : lj) {
+    std::cout << poo << '\n';
+  }
+
+  std::cout << "j[1] = " << j[1] << '\n';
+  j[1] = 68;
+  std::cout << "j[1] = " << j[1] << '\n';
 }
