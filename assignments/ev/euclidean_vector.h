@@ -29,6 +29,7 @@ class EuclideanVector {
                   std::vector<double>::const_iterator);  // alternate
   EuclideanVector(const EuclideanVector&);               // copy
   EuclideanVector(EuclideanVector&&) noexcept;           // move
+  ~EuclideanVector() = default;                          // destructor
 
   // friend overloads
   friend std::ostream& operator<<(std::ostream& os, const EuclideanVector& v);
@@ -41,23 +42,24 @@ class EuclideanVector {
   friend bool operator==(const EuclideanVector&, const EuclideanVector&);
   friend bool operator!=(const EuclideanVector&, const EuclideanVector&);
 
-  // overloads
+  // overloads and operations
   EuclideanVector& operator+=(const EuclideanVector&);
   EuclideanVector& operator-=(const EuclideanVector&);
   EuclideanVector& operator*=(const double&);
   EuclideanVector& operator/=(const double&);
   EuclideanVector& operator=(const EuclideanVector&);
-  void operator=(EuclideanVector&&) noexcept;
-  double& operator[](const int);
-  const double& operator[](const int) const;
-  explicit operator std::vector<double>();
-  explicit operator std::list<double>();
+  EuclideanVector& operator=(EuclideanVector&&) noexcept;
+  double& operator[](int);
+  const double& operator[](int) const;
+  explicit operator std::vector<double>() const;
+  explicit operator std::list<double>() const;
 
   // methods
   int GetNumDimensions() noexcept { return num_dimensions_; }
-  double at(const int&);
-  double GetEuclideanNorm();
-  EuclideanVector CreateUnitVector();
+  double& at(const int&);
+  double at(const int&) const;
+  double GetEuclideanNorm() const;
+  EuclideanVector CreateUnitVector() const;
 
  private:
   int num_dimensions_;

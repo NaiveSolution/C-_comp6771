@@ -46,15 +46,23 @@ EuclideanVector::EuclideanVector(EuclideanVector&& original) noexcept {
 }
 
 /********************* METHODS *************************************/
-double EuclideanVector::at(const int& index) {
+double& EuclideanVector::at(const int& index) {
+  if (index < 0 || index >= this->num_dimensions_) {
+    std::string error_message = "Index " + std::to_string(index) + " is not valid for this EuclideanVector object";
+    throw EuclideanVectorError(error_message);
+  }
+  return this->magnitudes_.get()[index];
+}
+
+double EuclideanVector::at(const int& index) const{
   if (index < 0 || index >= this->num_dimensions_) {
     throw EuclideanVectorError("Index X is not valid for this EuclideanVector object");
   }
   return this->magnitudes_.get()[index];
 }
 
-double EuclideanVector::GetEuclideanNorm() {
-  if (this->GetNumDimensions() == 0) {
+double EuclideanVector::GetEuclideanNorm() const{
+  if (this->num_dimensions_ == 0) {
     throw EuclideanVectorError("EuclideanVector with no dimensions does not have a norm");
   }
   double sum_of_squares = 0;
@@ -64,8 +72,8 @@ double EuclideanVector::GetEuclideanNorm() {
   return std::sqrt(sum_of_squares);
 }
 
-EuclideanVector EuclideanVector::CreateUnitVector() {
-  if (this->GetNumDimensions() == 0) {
+EuclideanVector EuclideanVector::CreateUnitVector() const{
+  if (this->num_dimensions_ == 0) {
     throw EuclideanVectorError("EuclideanVector with no dimensions does not have a unit vector");
   }
   if (this->GetEuclideanNorm() == 0) {
@@ -250,33 +258,37 @@ EuclideanVector& EuclideanVector::operator=(const EuclideanVector& copy) {
     magnitudes_.reset();
     num_dimensions_ = copy.num_dimensions_;
   }
-  std::copy(&copy.magnitudes_[0], &copy.magnitudes_[0] + num_dimensions_, &magnitudes_[0]);
+  magnitudes_ = std::make_unique<double[]>(num_dimensions_);
+  for (int i = 0; i < this->num_dimensions_; i++) {
+    magnitudes_.get()[i] = copy.magnitudes_.get()[i];
+  }
   return *this;
 }
 
-void EuclideanVector::operator=(EuclideanVector&& copy) noexcept {
+EuclideanVector& EuclideanVector::operator=(EuclideanVector&& copy) noexcept {
   magnitudes_ = std::move(copy.magnitudes_);
   num_dimensions_ = copy.num_dimensions_;
   copy.num_dimensions_ = 0;
+  return *this;
 }
 
-double& EuclideanVector::operator[](const int index) {
+double& EuclideanVector::operator[](int index) {
   assert(index >= 0 && index <= this->num_dimensions_);
   return this->magnitudes_[index];
 }
 
-const double& EuclideanVector::operator[](const int index) const{
+const double& EuclideanVector::operator[](int index) const{
   assert(index >= 0 && index <= this->num_dimensions_);
   return this->magnitudes_[index];
 }
 
-EuclideanVector::operator std::vector<double>() {
+EuclideanVector::operator std::vector<double>() const{
   std::vector<double> to_vector(&this->magnitudes_[0],
                                 &this->magnitudes_[0] + this->num_dimensions_);
   return to_vector;
 }
 
-EuclideanVector::operator std::list<double>() {
+EuclideanVector::operator std::list<double>() const{
   std::list<double> to_list(&this->magnitudes_[0], &this->magnitudes_[0] + this->num_dimensions_);
   return to_list;
 }
