@@ -522,4 +522,20 @@ TEST_CASE("Testing subscript operator[]", "[operator=]") {
   REQUIRE(a[1] == -(3.7/8.6));
   REQUIRE(b[0] == 0.0);
   REQUIRE(c[0] == -(3.7/8.6));
+
+  a[1] = b[0];
+
+  REQUIRE(a[1] == 0.0);
+  REQUIRE(c[0] == -(3.7/8.6));
+
+  b[0] = b[0] + 5.0;
+  REQUIRE(b[0] == 5.0);
+
+  a[0] = a[0] + 2.0;
+  a[0] = a[0] + b[0];
+  REQUIRE(a[0] == 2.0 + 5.0);
+
+  double d {a[0]};
+  REQUIRE(d == 7.0);
+
 }
