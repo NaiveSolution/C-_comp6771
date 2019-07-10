@@ -68,5 +68,5 @@ int main() {
 
   std::cout << "j[1] = " << j[1] << '\n';
   j[1] = 68;
-  std::cout << "j[1] = " << j[1] << '\n';
+  std::cout << "accessing out of bounds element in j: "<<  j[3] << '\n';
 }

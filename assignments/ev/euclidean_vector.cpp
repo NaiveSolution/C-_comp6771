@@ -3,7 +3,7 @@
 #include <algorithm>  // Look at these - they are helpful https://en.cppreference.com/w/cpp/algorithm
 
 /********************* CONSTRUCTORS *************************************/
-EuclideanVector::EuclideanVector(int x, double y) {
+EuclideanVector::EuclideanVector(int x, double y) noexcept{
   this->num_dimensions_ = x;
   this->magnitudes_ = std::make_unique<double[]>(x);
 
@@ -13,7 +13,7 @@ EuclideanVector::EuclideanVector(int x, double y) {
 }
 
 EuclideanVector::EuclideanVector(std::vector<double>::const_iterator start,
-                                 std::vector<double>::const_iterator finish) {
+                                 std::vector<double>::const_iterator finish) noexcept{
   // if the iterators are from an empty vector
   if (start == finish) {
     this->num_dimensions_ = 1;
@@ -31,7 +31,7 @@ EuclideanVector::EuclideanVector(std::vector<double>::const_iterator start,
   }
 }
 
-EuclideanVector::EuclideanVector(const EuclideanVector& original) {
+EuclideanVector::EuclideanVector(const EuclideanVector& original) noexcept{
   this->num_dimensions_ = original.num_dimensions_;
   this->magnitudes_ = std::make_unique<double[]>(original.num_dimensions_);
   for (int i = 0; i < original.num_dimensions_; i++) {
@@ -120,7 +120,7 @@ double operator*(const EuclideanVector& lhs, const EuclideanVector& rhs) {
   return sum;
 }
 
-EuclideanVector operator*(const EuclideanVector& ev, const double& scalar) {
+EuclideanVector operator*(const EuclideanVector& ev, const double& scalar) noexcept{
   std::vector<double> to_vector;
   to_vector.reserve(ev.num_dimensions_);
   for (int i = 0; i < ev.num_dimensions_; i++) {
@@ -129,7 +129,7 @@ EuclideanVector operator*(const EuclideanVector& ev, const double& scalar) {
   return EuclideanVector{to_vector.begin(), to_vector.end()};
 }
 
-EuclideanVector operator*(const double& scalar, const EuclideanVector& ev) {
+EuclideanVector operator*(const double& scalar, const EuclideanVector& ev) noexcept{
   std::vector<double> to_vector;
   to_vector.reserve(ev.num_dimensions_);
   for (int i = 0; i < ev.num_dimensions_; i++) {
@@ -165,7 +165,7 @@ EuclideanVector operator-(const EuclideanVector& lhs, const EuclideanVector& rhs
   return EuclideanVector{to_vector.begin(), to_vector.end()};
 }
 
-std::ostream& operator<<(std::ostream& os, const EuclideanVector& ev) {
+std::ostream& operator<<(std::ostream& os, const EuclideanVector& ev) noexcept{
   os << "[";
   if (ev.num_dimensions_ == 0) {
     os << "]";
@@ -181,7 +181,7 @@ std::ostream& operator<<(std::ostream& os, const EuclideanVector& ev) {
   return os;
 }
 
-bool operator==(const EuclideanVector& lhs, const EuclideanVector& rhs) {
+bool operator==(const EuclideanVector& lhs, const EuclideanVector& rhs) noexcept {
   if (lhs.num_dimensions_ != rhs.num_dimensions_) {
     return false;
   }
@@ -193,7 +193,7 @@ bool operator==(const EuclideanVector& lhs, const EuclideanVector& rhs) {
   return true;
 }
 
-bool operator!=(const EuclideanVector& lhs, const EuclideanVector& rhs) {
+bool operator!=(const EuclideanVector& lhs, const EuclideanVector& rhs) noexcept {
   if (lhs.num_dimensions_ != rhs.num_dimensions_) {
     return true;
   }
@@ -232,7 +232,7 @@ EuclideanVector& EuclideanVector::operator-=(const EuclideanVector& ev) {
   return *this;
 }
 
-EuclideanVector& EuclideanVector::operator*=(const double& scalar) {
+EuclideanVector& EuclideanVector::operator*=(const double& scalar) noexcept{
   std::vector<double> to_vector;
   for (int i = 0; i < this->num_dimensions_; i++) {
     this->magnitudes_.get()[i] = this->magnitudes_.get()[i] * scalar;
@@ -251,7 +251,7 @@ EuclideanVector& EuclideanVector::operator/=(const double& scalar) {
   return *this;
 }
 
-EuclideanVector& EuclideanVector::operator=(const EuclideanVector& copy) {
+EuclideanVector& EuclideanVector::operator=(const EuclideanVector& copy) noexcept {
   if (&copy == this)
     return *this;
   if (num_dimensions_ != copy.num_dimensions_) {
@@ -273,22 +273,22 @@ EuclideanVector& EuclideanVector::operator=(EuclideanVector&& copy) noexcept {
 }
 
 double& EuclideanVector::operator[](int index) {
-  assert(index >= 0 && index <= this->num_dimensions_);
+  assert(index >= 0 && index < this->num_dimensions_);
   return this->magnitudes_[index];
 }
 
 const double& EuclideanVector::operator[](int index) const{
-  assert(index >= 0 && index <= this->num_dimensions_);
+  assert(index >= 0 && index < this->num_dimensions_);
   return this->magnitudes_[index];
 }
 
-EuclideanVector::operator std::vector<double>() const{
+EuclideanVector::operator std::vector<double>() const noexcept{
   std::vector<double> to_vector(&this->magnitudes_[0],
                                 &this->magnitudes_[0] + this->num_dimensions_);
   return to_vector;
 }
 
-EuclideanVector::operator std::list<double>() const{
+EuclideanVector::operator std::list<double>() const noexcept{
   std::list<double> to_list(&this->magnitudes_[0], &this->magnitudes_[0] + this->num_dimensions_);
   return to_list;
 }

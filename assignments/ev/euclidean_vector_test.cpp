@@ -225,11 +225,13 @@ TEST_CASE("Testing dot product and scalar multiplication operator*", "[operator*
   std::vector<double> v2{2, 2};
   std::vector<double> v3{4, -3, 3, -1, 1};
   std::vector<double> v4{2, 2, 2, 2, 2};
+  std::vector<double> v5{0,0};
 
   EuclideanVector a{v1.begin(), v1.end()};
   EuclideanVector b{v2.begin(), v2.end()};
   EuclideanVector c{v3.begin(), v3.end()};
   EuclideanVector d{v4.begin(), v4.end()};
+  EuclideanVector zero{v5.begin(), v5.end()};
 
   EuclideanVector e = 3 * a;
   EuclideanVector g{0};
@@ -243,6 +245,12 @@ TEST_CASE("Testing dot product and scalar multiplication operator*", "[operator*
   REQUIRE(e.at(0) == 12);
   REQUIRE(e.at(1) == 9);
   REQUIRE(h.at(0) == 0);
+
+  double zero_a{a * zero};
+  double zero_b{b * zero};
+  REQUIRE(zero_a == a.at(0) * zero.at(0) + a.at(1) * zero.at(1));
+  REQUIRE(zero_b == b.at(0) * zero.at(0) + b.at(1) * zero.at(1));
+
 }
 
 TEST_CASE("Testing overloaded operator/", "[operator/]") {
@@ -329,16 +337,22 @@ TEST_CASE("Testing overloaded operator+=", "[operator+=]") {
 TEST_CASE("Testing overloaded operator-=", "[operator-=]") {
   std::vector<double> v1{4.1, 3.5};
   std::vector<double> v2{2.8, 2.6};
-  std::vector<double> v4{};
+  std::vector<double> v3{0,0,0};
+  std::vector<double> v4{0,0,0};
 
   EuclideanVector a{v1.begin(), v1.end()};
   EuclideanVector b{v2.begin(), v2.end()};
-  EuclideanVector c{v4.begin(), v4.end()};
+  EuclideanVector c{v3.begin(), v3.end()};
+  EuclideanVector d{v4.begin(), v4.end()};
 
   a -= b;
+  c -= d;
+
   REQUIRE(a.at(0) == 4.1 - b.at(0));
   REQUIRE(a.at(1) == 3.5 - b.at(1));
-  REQUIRE_THROWS_WITH(a -= c, "Dimensions of LHS(2) and RHS(1) do not match");
+  REQUIRE(c.at(0) == 0 - d.at(0));
+  REQUIRE(c.at(1) == 0 - d.at(1));
+  REQUIRE_THROWS_WITH(a -= c, "Dimensions of LHS(2) and RHS(3) do not match");
 }
 
 TEST_CASE("Testing overloaded operator*=", "[operator*=]") {
@@ -411,5 +425,101 @@ TEST_CASE("Testing move assignment operator=", "[operator=]") {
   REQUIRE(a.at(0) == 0);
   REQUIRE(a.at(1) == 1);
   REQUIRE_THROWS_WITH(c.at(0), "Index 0 is not valid for this EuclideanVector object");
+}
 
+TEST_CASE("Testing vector type conversion operator", "[vector_convert]") {
+  std::vector<double> v1{4.1, 3.5};
+  std::vector<double> v2{};
+  std::vector<double> v3{0,1,0,1,0,1};
+  std::vector<double> v4{0};
+
+  EuclideanVector a{v1.begin(), v1.end()};
+  EuclideanVector b{v2.begin(), v2.end()};
+  EuclideanVector c{v3.begin(), v3.end()};
+  EuclideanVector d{v4.begin(), v4.end()};
+
+  auto v_a = std::vector<double>{a};
+  auto v_b = std::vector<double>{b};
+  auto v_c = std::vector<double>{c};
+  auto v_d = std::vector<double>{d};
+
+  REQUIRE(v_a.size() == 2);
+  REQUIRE(v_a[0] == a.at(0));
+  REQUIRE(v_a[1] == a.at(1));
+
+  REQUIRE(v_b.size() == 1);
+  REQUIRE(v_b[0] == b.at(0));
+
+  REQUIRE(v_c.size() == 6);
+  REQUIRE(v_c[0] == c.at(0));
+  REQUIRE(v_c[1] == c.at(1));
+  REQUIRE(v_c[2] == c.at(2));
+
+  REQUIRE(v_d.size() == 1);
+  REQUIRE(v_d[0] == d.at(0));
+
+}
+
+TEST_CASE("Testing list type conversion operator", "[list_convert]") {
+  std::vector<double> v1{4.1, 3.5};
+  std::vector<double> v2{};
+  std::vector<double> v3{0,1,0,1,0,1};
+  std::vector<double> v4{0};
+
+  EuclideanVector a{v1.begin(), v1.end()};
+  EuclideanVector b{v2.begin(), v2.end()};
+  EuclideanVector c{v3.begin(), v3.end()};
+  EuclideanVector d{v4.begin(), v4.end()};
+
+  auto vec_a = std::list<double>{a};
+  auto vec_b = std::list<double>{b};
+  auto vec_c = std::list<double>{c};
+  auto vec_d = std::list<double>{d};
+
+  auto v_a = vec_a.begin();
+  auto v_c = vec_c.begin();
+
+  REQUIRE(vec_a.size() == 2);
+  REQUIRE(vec_a.front() == a.at(0));
+  std::advance(v_a, 1);
+  REQUIRE(*v_a == a.at(1));
+
+  REQUIRE(vec_b.size() == 1);
+  REQUIRE(vec_b.front() == b.at(0));
+
+  REQUIRE(vec_c.size() == 6);
+  REQUIRE(vec_c.front() == c.at(0));
+  std::advance(v_c, 1);
+  REQUIRE(*v_c == c.at(1));
+  std::advance(v_c, 1);
+  REQUIRE(*v_c == c.at(2));
+
+  REQUIRE(vec_d.size() == 1);
+  REQUIRE(vec_d.front() == d.at(0));
+
+}
+
+TEST_CASE("Testing subscript operator[]", "[operator=]") {
+  std::vector<double> v1{4.1, 3.5};
+  std::vector<double> v2{};
+  std::vector<double> v3{0};
+
+  EuclideanVector a{v1.begin(), v1.end()};
+  EuclideanVector b{v2.begin(), v2.end()};
+  EuclideanVector c{v3.begin(), v3.end()};
+
+  REQUIRE(a[0] == a.at(0));
+  REQUIRE(a[1] == a.at(1));
+  REQUIRE(b[0] == b.at(0));
+  REQUIRE(c[0] == c.at(0));
+
+  a[0] = 0.0;
+  a[1] = -(3.7/8.6);
+  b[0] = -0.0;
+  c[0] = a[1];
+
+  REQUIRE(a[0] == 0.0);
+  REQUIRE(a[1] == -(3.7/8.6));
+  REQUIRE(b[0] == 0.0);
+  REQUIRE(c[0] == -(3.7/8.6));
 }
