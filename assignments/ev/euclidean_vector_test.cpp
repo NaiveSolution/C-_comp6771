@@ -301,21 +301,25 @@ TEST_CASE("Testing overloaded operator-", "[operator-]") {
 
 TEST_CASE("Testing overloaded operator<<", "[operator<<]") {
   std::vector<double> v1{4.1, 3.5};
-  std::vector<double> v2{2.8, 2.6};
+  std::vector<double> v2{2.8};
   std::vector<double> v3{};
+  std::vector<double> v4{0};
 
 
   EuclideanVector a{v1.begin(), v1.end()};
   EuclideanVector b{v2.begin(), v2.end()};
   EuclideanVector c{v3.begin(), v3.end()};
+  EuclideanVector d{v4.begin(), v4.end()};
 
-  std::ostringstream stream_1, stream_2, stream_3;
+  std::ostringstream stream_1, stream_2, stream_3, stream_4;
   stream_1 << a;
   REQUIRE(stream_1.str() == "[4.1 3.5]");
   stream_2 << b;
-  REQUIRE(stream_2.str() == "[2.8 2.6]");
+  REQUIRE(stream_2.str() == "[2.8]");
   stream_3 << c;
   REQUIRE(stream_3.str() == "[0]");
+  stream_4 << d;
+  REQUIRE(stream_d.str() == "[]");
 
 }
 
@@ -419,11 +423,13 @@ TEST_CASE("Testing move assignment operator=", "[operator=]") {
   b = std::move(a);
   REQUIRE(b.at(0) == 4.1);
   REQUIRE(b.at(1) == 3.5);
+  REQUIRE(a.GetNumDimensions() == 0);
   REQUIRE_THROWS_WITH(a.at(0), "Index 0 is not valid for this EuclideanVector object");
 
   a = std::move(c);
   REQUIRE(a.at(0) == 0);
   REQUIRE(a.at(1) == 1);
+  REQUIRE(c.GetNumDimensions() == 0);
   REQUIRE_THROWS_WITH(c.at(0), "Index 0 is not valid for this EuclideanVector object");
 }
 
