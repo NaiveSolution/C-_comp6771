@@ -165,6 +165,7 @@ TEST_CASE("Testing overloaded operator== and operator!=", "[operator==/operator!
   std::vector<double> v2{4, 3};
   std::vector<double> v3{4.0, 3.0};
   std::vector<double> v4{4, 3, 3, 1, 1};
+  
   EuclideanVector a{v1.begin(), v1.end()};
   EuclideanVector b{v2.begin(), v2.end()};
   EuclideanVector c{v3.begin(), v3.end()};
@@ -309,17 +310,14 @@ TEST_CASE("Testing overloaded operator<<", "[operator<<]") {
   EuclideanVector a{v1.begin(), v1.end()};
   EuclideanVector b{v2.begin(), v2.end()};
   EuclideanVector c{v3.begin(), v3.end()};
-  EuclideanVector d{v4.begin(), v4.end()};
 
-  std::ostringstream stream_1, stream_2, stream_3, stream_4;
+  std::ostringstream stream_1, stream_2, stream_3;
   stream_1 << a;
   REQUIRE(stream_1.str() == "[4.1 3.5]");
   stream_2 << b;
   REQUIRE(stream_2.str() == "[2.8]");
   stream_3 << c;
   REQUIRE(stream_3.str() == "[0]");
-  stream_4 << d;
-  REQUIRE(stream_d.str() == "[]");
 
 }
 

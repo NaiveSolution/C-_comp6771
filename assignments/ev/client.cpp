@@ -18,7 +18,7 @@ int main() {
 
   std::vector<double> a2{9, 0, 8, 6, 7};
   EuclideanVector e{a2.begin(), a2.end()};
-
+  
   // use the copy constructor
   EuclideanVector f{e};
 
