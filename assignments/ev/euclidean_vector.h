@@ -91,7 +91,7 @@ class EuclideanVector {
   explicit operator std::list<double>() const noexcept;
 
   /************** methods ******************/
-  int GetNumDimensions() noexcept { return num_dimensions_; }
+  int GetNumDimensions() const noexcept { return num_dimensions_; }
   double& at(const int&);
   double at(const int&) const;
   double GetEuclideanNorm() const;
