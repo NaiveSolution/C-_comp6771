@@ -27,7 +27,7 @@ gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename
         for (auto& N_element : to_vector){
             Node new_node = {};
             new_node.value_ = N_element;
-            this->nodes_.pushback(std::make_unique<Node>(new_node));
+            this->nodes_.push_back(std::make_unique<Node>(new_node));
         }
 
     }
