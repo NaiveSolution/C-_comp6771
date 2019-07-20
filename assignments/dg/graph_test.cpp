@@ -27,7 +27,16 @@ SCENARIO("Graphs can be constructed") {
     auto e2 = std::make_tuple(s2, s3, 7.6);
     auto e = std::vector<std::tuple<std::string, std::string, double>>{e1, e2};
     WHEN("A Graph is constructed using the vector of tuples") {
-      gdwg::Graph<std::string, double> b{e.begin(), e.end()};
+      gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+      /* Need to find a way to test that the graph exists
+       * At the moment i'll use the getNodes method but
+       * this is bad testing.
+       */
+      THEN("Using the getNodes function will return nodes {Hello, how, are}") {
+        std::vector<std::string> expected{"Hello", "how", "are"};
+        REQUIRE(expected == g.GetNodes());
+      }
+
     }
   }
 }
