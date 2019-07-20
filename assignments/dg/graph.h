@@ -30,6 +30,7 @@ class Graph {
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
   Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator,
       typename std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
+  Graph(std::initializer_list<N>) noexcept;
 
   std::vector<N> GetNodes() const noexcept;
 

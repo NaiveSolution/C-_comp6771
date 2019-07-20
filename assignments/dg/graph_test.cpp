@@ -36,7 +36,19 @@ SCENARIO("Graphs can be constructed") {
         std::vector<std::string> expected{"Hello", "how", "are"};
         REQUIRE(expected == g.GetNodes());
       }
-
+    }
+  }
+  GIVEN("An initialiser list") {
+    WHEN("A Graph is created using the initialiser list") {
+      gdwg::Graph<char, std::string> g{'a', 'b', 'x', 'y'};
+      /* Need to find a way to test that the graph exists
+         * At the moment i'll use the getNodes method but
+         * this is bad testing.
+         */
+      THEN("Using the getNodes function will return nodes {Hello, how, are}") {
+        std::vector<char> expected{'a', 'b', 'x', 'y'};
+        REQUIRE(expected == g.GetNodes());
+      }
     }
   }
 }

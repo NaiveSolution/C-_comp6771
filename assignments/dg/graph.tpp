@@ -20,10 +20,7 @@ gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename
     // if the vector is empty, construct a DG with 1 Node with an edge of 0 weight
     // side note -> vec.begin() == vec.end() is defined as an empty vector in C++11 onwards
     if (start == finish) {
-        Node empty_node = {};
-        Edge empty_edge = {};
-        this->nodes_.push_back(std::make_shared<Node>(empty_node));
-        this->edges_.push_back(std::make_shared<Edge>(empty_edge));
+      Graph();
     } else {
         std::vector<N> to_vector;
         std::copy(start, finish, std::back_inserter(to_vector));
@@ -86,6 +83,20 @@ gdwg::Graph<N,E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterato
     }
   }
 }
+
+template<typename N, typename E>
+gdwg::Graph<N,E>::Graph(std::initializer_list<N> list) noexcept {
+  if (list.size() == 0) {
+    Graph();
+  } else {
+    for (const auto& N_element : list) {
+      Node new_node = {};
+      new_node.value_ = N_element;
+      this->nodes_.push_back(std::make_shared<Node>(new_node));
+    }
+  }
+}
+
 // more constructors...
 
 /************** METHODS ******************/
