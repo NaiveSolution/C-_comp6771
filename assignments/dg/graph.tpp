@@ -11,8 +11,8 @@ template <typename N, typename E>
 gdwg::Graph<N, E>::Graph() noexcept{
     Node empty_node = {};
     Edge empty_edge = {};
-    this->nodes_.push_back(std::make_unique<Node>(empty_node));
-    this->edges_.push_back(std::make_unique<Edge>(empty_edge));
+    this->nodes_.push_back(std::make_shared<Node>(empty_node));
+    this->edges_.push_back(std::make_shared<Edge>(empty_edge));
 };
 
 template <typename N, typename E>
@@ -22,15 +22,15 @@ gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename
     if (start == finish) {
         Node empty_node = {};
         Edge empty_edge = {};
-        this->nodes_.push_back(std::make_unique<Node>(empty_node));
-        this->edges_.push_back(std::make_unique<Edge>(empty_edge));
+        this->nodes_.push_back(std::make_shared<Node>(empty_node));
+        this->edges_.push_back(std::make_shared<Edge>(empty_edge));
     } else {
         std::vector<N> to_vector;
         std::copy(start, finish, std::back_inserter(to_vector));
         for (auto& N_element : to_vector){
             Node new_node = {};
             new_node.value_ = N_element;
-            this->nodes_.push_back(std::make_unique<Node>(new_node));
+            this->nodes_.push_back(std::make_shared<Node>(new_node));
         }
     }
 };
@@ -47,10 +47,10 @@ gdwg::Graph<N,E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterato
     for (auto& N_element : to_vector) {
       Edge new_edge = {};
       new_edge.weight_ = std::get<2>(N_element);
-      for (const auto& n : nodes_) {
-        if (n->value_ == std::get<0>(N_element)) {
+      for (const auto& node : nodes_) {
+        if (node->value_ == std::get<0>(N_element)) {
           // Node exists
-          new_edge.src_ = n;
+          new_edge.src_ = node;
         }
       }
 
@@ -61,7 +61,7 @@ gdwg::Graph<N,E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterato
       //              src_node.outdegree_++;
       //              src_node.outedge_.push_back(new_edge);
       //              new_edge.src_ = src_node;
-      //              this->nodes_.push_back(std::make_unique<Node>(src_node));
+      //              this->nodes_.push_back(std::make_shared<Node>(src_node));
       //          } else if (existing_nodes.find(start[0]) != existing_nodes.end()) {
       //              nodes_
       //          }
@@ -72,7 +72,7 @@ gdwg::Graph<N,E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterato
       //              dest_node.indegree_++;
       //              dest_node.inedge_.push_back(new_edge);
       //              new_edge.dest_ = dest_node;
-      //              this->nodes_.push_back(std::make_unique<Node>(dest_node));
+      //              this->nodes_.push_back(std::make_shared<Node>(dest_node));
       //          }
     }
   }

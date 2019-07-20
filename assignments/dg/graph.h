@@ -57,8 +57,8 @@ class Graph {
     std::weak_ptr<Node> dest_;
   };
 
-  std::vector<std::unique_ptr<Node>> nodes_;
-  std::vector<std::unique_ptr<Edge>> edges_;
+  std::vector<std::shared_ptr<Node>> nodes_;
+  std::vector<std::shared_ptr<Edge>> edges_;
 };
 // Define your graph_iterator here
 // Define your graph_const_iterator here
