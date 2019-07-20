@@ -9,6 +9,10 @@ namespace gdwg {
 template<typename N, typename E>
 class Graph {
  public:
+  Graph() noexcept;
+  Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
+  //Graph(std::vector<std::tuple<N, N, E>>::const_iterator, std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
+
  private:
   struct Node;
   struct Edge;
@@ -41,6 +45,7 @@ class Graph {
 
 }
 
-#include "assignments/dg/graph.tpp"
+//#include "assignments/dg/graph.tpp"
+#include "graph.tpp"
 
 #endif  // ASSIGNMENTS_DG_GRAPH_H_

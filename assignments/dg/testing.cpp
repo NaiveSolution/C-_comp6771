@@ -7,6 +7,8 @@
 int main() {
 std::cout << "Enter -1 to quit\n";
 std::vector<int> items{97, 84, 72, 65};
+gdwg::Graph<std::string, int> a;
+
 std::cout << "Enter an index: ";
 for (int print_index; std::cin >> print_index; ) {
 if (print_index == -1) break;

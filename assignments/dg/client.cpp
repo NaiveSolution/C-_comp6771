@@ -1,6 +1,6 @@
 #include <string>
 
-#include "assignments/dg/graph.h"
+#include "graph.h"
 
 int main() {
   gdwg::Graph<std::string, int> g1;
