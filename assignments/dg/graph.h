@@ -1,3 +1,19 @@
+/*
+* Written by Tariq Mosaval and Jimmy Lin for the University of New South Wales 
+* for the course Advanced C++ Programming
+* 
+* This file contains the class description for a Directed Weighted Graph: 
+* a <description> object that has <some properties>. A Directed Weighted Graph (DG)
+* can be <operations of graphs> in accordance to graph theory,
+* and can be <other things that graphs can do>.
+*
+* Contained in this header file is the class methods that are used to achieve the abovenamed
+* functions, among many others, including the option to <other thing it can do>,
+* <another thing it can do>, and methods that <that do some other things, particular to our graph>
+* 
+* Descriptions of each class method and overload can be found in the corresponding .tpp file
+*/
+
 #ifndef ASSIGNMENTS_DG_GRAPH_H_
 #define ASSIGNMENTS_DG_GRAPH_H_
 
@@ -12,6 +28,8 @@ class Graph {
   Graph() noexcept;
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
   //Graph(std::vector<std::tuple<N, N, E>>::const_iterator, std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
+
+  std::vector<N> GetNodes() const noexcept;
 
  private:
   struct Node;

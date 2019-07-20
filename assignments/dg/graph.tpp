@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+/************** CONSTRUCTORS ******************/
 template <typename N, typename E>
 gdwg::Graph<N, E>::Graph() noexcept{
     Node empty_node = {};
@@ -34,8 +35,20 @@ gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename
 
 };
 
+// more constructors...
+
+/************** METHODS ******************/
+
+template <typename N, typename E>
+std::vector<N> gdwg::Graph<N, E>::GetNodes() const noexcept{
+    std::vector<N> to_vector;
+    for (auto& element : this->nodes_){
+        to_vector.push_back(element.get()->value_);
+    }
+    return to_vector;
+}
 
 //#include "assignments/dg/graph.h"
-#include "graph.h"
+//#include "graph.h"
 
 #endif // ASSIGNMENTS_DG_GRAPH_T_
