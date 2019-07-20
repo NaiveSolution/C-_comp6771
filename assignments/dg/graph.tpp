@@ -6,6 +6,7 @@
 #include <unordered_set>
 #include <vector>
 
+/************** CONSTRUCTORS ******************/
 template <typename N, typename E>
 gdwg::Graph<N, E>::Graph() noexcept{
     Node empty_node = {};
@@ -36,45 +37,57 @@ gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename
 
 template <typename N, typename E>
 gdwg::Graph<N,E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator start,
-      typename std::vector<std::tuple<N, N, E>>::const_iterator finish) noexcept{
-    if (start == finish) {
-        Graph();
-    } else {
-      std::unordered_set<N> existing_nodes;
-      std::vector<std::tuple<N,N,E>> to_vector;
-      std::copy(start, finish, std::back_inserter(to_vector));
-      for (auto & N_element: to_vector) {
-          Edge new_edge = {};
-          new_edge.weight_ = N_element.at(0);
-          for (const auto& n : nodes_) {
-            if (n->value_ == N_element.at(0)) {
-              // Node exists
-              new_edge.src_ = n;
-            }
-          }
-
-          //          if (existing_nodes.find(start[0]) == existing_nodes.end()) {
-//              existing_nodes.insert(start[0]);
-//              Node src_node = {};
-//              src_node.value_ = start[0];
-//              src_node.outdegree_++;
-//              src_node.outedge_.push_back(new_edge);
-//              new_edge.src_ = src_node;
-//              this->nodes_.push_back(std::make_unique<Node>(src_node));
-//          } else if (existing_nodes.find(start[0]) != existing_nodes.end()) {
-//              nodes_
-//          }
-//          if (existing_nodes.find(start[1]) == existing_nodes) {
-//              existing_nodes.insert(start[1]);
-//              Node dest_node = {};
-//              dest_node.value_ = start[1];
-//              dest_node.indegree_++;
-//              dest_node.inedge_.push_back(new_edge);
-//              new_edge.dest_ = dest_node;
-//              this->nodes_.push_back(std::make_unique<Node>(dest_node));
-//          }
+      typename std::vector<std::tuple<N, N, E>>::const_iterator finish) noexcept {
+  if (start == finish) {
+    Graph();
+  } else {
+    std::unordered_set<N> existing_nodes;
+    std::vector<std::tuple<N, N, E>> to_vector;
+    std::copy(start, finish, std::back_inserter(to_vector));
+    for (auto& N_element : to_vector) {
+      Edge new_edge = {};
+      new_edge.weight_ = std::get<2>(N_element);
+      for (const auto& n : nodes_) {
+        if (n->value_ == std::get<0>(N_element)) {
+          // Node exists
+          new_edge.src_ = n;
+        }
       }
+
+      //          if (existing_nodes.find(start[0]) == existing_nodes.end()) {
+      //              existing_nodes.insert(start[0]);
+      //              Node src_node = {};
+      //              src_node.value_ = start[0];
+      //              src_node.outdegree_++;
+      //              src_node.outedge_.push_back(new_edge);
+      //              new_edge.src_ = src_node;
+      //              this->nodes_.push_back(std::make_unique<Node>(src_node));
+      //          } else if (existing_nodes.find(start[0]) != existing_nodes.end()) {
+      //              nodes_
+      //          }
+      //          if (existing_nodes.find(start[1]) == existing_nodes) {
+      //              existing_nodes.insert(start[1]);
+      //              Node dest_node = {};
+      //              dest_node.value_ = start[1];
+      //              dest_node.indegree_++;
+      //              dest_node.inedge_.push_back(new_edge);
+      //              new_edge.dest_ = dest_node;
+      //              this->nodes_.push_back(std::make_unique<Node>(dest_node));
+      //          }
     }
+  }
+}
+// more constructors...
+
+/************** METHODS ******************/
+
+template <typename N, typename E>
+std::vector<N> gdwg::Graph<N, E>::GetNodes() const noexcept{
+    std::vector<N> to_vector;
+    for (auto& element : this->nodes_){
+        to_vector.push_back(element.get()->value_);
+    }
+    return to_vector;
 }
 
 //#include "assignments/dg/graph.h"
