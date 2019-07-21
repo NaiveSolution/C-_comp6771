@@ -89,20 +89,28 @@ SCENARIO("Graphs can be constructed") {
         std::vector<std::string> expected{"are", "how", "you"};
         REQUIRE(aCopy.GetNodes() == expected);
       }
+      AND_THEN("Graph 'a' will have the nodes {are, how, you}") {
+        std::vector<std::string> expected{"are", "how", "you"};
+        REQUIRE(a.GetNodes() == expected);
+      }
     }
   }
 }
 
 SCENARIO("Graphs use copy and move equal operatros") {
   GIVEN("Two existing graphs g1 & g2"){
-    std::vector<std::string> v{"Hello", "how", "are", "you"};
+    std::vector<std::string> v{"how", "are", "you"};
     gdwg::Graph<std::string, double> g1{v.begin(),v.end()};
     gdwg::Graph<std::string, double> g2;
     WHEN("The copy assignment operator is called g2 = g1"){
       g2 = g1;
-      THEN("Graph g2 will have the nodes {Hello, are, how, you}"){
-        std::vector<std::string> expected{"Hello", "are", "how", "you"};
+      THEN("Graph g2 will have the nodes {are, how, you}"){
+        std::vector<std::string> expected{"are", "how", "you"};
         REQUIRE(g2.GetNodes() == expected);
+      }
+      AND_THEN("Graph g1 will have the nodes {are, how, you}") {
+        std::vector<std::string> expected{"are", "how", "you"};
+        REQUIRE(g1.GetNodes() == expected);
       }
     }
   }
