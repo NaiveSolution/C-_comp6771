@@ -37,8 +37,8 @@ SCENARIO("Graphs can be constructed") {
        * At the moment i'll use the getNodes method but
        * this is bad testing.
        */
-      THEN("Using the getNodes function will return nodes {Hello, how, are}") {
-        std::vector<std::string> expected{"Hello", "how", "are"};
+      THEN("Using the getNodes function will return nodes {Hello, are, how}") {
+        std::vector<std::string> expected{"Hello", "are", "how"};
         REQUIRE(g.GetNodes() == expected);
       }
     }
@@ -81,12 +81,12 @@ SCENARIO("Graphs can be constructed") {
     }
   }
   GIVEN("An existing graph 'a' can be be copied"){
-    std::vector<std::string> v{"Hello", "how", "are", "you"};
+    std::vector<std::string> v{"are", "how", "you"};
     gdwg::Graph<std::string, double> a{v.begin(),v.end()};
     WHEN("A new graph 'aCopy' is constructed using the copy constructor"){
       gdwg::Graph<std::string, double> aCopy{a};
-      THEN("Graph aCopy will have the nodes {Hello,how,are,you}"){
-        std::vector<std::string> expected{"Hello", "how", "are", "you"};
+      THEN("Graph aCopy will have the nodes {are, how ,you}"){
+        std::vector<std::string> expected{"are", "how", "you"};
         REQUIRE(aCopy.GetNodes() == expected);
       }
     }
@@ -94,6 +94,18 @@ SCENARIO("Graphs can be constructed") {
 }
 
 SCENARIO("Graphs use copy and move equal operatros") {
+  GIVEN("Two existing graphs g1 & g2"){
+    std::vector<std::string> v{"Hello", "how", "are", "you"};
+    gdwg::Graph<std::string, double> g1{v.begin(),v.end()};
+    gdwg::Graph<std::string, double> g2;
+    WHEN("The copy assignment operator is called g2 = g1"){
+      g2 = g1;
+      THEN("Graph g2 will have the nodes {Hello, are, how, you}"){
+        std::vector<std::string> expected{"Hello", "are", "how", "you"};
+        REQUIRE(g2.GetNodes() == expected);
+      }
+    }
+  }
   GIVEN("Two Graphs <int,int>") {
     gdwg::Graph<int,int> g1{1,2,3};
     gdwg::Graph<int,int> g2{4,5,6};

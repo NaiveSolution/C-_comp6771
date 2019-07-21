@@ -115,7 +115,14 @@ gdwg::Graph<N,E>::Graph(gdwg::Graph<N, E>&& tmp) noexcept {
 /********************** OPERATORS **********************/
 
 template<typename N,typename E>
-gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(gdwg::Graph<N, E>&& tmp) {
+gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(const gdwg::Graph<N, E>& tmp) noexcept {
+  this->nodes_ = tmp.nodes_;
+  this->edges_ = tmp.edges_;
+  return *this;
+}
+
+template<typename N,typename E>
+gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(gdwg::Graph<N, E>&& tmp) noexcept {
   this->nodes_ = std::move(tmp.nodes_);
   this->edges_ = std::move(tmp.edges_);
   return *this;
@@ -129,6 +136,7 @@ std::vector<N> gdwg::Graph<N, E>::GetNodes() const noexcept{
     for (auto& element : this->nodes_){
         to_vector.push_back(element.get()->value_);
     }
+    std::sort(to_vector.begin(), to_vector.end());
     return to_vector;
 }
 
