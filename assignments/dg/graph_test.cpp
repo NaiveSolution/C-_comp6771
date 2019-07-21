@@ -11,7 +11,7 @@
 #include "assignments/dg/graph.h"
 #include "catch.h"
 
-// TODO(students): Fill this in.
+// Constructors
 SCENARIO("Graphs can be constructed") {
   GIVEN("A standard Vector") {
     std::vector<int> v{1,2,3};
@@ -97,7 +97,7 @@ SCENARIO("Graphs can be constructed") {
   }
 }
 
-
+// Copy and move operators
 SCENARIO("Graphs use copy and move equal operators") {
   GIVEN("Two existing graphs g1 & g2"){
     std::vector<std::string> v{"how", "are", "you"};
@@ -131,6 +131,7 @@ SCENARIO("Graphs use copy and move equal operators") {
   }
 }
 
+// IsNode()
 SCENARIO("Graphs have existing nodes that can be checked for existance") {
   GIVEN("A Graph<int,int> g1") {
     gdwg::Graph<int,int> g1{1,2,3};
@@ -201,6 +202,38 @@ SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes
   }
 }
 
+// GetConnected()
+SCENARIO("A Graph can check the connections from a source") {
+  GIVEN("A graph with some char nodes and double weighted edges") {
+    char s1{'a'};
+    char s2{'b'};
+    char s3{'c'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s1, s3, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    gdwg::Graph<char, double> g{e.begin(), e.end()};
+    WHEN("GetConnected('a') is called a vector of chars are returned") {
+      auto connections = g.GetConnected('a');
+      THEN("The vector will contain the nodes {b,c}"){
+        std::vector<char> expected{'b','c'};
+        REQUIRE(connections == expected);
+      }
+    }
+    WHEN("GetConnected('b') is called a vector of chars are returned") {
+      auto connections = g.GetConnected('b');
+      THEN("The vector should be empty as there are no connections") {
+        REQUIRE(connections.empty());
+      }
+    }
+    WHEN("GetConnected('d') is called") {
+      THEN("An exception is thrown as d is not an existing node") {
+        REQUIRE_THROWS_WITH(g.GetConnected('d'), "Cannot call "
+           "Graph::GetConnected if src doesn't exist in the graph");
+      }
+    }
+  }
+}
+
 // GetWeights()
 SCENARIO("A Graph can have its edges checked for weighting") {
   GIVEN("A Graph with some char nodes and double weighted edges") {
@@ -248,7 +281,6 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
       }
     }
   }
-
   GIVEN("A graph with some int nodes and edge weights"){
     int s1 = 1;
     int s2 = 2;
@@ -274,7 +306,7 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
   }
 }
 
-// May need to further test???? InsertEdge()
+// InsertEdge() may need to further test????
 SCENARIO("A Graph with existing nodes can insert new edges") {
   GIVEN("A graph with some char nodes") {
     gdwg::Graph<char,int> g{'a','b','c'};

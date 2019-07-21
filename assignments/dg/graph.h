@@ -50,9 +50,11 @@ class Graph {
   std::vector<N> GetNodes() const;
   bool InsertNode(const N&);
   bool DeleteNode(const N&);
+  std::vector<N> GetConnected(const N&) const;
   std::vector<E> GetWeights(const N&, const N&) const;
   void clear() noexcept;
   bool erase(const N&, const N&, const E&);
+
   
  private:
   struct Node;

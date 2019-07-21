@@ -268,6 +268,22 @@ bool gdwg::Graph<N,E>::erase(const N& src, const N& dest, const E& w) {
   return false;
 }
 
+template<typename N, typename E>
+std::vector<N> gdwg::Graph<N,E>::GetConnected(const N& src) const {
+  if (IsNode(src) == false) {
+    throw std::out_of_range("Cannot call Graph::GetConnected "
+                            "if src doesn't exist in the graph");
+  }
+  std::vector<N> new_vector;
+  for (const auto& edge : edges_) {
+    if (edge->src_.lock()->value_ == src) {
+      new_vector.push_back(edge->dest_.lock()->value_);
+    }
+  }
+  return new_vector;
+}
+
+
 /************** FRIENDS ******************/
 
 //#include "assignments/dg/graph.h"
