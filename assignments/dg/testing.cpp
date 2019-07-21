@@ -10,6 +10,6 @@ int main() {
     std::vector<int> v2{5, 6, 7};
     gdwg::Graph<int, double> a{v1.begin(),v1.end()};
     gdwg::Graph<int, double> b{v2.begin(),v2.end()};
-    a.DeleteNode(1);
+    a.DeleteNode(3);
     
 }

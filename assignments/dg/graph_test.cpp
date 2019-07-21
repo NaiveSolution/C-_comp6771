@@ -174,6 +174,7 @@ SCENARIO("Graphs with exisiting nodes and edges can be checked for connectivity"
   }
 }
 
+// InsertNode()
 SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes"){
   GIVEN("A graph with some string nodes"){
     std::vector<std::string> v1{"a", "b", "z", "f"};
@@ -217,6 +218,28 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
       THEN("Graph 'b' will have the nodes {5, 6, 7}"){
         std::vector<int> expected{5, 6, 7};
         REQUIRE(b.GetNodes() == expected);
+      }
+    }
+  }
+}
+
+// May need to further test????
+SCENARIO("A Graph with existing nodes can insert new edges") {
+  GIVEN("A graph with some char nodes") {
+    gdwg::Graph<char,int> g{'a','b','c'};
+    WHEN("An edge is inserted a->b with weight 2") {
+      g.InsertEdge('a','b',2);
+      THEN("There will be an edge from a->b") {
+        REQUIRE(g.IsConnected('a','b'));
+      }
+      AND_THEN("No edge from b->a") {
+        REQUIRE_FALSE(g.IsConnected('b','a'));
+      }
+    }
+    WHEN("An edge is inserted from a non-exisiting node to 'a'") {
+      THEN("An exception should be thrown") {
+        REQUIRE_THROWS_WITH(g.InsertEdge('d','a',3),"Cannot call "
+      "Graph::InsertEdge when either src or dst node does not exist");
       }
     }
   }

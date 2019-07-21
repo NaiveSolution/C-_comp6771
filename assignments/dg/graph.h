@@ -44,7 +44,7 @@ class Graph {
 
 
   /********************** METHODS **********************/
-//  bool InsertEdge(const N&, const N&, const E&) noexcept;
+  bool InsertEdge(const N&, const N&, const E&);
   bool IsNode(const N&) const noexcept;
   bool IsConnected(const N&, const N&) const noexcept;
   std::vector<N> GetNodes() const;
