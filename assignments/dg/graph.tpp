@@ -182,6 +182,19 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
         return false;
     }
 
+    for (auto it = edges_.begin(); it != edges_.end(); ++it){
+      if ((*it)->src_.lock()->value_ == deleted_node) {
+          (*it)->dest_.lock()->indegree_--;
+          (*it).reset();
+          edges_.erase(it);
+      }
+      if ((*it)->dest_.lock()->value_ == deleted_node) {
+        (*it)->src_.lock()->outdegree_--;
+        (*it).reset();
+        edges_.erase(it);
+      }
+    }
+
     for (auto it = nodes_.begin(); it != nodes_.end(); ++it){
         if ((*it)->value_ == deleted_node){
             //auto i = &node - &nodes_[0];
@@ -190,14 +203,7 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
             break;
         }
     }
-    for (auto it = edges_.begin(); it != edges_.end(); ++it){
-        if ((*it)->src_.lock()->value_ == deleted_node || 
-        (*it)->dest_.lock()->value_ == deleted_node){
-            (*it).reset();
-            edges_.erase(it);
-            break;
-        }
-    }
+
     return true;
 }
 
@@ -226,6 +232,10 @@ bool gdwg::Graph<N, E>::IsConnected(const N& src,
 
 template<typename N, typename E>
 std::vector<E> gdwg::Graph<N, E>::GetWeights(const N& src, const N& dest) const{
+    if (IsNode(src) == false || IsNode(dest) == false) {
+      throw std::out_of_range("Cannot call Graph::GetWeights if src "
+                              "or dst node don't exist in the graph");
+    }
     std::vector<E> to_vector;
     for (auto& element : this->edges_){
         if (element->src_.lock()->value_ == src && element->dest_.lock()->value_ == dest){
@@ -234,6 +244,12 @@ std::vector<E> gdwg::Graph<N, E>::GetWeights(const N& src, const N& dest) const{
     }
     std::sort(to_vector.begin(), to_vector.end());
     return to_vector;
+}
+
+template<typename N, typename E>
+void gdwg::Graph<N,E>::clear() {
+  nodes_.clear();
+  edges_.clear();
 }
 
 /************** FRIENDS ******************/

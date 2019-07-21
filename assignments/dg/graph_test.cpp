@@ -147,6 +147,7 @@ SCENARIO("Graphs have existing nodes that can be checked for existance") {
   }
 }
 
+// IsConnected
 SCENARIO("Graphs with exisiting nodes and edges can be checked for connectivity") {
   GIVEN("A connected Graph<char,int>") {
     char s1{'a'};
@@ -200,6 +201,31 @@ SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes
   }
 }
 
+// GetWeights()
+SCENARIO("A Graph can have its edges checked for weighting") {
+  GIVEN("A Graph with some char nodes and double weighted edges") {
+    char s1{'a'};
+    char s2{'b'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s1, s2, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    gdwg::Graph<char, double> g{e.begin(), e.end()};
+    WHEN("Edge a->b is checked for weights") {
+      THEN("It will return a double 5.4") {
+        std::vector<double> expected{5.4,7.6};
+        REQUIRE(g.GetWeights('a','b') == expected);
+      }
+    }
+    WHEN("Trying to check weights between non-existant nodes") {
+      THEN("An exception is thrown") {
+        REQUIRE_THROWS_WITH(g.GetWeights('d','e'),
+            "Cannot call Graph::GetWeights if src "
+            "or dst node don't exist in the graph");
+      }
+    }
+  }
+}
+
 // DeleteNode()
 SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
   GIVEN("A graph with some int nodes"){
@@ -233,9 +259,8 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
     auto e3 = std::make_tuple(s3, s4, 8.3);
     auto e = std::vector<std::tuple<int, int, double>>{e1, e2, e3};
     gdwg::Graph<int, double> g{e.begin(), e.end()};
-
     WHEN("Trying to delete a node that exists in 'g'"){
-      g.DeleteNode(1);
+      g.DeleteNode(s1);
       THEN("Graph 'g' will have the nodes {2, 3, 4}"){
         std::vector<int> expected{2, 3, 4};
         REQUIRE(g.GetNodes() == expected);
@@ -249,7 +274,7 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
   }
 }
 
-// May need to further test????
+// May need to further test???? InsertEdge()
 SCENARIO("A Graph with existing nodes can insert new edges") {
   GIVEN("A graph with some char nodes") {
     gdwg::Graph<char,int> g{'a','b','c'};
@@ -271,3 +296,26 @@ SCENARIO("A Graph with existing nodes can insert new edges") {
   }
 }
 
+// Clear() --> not sure how to check if all edges are removed
+SCENARIO("A Graph with nodes and edges can be cleared") {
+  GIVEN("A Graph with some char nodes and double weighted edges") {
+    char s1{'a'};
+    char s2{'b'};
+    char s3{'c'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s2, s3, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    gdwg::Graph<char, double> g{e.begin(), e.end()};
+    WHEN("The Graph is cleared") {
+      g.clear();
+      THEN("There should be no nodes") {
+        REQUIRE(g.GetNodes().empty());
+      }
+      AND_THEN("Nodes can be inserted") {
+        g.InsertNode('d');
+        std::vector<char> expected{'d'};
+        REQUIRE(g.GetNodes() == expected);
+      }
+    }
+  }
+}
