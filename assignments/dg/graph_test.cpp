@@ -319,3 +319,31 @@ SCENARIO("A Graph with nodes and edges can be cleared") {
     }
   }
 }
+
+// erase()
+SCENARIO("A graph can erase edges") {
+  GIVEN("A Graph with some char nodes and double weighted edges") {
+    char s1{'a'};
+    char s2{'b'};
+    char s3{'c'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s2, s3, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    gdwg::Graph<char, double> g{e.begin(), e.end()};
+    WHEN("The edge a->b(5.4) is erased") {
+      REQUIRE(g.erase('a','b',5.4));
+      THEN("It will not exist in the graph anymore") {
+        REQUIRE(g.GetWeights('a','b').empty());
+      }
+    }
+    WHEN("An edge that does not exist is removed a->c") {
+      REQUIRE_FALSE(g.erase('a', 'c', 5.4));
+      THEN("No changes are made to existing edges") {
+        std::vector<double> ab{5.4};
+        std::vector<double> bc{7.6};
+        REQUIRE(g.GetWeights('a','b') == ab);
+        REQUIRE(g.GetWeights('b','c') == bc);
+      }
+    }
+  }
+}

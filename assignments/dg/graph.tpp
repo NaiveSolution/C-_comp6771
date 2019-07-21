@@ -247,9 +247,25 @@ std::vector<E> gdwg::Graph<N, E>::GetWeights(const N& src, const N& dest) const{
 }
 
 template<typename N, typename E>
-void gdwg::Graph<N,E>::clear() {
+void gdwg::Graph<N,E>::clear() noexcept {
   nodes_.clear();
   edges_.clear();
+}
+
+template<typename N,typename E>
+bool gdwg::Graph<N,E>::erase(const N& src, const N& dest, const E& w) {
+  for (auto it = edges_.begin(); it != edges_.end(); ++it) {
+    if ((*it)->src_.lock()->value_ == src
+        && (*it)->dest_.lock()->value_ == dest
+        && (*it)->weight_ == w) {
+      (*it)->src_.lock()->outdegree_--;
+      (*it)->dest_.lock()->indegree_--;
+      (*it).reset();
+      edges_.erase(it);
+      return true;
+    }
+  }
+  return false;
 }
 
 /************** FRIENDS ******************/
