@@ -80,6 +80,17 @@ SCENARIO("Graphs can be constructed") {
       }
     }
   }
+  GIVEN("An existing graph 'a' can be be copied"){
+    std::vector<std::string> v{"Hello", "how", "are", "you"};
+    gdwg::Graph<std::string, double> a{v.begin(),v.end()};
+    WHEN("A new graph 'aCopy' is constructed using the copy constructor"){
+      gdwg::Graph<std::string, double> aCopy{a};
+      THEN("Graph aCopy will have the nodes {Hello,how,are,you}"){
+        std::vector<std::string> expected{"Hello", "how", "are", "you"};
+        REQUIRE(aCopy.GetNodes() == expected);
+      }
+    }
+  }
 }
 
 SCENARIO("Graphs use copy and move equal operatros") {
