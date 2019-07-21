@@ -131,6 +131,22 @@ SCENARIO("Graphs use copy and move equal operatros") {
   }
 }
 
+SCENARIO("Graphs have existing nodes that can be checked for existance") {
+  GIVEN("A Graph<int,int> g1") {
+    gdwg::Graph<int,int> g1{1,2,3};
+    WHEN("We check if node with value 1 exists in graph g1") {
+      THEN("It will return true") {
+        REQUIRE(g1.IsNode(1));
+      }
+    }
+    WHEN("We check if ndoe with value 0 exists in graph g1") {
+      THEN("It will return false") {
+        REQUIRE_FALSE(g1.IsNode(0));
+      }
+    }
+  }
+}
+
 SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes"){
   GIVEN("A graph with some string nodes"){
     std::vector<std::string> v1{"a", "b", "z", "f"};
