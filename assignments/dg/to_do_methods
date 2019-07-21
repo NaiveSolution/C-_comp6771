@@ -1,12 +1,12 @@
 bool InsertNode(const N& val) -- COMPLETED / TESTED
-bool InsertEdge(const N& src, const N& dst, const E& w) -- in progress
+bool InsertEdge(const N& src, const N& dst, const E& w) -- COMPLETED / TESTED
 bool DeleteNode(const N&)
 bool Replace(const N& oldData, const N& newData)
 void MergeReplace(const N& oldData, const N& newData)
 void Clear()
 bool IsNode(const N& val); -- COMPLETED / TESTED
-bool IsConnected(const N& src, const N& dst); --
-std::vector<N> GetNodes()
+bool IsConnected(const N& src, const N& dst); -- COMPLETED / TESTED
+std::vector<N> GetNodes() -- COMPLETED / TESTED
 std::vector<N> GetConnected(const N& src)
 std::vector<E> GetWeights(const N& src, const N& dst)
 const_iterator find(const N&, const N&, const E&);

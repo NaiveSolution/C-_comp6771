@@ -151,34 +151,34 @@ bool gdwg::Graph<N, E>::InsertNode(const N& new_node){
     return true;
 }
 
-//template<typename N, typename E>
-//bool gdwg::Graph<N, E>::InsertEdge(const N& src, const N& dest, const E& w) noexcept {
-//  if (IsNode(src) == false || IsNode(dest) == false) {
-//    throw std::runtime_error("Cannot call Graph::InsertEdge when "
-//                             "either src or dst node does not exist");
-//  }
-//  Edge new_edge = {};
-//  new_edge.weight_ = w;
-//  if (isconnected) {
-//    //check for weights
-//    // insert if needed
-//  } else {
-//    for (const auto& node : nodes_) {
-//      if (node->value == src) {
-//        node->outdegree_++;
-//        node->outedge_.push_back(std::make_shared<Edge>(new_edge));
-//        new_edge.src_ = node;
-//      }
-//      if (node->value_ == dest) {
-//        node->indegree_++;
-//        node->inedge_.push_back(std::make_shared<Edge>(new_edge));
-//        new_edge.dest_ = node;
-//      }
-//    }
-//    this->edges_.push_back(std::make_shared<Edge>(new_edge));
-//    return true;
-//  }
-//}
+template<typename N, typename E>
+bool gdwg::Graph<N, E>::InsertEdge(const N& src, const N& dest, const E& w) {
+  if (IsNode(src) == false || IsNode(dest) == false) {
+    throw std::runtime_error("Cannot call Graph::InsertEdge when "
+                             "either src or dst node does not exist");
+  }
+  for (const auto& edge : edges_) {
+    if(edge->src_.lock()->value_ == src &&
+      edge->dest_.lock()->value_ == dest &&
+      edge->weight_ == w) {
+      return false;
+    }
+  }
+  Edge new_edge = {};
+  new_edge.weight_ = w;
+  for (const auto& node : nodes_) {
+    if (node->value_ == src) {
+      node->outdegree_++;
+      new_edge.src_ = node;
+    }
+    if (node->value_ == dest) {
+      node->indegree_++;
+      new_edge.dest_ = node;
+    }
+  }
+  this->edges_.push_back(std::make_shared<Edge>(new_edge));
+  return true;
+}
 
 template<typename N, typename E>
 bool gdwg::Graph<N, E>::IsNode(const N& node) const noexcept {
@@ -194,8 +194,8 @@ template<typename N, typename E>
 bool gdwg::Graph<N, E>::IsConnected(const N& src,
     const N& dest) const noexcept {
   for (const auto& edge : edges_) {
-    if (edge.get()->src_.lock().get()->value_ == src) {
-      if (edge.get()->dest_.lock().get()->value_ == dest) {
+    if (edge->src_.lock()->value_ == src) {
+      if (edge->dest_.lock()->value_ == dest) {
         return true;
       }
     }

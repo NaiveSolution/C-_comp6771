@@ -198,3 +198,25 @@ SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes
     }
   }
 }
+
+// May need to further test????
+SCENARIO("A Graph with existing nodes can insert new edges") {
+  GIVEN("A graph with some char nodes") {
+    gdwg::Graph<char,int> g{'a','b','c'};
+    WHEN("An edge is inserted a->b with weight 2") {
+      g.InsertEdge('a','b',2);
+      THEN("There will be an edge from a->b") {
+        REQUIRE(g.IsConnected('a','b'));
+      }
+      AND_THEN("No edge from b->a") {
+        REQUIRE_FALSE(g.IsConnected('b','a'));
+      }
+    }
+    WHEN("An edge is inserted from a non-exisiting node to 'a'") {
+      THEN("An exception should be thrown") {
+        REQUIRE_THROWS_WITH(g.InsertEdge('d','a',3),"Cannot call "
+      "Graph::InsertEdge when either src or dst node does not exist");
+      }
+    }
+  }
+}
