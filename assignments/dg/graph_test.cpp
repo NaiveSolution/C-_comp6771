@@ -139,9 +139,36 @@ SCENARIO("Graphs have existing nodes that can be checked for existance") {
         REQUIRE(g1.IsNode(1));
       }
     }
-    WHEN("We check if ndoe with value 0 exists in graph g1") {
+    WHEN("We check if node with value 0 exists in graph g1") {
       THEN("It will return false") {
         REQUIRE_FALSE(g1.IsNode(0));
+      }
+    }
+  }
+}
+
+SCENARIO("Graphs with exisiting nodes and edges can be checked for connectivity") {
+  GIVEN("A connected Graph<char,int>") {
+    char s1{'a'};
+    char s2{'b'};
+    char s3{'c'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s2, s3, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    gdwg::Graph<char, double> g{e.begin(), e.end()};
+    WHEN("Checking whether node a->b") {
+      THEN("It will return true") {
+        REQUIRE(g.IsConnected('a','b'));
+      }
+    }
+    WHEN("Checking whether node a->c") {
+      THEN("It will return false as they are not connected") {
+        REQUIRE_FALSE(g.IsConnected('a','c'));
+      }
+    }
+    WHEN("Checking whether node b->a") {
+      THEN("It will return false as a->b not b->a") {
+        REQUIRE_FALSE(g.IsConnected('b','a'));
       }
     }
   }
