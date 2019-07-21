@@ -75,9 +75,9 @@ SCENARIO("Graphs can be constructed") {
         std::vector<int> expected{1,2,3};
         REQUIRE(g2.GetNodes() == expected);
       }
-//      AND_THEN("Graph g1 will not have any nodes") {
-//        REQUIRE(g1.GetNodes().empty());
-//      }
+      AND_THEN("Graph g1 will not have any nodes") {
+        REQUIRE(g1.GetNodes().empty());
+      }
     }
   }
 }
