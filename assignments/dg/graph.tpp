@@ -13,7 +13,7 @@ gdwg::Graph<N, E>::Graph() noexcept{
     Edge empty_edge = {};
     this->nodes_.push_back(std::make_shared<Node>(empty_node));
     this->edges_.push_back(std::make_shared<Edge>(empty_edge));
-};
+}
 
 template <typename N, typename E>
 gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename std::vector<N>::const_iterator finish) noexcept{
@@ -30,10 +30,10 @@ gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename
             this->nodes_.push_back(std::make_shared<Node>(new_node));
         }
     }
-};
+}
 
 template <typename N, typename E>
-gdwg::Graph<N,E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator start,
+gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator start,
       typename std::vector<std::tuple<N, N, E>>::const_iterator finish) noexcept {
   if (start == finish) {
     Graph();
@@ -85,7 +85,7 @@ gdwg::Graph<N,E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterato
 }
 
 template<typename N, typename E>
-gdwg::Graph<N,E>::Graph(std::initializer_list<N> list) noexcept {
+gdwg::Graph<N, E>::Graph(std::initializer_list<N> list) noexcept {
   if (list.size() == 0) {
     Graph();
   } else {
@@ -97,6 +97,11 @@ gdwg::Graph<N,E>::Graph(std::initializer_list<N> list) noexcept {
   }
 }
 
+template<typename N, typename E>
+gdwg::Graph<N, E>::Graph(const gdwg::Graph<N, E>& copy) noexcept{
+    this->nodes_ = copy.nodes_;
+    this->edges_ = copy.edges_;
+}
 // more constructors...
 
 /************** METHODS ******************/

@@ -13,4 +13,10 @@ int main() {
     for (auto& element : nodes){
         std::cout << element << '\n';
     }
+
+    gdwg::Graph<std::string, double> c{b};
+    std::vector<std::string> nodes2 = c.GetNodes();
+    for (auto& element : nodes2){
+        std::cout << element << '\n';
+    }
 }

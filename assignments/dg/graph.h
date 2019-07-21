@@ -1,5 +1,5 @@
 /*
-* Written by Tariq Mosaval and Jimmy Lin for the University of New South Wales 
+* Written by Tariq Mosaval and Jimmy Lin, the University of New South Wales, 
 * for the course Advanced C++ Programming
 * 
 * This file contains the class description for a Directed Weighted Graph: 
@@ -26,11 +26,13 @@ namespace gdwg {
 template<typename N, typename E>
 class Graph {
  public:
+ /********************** CONSTRUCTORS **********************/
   Graph() noexcept;
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
   Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator,
       typename std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
   Graph(std::initializer_list<N>) noexcept;
+  Graph(const Graph&) noexcept;
 
   std::vector<N> GetNodes() const noexcept;
 
@@ -66,7 +68,7 @@ class Graph {
 
 }
 
-#include "assignments/dg/graph.tpp"
-//#include "graph.tpp"
+//#include "assignments/dg/graph.tpp"
+#include "graph.tpp"
 
 #endif  // ASSIGNMENTS_DG_GRAPH_H_
