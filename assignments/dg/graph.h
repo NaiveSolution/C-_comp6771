@@ -37,13 +37,18 @@ class Graph {
   ~Graph() = default;
 
   /********************** OPERATORS **********************/
+  Graph& operator=(const gdwg::Graph<N, E>&) noexcept;
+  Graph& operator=(gdwg::Graph<N, E>&&) noexcept;
 
-  Graph<N, E>& operator=(gdwg::Graph<N, E>&&);
+
+
+
+  /********************** METHODS **********************/
+//  bool InsertEdge(const N&, const N&, const E&) noexcept;
+  bool IsNode(const N&) const noexcept;
+  std::vector<N> GetNodes() const;
   bool InsertNode(const N&);
-  std::vector<N> GetNodes() const noexcept;
-
-
-
+  
  private:
   struct Node;
   struct Edge;

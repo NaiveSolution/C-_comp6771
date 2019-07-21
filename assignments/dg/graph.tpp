@@ -115,7 +115,14 @@ gdwg::Graph<N,E>::Graph(gdwg::Graph<N, E>&& tmp) noexcept {
 /********************** OPERATORS **********************/
 
 template<typename N,typename E>
-gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(gdwg::Graph<N, E>&& tmp) {
+gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(const gdwg::Graph<N, E>& tmp) noexcept {
+  this->nodes_ = tmp.nodes_;
+  this->edges_ = tmp.edges_;
+  return *this;
+}
+
+template<typename N,typename E>
+gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(gdwg::Graph<N, E>&& tmp) noexcept {
   this->nodes_ = std::move(tmp.nodes_);
   this->edges_ = std::move(tmp.edges_);
   return *this;
@@ -124,17 +131,18 @@ gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(gdwg::Graph<N, E>&& tmp) {
 /************** METHODS ******************/
 
 template<typename N, typename E>
-std::vector<N> gdwg::Graph<N, E>::GetNodes() const noexcept{
+std::vector<N> gdwg::Graph<N, E>::GetNodes() const{
     std::vector<N> to_vector;
     for (auto& element : this->nodes_){
         to_vector.push_back(element.get()->value_);
     }
+    std::sort(to_vector.begin(), to_vector.end());
     return to_vector;
 }
 
 template<typename N, typename E>
 bool gdwg::Graph<N, E>::InsertNode(const N& new_node){
-    if (std::find(this->nodes_.begin(), this->nodes_.end(), new_node)){
+    if (IsNode(new_node)){
         return false;
     }
     Node additional_node = {};
@@ -142,6 +150,22 @@ bool gdwg::Graph<N, E>::InsertNode(const N& new_node){
     this->nodes_.push_back(std::make_shared<Node>(additional_node));
     return true;
 }
+//template<typename N, typename E>
+//bool gdwg::Graph<N, E>::InsertEdge(const N& src, const N& dest, const E& w) noexcept {
+//  Edge new_edge = {};
+//  new_edge.weight_ = w;
+//}
+
+template<typename N, typename E>
+bool gdwg::Graph<N, E>::IsNode(const N& node) const noexcept {
+  for (auto& element : this->nodes_){
+    if (node == element.get()->value_) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /************** FRIENDS ******************/
 
 //#include "assignments/dg/graph.h"
