@@ -33,8 +33,16 @@ class Graph {
       typename std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
   Graph(std::initializer_list<N>) noexcept;
   Graph(const Graph&) noexcept;
+  Graph(Graph&&) noexcept;
+  ~Graph() = default;
 
+  /********************** OPERATORS **********************/
+
+  Graph<N, E>& operator=(gdwg::Graph<N, E>&&);
+  bool InsertNode(const N&);
   std::vector<N> GetNodes() const noexcept;
+
+
 
  private:
   struct Node;

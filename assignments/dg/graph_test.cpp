@@ -91,5 +91,46 @@ SCENARIO("Graphs can be constructed") {
       }
     }
   }
-  
+}
+
+SCENARIO("Graphs use copy and move equal operators") {
+  GIVEN("Two Graphs <int,int>") {
+    gdwg::Graph<int,int> g1{1,2,3};
+    gdwg::Graph<int,int> g2{4,5,6};
+    WHEN("The move assignment operator is called g2 = std::move(g1)") {
+      g2 = std::move(g1);
+      THEN("g2 will have nodes {1,2,3}") {
+        std::vector<int> expected{1,2,3};
+        REQUIRE(g2.GetNodes() == expected);
+      }
+      AND_THEN("Graph g1 will not have any nodes") {
+        REQUIRE(g1.GetNodes().empty());
+      }
+    }
+  }
+}
+
+SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes"){
+  GIVEN("A graph with some string nodes"){
+    std::vector<std::string> v1{"a", "b", "z", "f"};
+    std::vector<std::string> v2{"f", "o", "d"};
+    gdwg::Graph<std::string, double> a{v1.begin(),v1.end()};
+    gdwg::Graph<std::string, double> b{v2.begin(),v2.end()};
+    WHEN("Trying to insert a node that doesnt exist in 'a'"){
+      std::string str{"c"};
+      a.InsertNode(str);
+      THEN("Graph 'a' will have the nodes {a, b, z, f, c}"){
+        std::vector<std::string> expected{"a", "b", "z", "f", "c"};
+        REQUIRE(a.GetNodes() == expected);
+      }
+    }
+    WHEN("Trying to insert a node that does exist in 'b'"){
+      std::string str{"o"};
+      b.InsertNode(str);
+      THEN("Graph 'b' will have the nodes {f, o, d}"){
+        std::vector<std::string> expected{"f", "o", "d"};
+        REQUIRE(b.GetNodes() == expected);
+      }
+    }
+  }
 }
