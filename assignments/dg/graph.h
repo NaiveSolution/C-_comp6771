@@ -48,6 +48,7 @@ class Graph {
   bool IsNode(const N&) const noexcept;
   std::vector<N> GetNodes() const;
   bool InsertNode(const N&);
+  bool DeleteNode(const N&);
   
  private:
   struct Node;
@@ -58,8 +59,8 @@ class Graph {
    */
   struct Node {
     N value_;
-    std::vector<std::shared_ptr<Edge>> inedge_;
-    std::vector<std::shared_ptr<Edge>> outedge_;
+    //std::vector<std::shared_ptr<Edge>> inedge_;
+    //std::vector<std::shared_ptr<Edge>> outedge_;
     int indegree_ = 0;
     int outdegree_ = 0;
   };
