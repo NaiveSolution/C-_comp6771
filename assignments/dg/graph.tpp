@@ -52,22 +52,12 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
         if (node->value_ == std::get<0>(N_element)) {
           // Source node exists
           node->outdegree_++;
-<<<<<<< HEAD
-          //node->outedge_.push_back(std::make_shared<Edge>(new_edge));
-=======
-//          node->outedge_.push_back(std::make_shared<Edge>(new_edge));
->>>>>>> 8e814d56ddae6ac70e66e921c8f278f658c0d4c2
           new_edge.src_ = node;
           exists_src = true;
         }
         if (node->value_ == std::get<1>(N_element)) {
           // Dest node exists
           node->indegree_++;
-<<<<<<< HEAD
-          //node->inedge_.push_back(std::make_shared<Edge>(new_edge));
-=======
-//          node->inedge_.push_back(std::make_shared<Edge>(new_edge));
->>>>>>> 8e814d56ddae6ac70e66e921c8f278f658c0d4c2
           new_edge.dest_ = node;
           exists_dest = true;
         }
@@ -77,11 +67,6 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
         Node src_node = {};
         src_node.value_ = std::get<0>(N_element);
         src_node.outdegree_++;
-<<<<<<< HEAD
-        //src_node.outedge_.push_back(std::make_shared<Edge>(new_edge));
-=======
-//        src_node.outedge_.push_back(std::make_shared<Edge>(new_edge));
->>>>>>> 8e814d56ddae6ac70e66e921c8f278f658c0d4c2
         this->nodes_.push_back(std::make_shared<Node>(src_node));
         new_edge.src_ = this->nodes_.back();
       }
@@ -90,11 +75,6 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
         Node dest_node = {};
         dest_node.value_ = std::get<1>(N_element);
         dest_node.indegree_++;
-<<<<<<< HEAD
-        //dest_node.inedge_.push_back(std::make_shared<Edge>(new_edge));
-=======
-//        dest_node.inedge_.push_back(std::make_shared<Edge>(new_edge));
->>>>>>> 8e814d56ddae6ac70e66e921c8f278f658c0d4c2
         this->nodes_.push_back(std::make_shared<Node>(dest_node));
         new_edge.dest_ = this->nodes_.back();
       }
@@ -167,16 +147,17 @@ bool gdwg::Graph<N, E>::InsertNode(const N& new_node){
     return true;
 }
 
-<<<<<<< HEAD
 template<typename N, typename E>
 bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
     if (!IsNode(deleted_node)){
         return false;
     }
-
     for (auto& node : nodes_){
-        if (node.value_ == deleted_node){
+        if (node->value_ == deleted_node){
+            std::remove(nodes_.begin(), nodes_.end(), node);
             node.reset();
+            
+            break;
         }
     }
 
@@ -186,11 +167,10 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
             edge.reset();
         }
     }
+    std::cout << nodes_.size() << '\n';
     return true;
 }
 
-=======
->>>>>>> 8e814d56ddae6ac70e66e921c8f278f658c0d4c2
 //template<typename N, typename E>
 //bool gdwg::Graph<N, E>::InsertEdge(const N& src, const N& dest, const E& w) noexcept {
 //  if (IsNode(src) == false || IsNode(dest) == false) {

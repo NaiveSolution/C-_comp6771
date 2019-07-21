@@ -60,13 +60,6 @@ class Graph {
    */
   struct Node {
     N value_;
-<<<<<<< HEAD
-    //std::vector<std::shared_ptr<Edge>> inedge_;
-    //std::vector<std::shared_ptr<Edge>> outedge_;
-=======
-//    std::vector<std::shared_ptr<Edge>> inedge_;
-//    std::vector<std::shared_ptr<Edge>> outedge_;
->>>>>>> 8e814d56ddae6ac70e66e921c8f278f658c0d4c2
     int indegree_ = 0;
     int outdegree_ = 0;
   };

@@ -198,3 +198,27 @@ SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes
     }
   }
 }
+
+SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
+  GIVEN("A graph with some int nodes"){
+    std::vector<int> v1{1, 2, 3, 4};
+    std::vector<int> v2{5, 6, 7};
+    gdwg::Graph<int, double> a{v1.begin(),v1.end()};
+    gdwg::Graph<int, double> b{v2.begin(),v2.end()};
+    WHEN("Trying to delete a node that exists in 'a'"){
+      a.DeleteNode(1);
+      THEN("Graph 'a' will have the nodes {2, 3, 4}"){
+        std::vector<int> expected{2, 3, 4};
+        REQUIRE(a.GetNodes() == expected);
+      }
+    }
+    WHEN("Trying to delete a node that doesnt exist in 'b'"){
+      b.DeleteNode(8);
+      THEN("Graph 'b' will have the nodes {5, 6, 7}"){
+        std::vector<int> expected{5, 6, 7};
+        REQUIRE(b.GetNodes() == expected);
+      }
+    }
+  }
+}
+
