@@ -238,10 +238,11 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
       g.DeleteNode(1);
       THEN("Graph 'g' will have the nodes {2, 3, 4}"){
         std::vector<int> expected{2, 3, 4};
-        REQUIRE(a.GetNodes() == expected);
+        REQUIRE(g.GetNodes() == expected);
       }
-      THEN("Graph 'g' will have the edge {7.6, 8.3}"){
-        
+      THEN("Graph 'g' will have the edges {7.6, 8.3}"){
+        REQUIRE(g.GetWeights(2, 3)[0] == 7.6);
+        REQUIRE(g.GetWeights(3, 4)[0] == 8.3);
       }
     }
 

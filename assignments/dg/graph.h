@@ -50,6 +50,7 @@ class Graph {
   std::vector<N> GetNodes() const;
   bool InsertNode(const N&);
   bool DeleteNode(const N&);
+  std::vector<E> GetWeights(const N&, const N&) const;
   
  private:
   struct Node;

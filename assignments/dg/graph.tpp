@@ -224,6 +224,18 @@ bool gdwg::Graph<N, E>::IsConnected(const N& src,
   return false;
 }
 
+template<typename N, typename E>
+std::vector<E> gdwg::Graph<N, E>::GetWeights(const N& src, const N& dest) const{
+    std::vector<E> to_vector;
+    for (auto& element : this->edges_){
+        if (element->src_.lock()->value_ == src && element->dest_.lock()->value_ == dest){
+            to_vector.push_back(element.get()->weight_);
+        }
+    }
+    std::sort(to_vector.begin(), to_vector.end());
+    return to_vector;
+}
+
 /************** FRIENDS ******************/
 
 //#include "assignments/dg/graph.h"
