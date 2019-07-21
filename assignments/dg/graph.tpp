@@ -1,9 +1,11 @@
 #ifndef ASSIGNMENTS_DG_GRAPH_T_
 #define ASSIGNMENTS_DG_GRAPH_T_
 
+#include <algorithm>
 #include <memory>
 #include <iostream>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 /************** CONSTRUCTORS ******************/
@@ -97,11 +99,17 @@ gdwg::Graph<N,E>::Graph(std::initializer_list<N> list) noexcept {
   }
 }
 
+template<typename N, typename E>
+gdwg::Graph<N,E>::Graph(gdwg::Graph<N, E>&& tmp) noexcept {
+  this->nodes_ = std::move(tmp.nodes_);
+  this->edges_ = std::move(tmp.edges_);
+}
+
 // more constructors...
 
 /************** METHODS ******************/
 
-template <typename N, typename E>
+template<typename N, typename E>
 std::vector<N> gdwg::Graph<N, E>::GetNodes() const noexcept{
     std::vector<N> to_vector;
     for (auto& element : this->nodes_){
@@ -109,6 +117,8 @@ std::vector<N> gdwg::Graph<N, E>::GetNodes() const noexcept{
     }
     return to_vector;
 }
+
+/************** FRIENDS ******************/
 
 //#include "assignments/dg/graph.h"
 //#include "graph.h"

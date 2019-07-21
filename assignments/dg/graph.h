@@ -31,6 +31,7 @@ class Graph {
   Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator,
       typename std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
   Graph(std::initializer_list<N>) noexcept;
+  Graph(gdwg::Graph<N, E>&&) noexcept;
 
   std::vector<N> GetNodes() const noexcept;
 

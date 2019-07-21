@@ -17,6 +17,11 @@ SCENARIO("Graphs can be constructed") {
     std::vector<int> v{1,2,3};
     WHEN("The vector is used to construct a graph") {
       gdwg::Graph<int,int> g(v.begin(),v.end());
+      // May need to change way of testing
+      THEN("Using the getNodes function will return nodes {1, 2, 3}") {
+        std::vector<int> expected{1,2,3};
+        REQUIRE(g.GetNodes() == expected);
+      }
     }
   }
   GIVEN("A vector of tuples") {
@@ -34,21 +39,45 @@ SCENARIO("Graphs can be constructed") {
        */
       THEN("Using the getNodes function will return nodes {Hello, how, are}") {
         std::vector<std::string> expected{"Hello", "how", "are"};
-        REQUIRE(expected == g.GetNodes());
+        REQUIRE(g.GetNodes() == expected);
       }
     }
   }
   GIVEN("An initialiser list") {
-    WHEN("A Graph is created using the initialiser list") {
+    WHEN("A Graph<char,string> is created using the initialiser list") {
       gdwg::Graph<char, std::string> g{'a', 'b', 'x', 'y'};
       /* Need to find a way to test that the graph exists
          * At the moment i'll use the getNodes method but
          * this is bad testing.
          */
-      THEN("Using the getNodes function will return nodes {Hello, how, are}") {
+      THEN("Using the getNodes function will return nodes {a,b,x,y}") {
         std::vector<char> expected{'a', 'b', 'x', 'y'};
-        REQUIRE(expected == g.GetNodes());
+        REQUIRE(g.GetNodes() == expected);
       }
+    }
+    WHEN("A Graph<int,int> is created using the initialiser list") {
+      gdwg::Graph<int,int> g{1,2,3};
+      /* Need to find a way to test that the graph exists
+      * At the moment i'll use the getNodes method but
+      * this is bad testing.
+      */
+      THEN("Using the getNodes function will return nodes {1,2,3}") {
+        std::vector<int> expected{1,2,3};
+        REQUIRE(g.GetNodes() == expected);
+      }
+    }
+  }
+  GIVEN("A Graph<int,int>") {
+    gdwg::Graph<int,int> g1{1,2,3};
+    WHEN("A new graph is constructed using the move constructor") {
+      gdwg::Graph<int,int> g2(std::move(g1));
+      THEN("Graph g2 will have nodes {1,2,3}") {
+        std::vector<int> expected{1,2,3};
+        REQUIRE(g2.GetNodes() == expected);
+      }
+//      AND_THEN("Graph g1 will not have any nodes") {
+//        REQUIRE(g1.GetNodes().empty());
+//      }
     }
   }
 }
