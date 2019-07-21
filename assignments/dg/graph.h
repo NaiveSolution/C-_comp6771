@@ -40,9 +40,10 @@ class Graph {
   Graph& operator=(const gdwg::Graph<N, E>&) noexcept;
   Graph& operator=(gdwg::Graph<N, E>&&) noexcept;
 
-  std::vector<N> GetNodes() const noexcept;
-
-
+  /********************** METHODS **********************/
+//  bool InsertEdge(const N&, const N&, const E&) noexcept;
+  bool IsNode(const N&) const noexcept;
+  std::vector<N> GetNodes() const;
 
  private:
   struct Node;

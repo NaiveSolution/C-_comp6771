@@ -131,13 +131,29 @@ gdwg::Graph<N,E>& gdwg::Graph<N,E>::operator=(gdwg::Graph<N, E>&& tmp) noexcept 
 /************** METHODS ******************/
 
 template<typename N, typename E>
-std::vector<N> gdwg::Graph<N, E>::GetNodes() const noexcept{
+std::vector<N> gdwg::Graph<N, E>::GetNodes() const{
     std::vector<N> to_vector;
     for (auto& element : this->nodes_){
         to_vector.push_back(element.get()->value_);
     }
     std::sort(to_vector.begin(), to_vector.end());
     return to_vector;
+}
+
+//template<typename N, typename E>
+//bool gdwg::Graph<N, E>::InsertEdge(const N& src, const N& dest, const E& w) noexcept {
+//  Edge new_edge = {};
+//  new_edge.weight_ = w;
+//}
+
+template<typename N, typename E>
+bool gdwg::Graph<N, E>::IsNode(const N& node) const noexcept {
+  for (auto& element : this->nodes_){
+    if (node == element.get()->value_) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /************** FRIENDS ******************/
