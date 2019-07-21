@@ -18,7 +18,8 @@ gdwg::Graph<N, E>::Graph() noexcept{
 }
 
 template <typename N, typename E>
-gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start, typename std::vector<N>::const_iterator finish) noexcept{
+gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start,
+ typename std::vector<N>::const_iterator finish) noexcept{
     // if the vector is empty, construct a DG with 1 Node with an edge of 0 weight
     // side note -> vec.begin() == vec.end() is defined as an empty vector in C++11 onwards
     if (start == finish) {
@@ -100,15 +101,15 @@ gdwg::Graph<N, E>::Graph(std::initializer_list<N> list) noexcept {
 }
 
 template<typename N, typename E>
-gdwg::Graph<N,E>::Graph(gdwg::Graph<N, E>&& tmp) noexcept {
-  this->nodes_ = std::move(tmp.nodes_);
-  this->edges_ = std::move(tmp.edges_);
-}
-
-template<typename N, typename E>
 gdwg::Graph<N, E>::Graph(const gdwg::Graph<N, E>& copy) noexcept{
     this->nodes_ = copy.nodes_;
     this->edges_ = copy.edges_;
+}
+
+template<typename N, typename E>
+gdwg::Graph<N,E>::Graph(gdwg::Graph<N, E>&& tmp) noexcept {
+  this->nodes_ = std::move(tmp.nodes_);
+  this->edges_ = std::move(tmp.edges_);
 }
 
 // more constructors...
