@@ -81,3 +81,20 @@ SCENARIO("Graphs can be constructed") {
     }
   }
 }
+
+SCENARIO("Graphs use copy and move equal operatros") {
+  GIVEN("Two Graphs <int,int>") {
+    gdwg::Graph<int,int> g1{1,2,3};
+    gdwg::Graph<int,int> g2{4,5,6};
+    WHEN("The move assignment operator is called g2 = std::move(g1)") {
+      g2 = std::move(g1);
+      THEN("g2 will have nodes {1,2,3}") {
+        std::vector<int> expected{1,2,3};
+        REQUIRE(g2.GetNodes() == expected);
+      }
+      AND_THEN("Graph g1 will not have any nodes") {
+        REQUIRE(g1.GetNodes().empty());
+      }
+    }
+  }
+}

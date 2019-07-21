@@ -34,8 +34,15 @@ class Graph {
   Graph(std::initializer_list<N>) noexcept;
   Graph(const Graph&) noexcept;
   Graph(gdwg::Graph<N, E>&&) noexcept;
+  ~Graph() = default;
+
+  /********************** OPERATORS **********************/
+
+  Graph<N, E>& operator=(gdwg::Graph<N, E>&&);
 
   std::vector<N> GetNodes() const noexcept;
+
+
 
  private:
   struct Node;
