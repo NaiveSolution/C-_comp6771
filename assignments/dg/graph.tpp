@@ -190,10 +190,12 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
             break;
         }
     }
-    for (auto& edge : edges_){
-        if (edge->src_.lock()->value_ == deleted_node || 
-        edge->dest_.lock()->value_ == deleted_node){
-            edge.reset();
+    for (auto it = edges_.begin(); it != edges_.end(); ++it){
+        if ((*it)->src_.lock()->value_ == deleted_node || 
+        (*it)->dest_.lock()->value_ == deleted_node){
+            (*it).reset();
+            edges_.erase(it);
+            break;
         }
     }
     return true;

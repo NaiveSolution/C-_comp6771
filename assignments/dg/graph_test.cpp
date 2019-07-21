@@ -98,7 +98,7 @@ SCENARIO("Graphs can be constructed") {
 }
 
 
-SCENARIO("Graphs use copy and move equal operatros") {
+SCENARIO("Graphs use copy and move equal operators") {
   GIVEN("Two existing graphs g1 & g2"){
     std::vector<std::string> v{"how", "are", "you"};
     gdwg::Graph<std::string, double> g1{v.begin(),v.end()};
@@ -200,6 +200,7 @@ SCENARIO("Given a graph 'a' and 'b' with strings for nodes, try and insert nodes
   }
 }
 
+// DeleteNode()
 SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
   GIVEN("A graph with some int nodes"){
     std::vector<int> v1{1, 2, 3, 4};
@@ -220,6 +221,30 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
         REQUIRE(b.GetNodes() == expected);
       }
     }
+  }
+
+  GIVEN("A graph with some int nodes and edge weights"){
+    int s1 = 1;
+    int s2 = 2;
+    int s3 = 3;
+    int s4 = 4;
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s2, s3, 7.6);
+    auto e3 = std::make_tuple(s3, s4, 8.3);
+    auto e = std::vector<std::tuple<int, int, double>>{e1, e2, e3};
+    gdwg::Graph<int, double> g{e.begin(), e.end()};
+
+    WHEN("Trying to delete a node that exists in 'g'"){
+      g.DeleteNode(1);
+      THEN("Graph 'g' will have the nodes {2, 3, 4}"){
+        std::vector<int> expected{2, 3, 4};
+        REQUIRE(a.GetNodes() == expected);
+      }
+      THEN("Graph 'g' will have the edge {7.6, 8.3}"){
+        
+      }
+    }
+
   }
 }
 
