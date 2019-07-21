@@ -1,4 +1,4 @@
-bool InsertNode(const N& val) -- in progress
+bool InsertNode(const N& val) -- COMPLETED / TESTED
 bool InsertEdge(const N& src, const N& dst, const E& w) -- in progress
 bool DeleteNode(const N&)
 bool Replace(const N& oldData, const N& newData)
