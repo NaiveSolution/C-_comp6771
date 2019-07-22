@@ -4,7 +4,7 @@ bool InsertEdge(const N& src, const N& dst, const E& w) -- COMPLETED / TESTED
 
 bool DeleteNode(const N&) -- COMPLETED / TESTED
 
-bool Replace(const N& oldData, const N& newData) -- COMPLETED / NOT TESTED
+bool Replace(const N& oldData, const N& newData) -- COMPLETED / TESTED
 
 void MergeReplace(const N& oldData, const N& newData) -- TODO
 
