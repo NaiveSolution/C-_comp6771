@@ -385,11 +385,25 @@ SCENARIO("A graph can replace nodes") {
   GIVEN("A Graph 'g' with some char nodes (a,b,c)") {
     std::vector<char> v{'a','b','c'};
     gdwg::Graph<char, int> g{v.begin(), v.end()};
+    g.InsertEdge('a','b',1);
+    g.InsertEdge('c','a',2);
     WHEN("The node 'a' is replaced with 'z'") {
       g.Replace('a','z');
-      std::vector<char> expected{'b', 'c', 'z'};
       THEN("The graph 'g' is changed from (a,b,c) to (b,c,z)"){
+        std::vector<char> expected{'b', 'c', 'z'};
         REQUIRE(g.GetNodes() == expected);
+      }
+      AND_THEN("Node z is connected to b with weights 1") {
+        std::vector<char> expected_connection{'b'};
+        std::vector<int> expected_weights{1};
+        REQUIRE(g.GetConnected('z') == expected_connection);
+        REQUIRE(g.GetWeights('z','b') == expected_weights);
+      }
+      AND_THEN("Node c is connected to z with weights 2") {
+        std::vector<char> expected_connection{'z'};
+        std::vector<int> expected_weights{2};
+        REQUIRE(g.GetConnected('c') == expected_connection);
+        REQUIRE(g.GetWeights('c','z') == expected_weights);
       }
     }
     WHEN("A node is replaced with a node that already exists") {
