@@ -379,3 +379,23 @@ SCENARIO("A graph can erase edges") {
     }
   }
 }
+
+// Replace()
+SCENARIO("A graph can replace nodes") {
+  GIVEN("A Graph 'g' with some char nodes (a,b,c)") {
+    std::vector<char> v{'a','b','c'};
+    gdwg::Graph<char, int> g{v.begin(), v.end()};
+    WHEN("The node 'a' is replaced with 'z'") {
+      g.Replace('a','z');
+      std::vector<char> expected{'b', 'c', 'z'};
+      THEN("The graph 'g' is changed from (a,b,c) to (b,c,z)"){
+        REQUIRE(g.GetNodes() == expected);
+      }
+    }
+    WHEN("A node that does not exist in 'g' is replaced") {
+      THEN("No changes are made to existing nodes in graph 'g'") {
+        REQUIRE_THROWS_WITH(g.Replace('f','g'), "Cannot call Graph::Replace on a node that doesn't exist");
+      }
+    }
+  }
+}
