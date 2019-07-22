@@ -54,7 +54,7 @@ class Graph {
   std::vector<E> GetWeights(const N&, const N&) const;
   void clear() noexcept;
   bool erase(const N&, const N&, const E&);
-
+  bool Replace(const N&, const N&);
   
  private:
   struct Node;

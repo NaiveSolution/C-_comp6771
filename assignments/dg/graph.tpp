@@ -283,7 +283,19 @@ std::vector<N> gdwg::Graph<N,E>::GetConnected(const N& src) const {
   return new_vector;
 }
 
-
+template<typename N, typename E>
+bool gdwg::Graph<N,E>::Replace(const N& oldData, const N& newData) {
+  if (IsNode(oldData) == false) {
+    throw std::runtime_error("Cannot call Graph::Replace on a node that doesn't exist");
+  }
+  for (const auto& node : nodes_) {
+    if (node->value_ == oldData) {
+      node->value_ = newData;
+      break;
+    }
+  }
+  return true;
+}
 /************** FRIENDS ******************/
 
 //#include "assignments/dg/graph.h"
