@@ -392,6 +392,12 @@ SCENARIO("A graph can replace nodes") {
         REQUIRE(g.GetNodes() == expected);
       }
     }
+    WHEN("A node is replaced with a node that already exists") {
+      auto result = g.Replace('a','b');
+      THEN("The function will return false") {
+        REQUIRE_FALSE(result);
+      }
+    }
     WHEN("A node that does not exist in 'g' is replaced") {
       THEN("No changes are made to existing nodes in graph 'g'") {
         REQUIRE_THROWS_WITH(g.Replace('f','g'), "Cannot call Graph::Replace on a node that doesn't exist");

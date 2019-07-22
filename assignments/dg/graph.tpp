@@ -288,6 +288,9 @@ bool gdwg::Graph<N,E>::Replace(const N& oldData, const N& newData) {
   if (IsNode(oldData) == false) {
     throw std::runtime_error("Cannot call Graph::Replace on a node that doesn't exist");
   }
+  if (IsNode(newData)) {
+    return false;
+  }
   for (auto& node : nodes_) {
     if (node->value_ == oldData) {
       node->value_ = newData;
