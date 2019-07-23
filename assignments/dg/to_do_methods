@@ -6,7 +6,7 @@ bool DeleteNode(const N&) -- COMPLETED / TESTED
 
 bool Replace(const N& oldData, const N& newData) -- COMPLETED / TESTED
 
-void MergeReplace(const N& oldData, const N& newData) -- TODO
+void MergeReplace(const N& oldData, const N& newData) -- TODO FUNCTION COMPLETE NEED TO TEST
 
 void Clear() - COMPELTED / TESTED(**PARTIALLY**)
 

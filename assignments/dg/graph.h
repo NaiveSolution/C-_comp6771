@@ -55,7 +55,8 @@ class Graph {
   void clear() noexcept;
   bool erase(const N&, const N&, const E&);
   bool Replace(const N&, const N&);
-  
+  void MergeReplace(const N&, const N&);
+
  private:
   struct Node;
   struct Edge;

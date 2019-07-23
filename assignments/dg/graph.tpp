@@ -300,13 +300,31 @@ bool gdwg::Graph<N,E>::Replace(const N& oldData, const N& newData) {
   return true;
 }
 
-/* Merge replace
- * Find an instance of new_data as a node
- * Go through all edges with old_data and
- * point them to the shared pointer of new_data
- * and go to the new_data node and increment
- * indegree_ or outdegree_
- */
+template<typename N, typename E>
+void gdwg::Graph<N,E>::MergeReplace(const N& oldData, const N& newData) {
+  if (IsNode(oldData) == false ||
+      IsNode(newData) == false) {
+    throw std::runtime_error("Cannot call Graph::MergeReplace "
+       "on old or new data if they don't exist in the graph");
+  }
+  for (auto& node : nodes_) {
+    if (node->value_ == newData) {
+      for (const auto& edge : edges_) {
+        if (edge->src_.lock()->value_ == oldData) {
+          edge->src_ = node;
+          node->indegree++;
+        }
+        if (edge->dest_.lock()->value_ == oldData) {
+          edge->dest_ = node;
+          node->outdegree++;
+        }
+      }
+      break;
+    }
+  }
+  DeleteNode(oldData);
+}
+
 
 /************** FRIENDS ******************/
 
