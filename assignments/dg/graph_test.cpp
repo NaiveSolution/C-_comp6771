@@ -419,3 +419,9 @@ SCENARIO("A graph can replace nodes") {
     }
   }
 }
+
+/*
+ * Additional test ideas:
+ *  - Test for edge that connects to the same node (a->a)
+ *    - Test for getConnected etc.
+ */

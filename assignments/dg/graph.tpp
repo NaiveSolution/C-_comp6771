@@ -299,6 +299,15 @@ bool gdwg::Graph<N,E>::Replace(const N& oldData, const N& newData) {
   }
   return true;
 }
+
+/* Merge replace
+ * Find an instance of new_data as a node
+ * Go through all edges with old_data and
+ * point them to the shared pointer of new_data
+ * and go to the new_data node and increment
+ * indegree_ or outdegree_
+ */
+
 /************** FRIENDS ******************/
 
 //#include "assignments/dg/graph.h"
