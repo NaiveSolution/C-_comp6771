@@ -420,6 +420,46 @@ SCENARIO("A graph can replace nodes") {
   }
 }
 
+// MergeReplace()
+SCENARIO("A graph can merge replace nodes") {
+  GIVEN("A graph with char nodes and int edges") {
+    std::vector<char> v{'a','b','c'};
+    gdwg::Graph<char, int> g{v.begin(), v.end()};
+    g.InsertEdge('a','b',1);
+    g.InsertEdge('c','a',2);
+    WHEN("Node 'b' merge replaces node 'a'") {
+      g.MergeReplace('a','b');
+      THEN("Node b will be connected to itself") {
+        std::vector<char> expected{'b'};
+        REQUIRE(g.GetConnected('b') == expected);
+      }
+      AND_THEN("c->b with weights 2") {
+        std::vector<int> expected{2};
+        REQUIRE(g.GetWeights('c','b') == expected);
+      }
+      AND_THEN("Graph g will have nodes {b,c}") {
+        std::vector<char> expected{'b','c'};
+        REQUIRE(g.GetNodes() == expected);
+      }
+    }
+    WHEN("Node 'a' is merge replaced with 'd'") {
+      THEN("An exception is thrown as Node d does not exist") {
+        REQUIRE_THROWS_WITH(g.MergeReplace('a','d'),
+          "Cannot call Graph::MergeReplace "
+          "on old or new data if they don't exist in the graph");
+      }
+    }
+    WHEN("Node 'd' is merge replaced with 'a'") {
+      THEN("An exception is thrown as Node d does not exist") {
+        REQUIRE_THROWS_WITH(g.MergeReplace('d','a'),
+          "Cannot call Graph::MergeReplace "
+          "on old or new data if they don't exist in the graph");
+      }
+    }
+  }
+}
+
+
 /*
  * Additional test ideas:
  *  - Test for edge that connects to the same node (a->a)

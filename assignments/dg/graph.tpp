@@ -312,11 +312,11 @@ void gdwg::Graph<N,E>::MergeReplace(const N& oldData, const N& newData) {
       for (const auto& edge : edges_) {
         if (edge->src_.lock()->value_ == oldData) {
           edge->src_ = node;
-          node->indegree++;
+          node->indegree_++;
         }
         if (edge->dest_.lock()->value_ == oldData) {
           edge->dest_ = node;
-          node->outdegree++;
+          node->outdegree_++;
         }
       }
       break;
