@@ -83,6 +83,22 @@ class Graph {
   std::vector<std::shared_ptr<Edge>> edges_;
 };
 // Define your graph_iterator here
+template <typename N, typename E>
+class graph_iterator {
+  public:
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = typename std::remove_const<N>::type;
+    using reference = N&;
+    using pointer = N*;
+    using difference_type = int;
+
+    reference operator*() const;
+    reference operator*();
+
+
+
+};
+
 // Define your graph_const_iterator here
 
 }
