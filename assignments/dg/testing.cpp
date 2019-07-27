@@ -1,20 +1,48 @@
 #include <iostream>
 #include <vector>
 #include <exception>
-#include "graph.h"
+#include <memory>
+#include <tuple>
+#include <algorithm>
 
+//#include "graph.h"
 
+using namespace std;
+
+bool CompareSort(const std::shared_ptr<std::tuple<int, int, int>>& a, const std::shared_ptr<std::tuple<int, int, int>>& b ){
+    auto new_a = a.get();
+    auto new_b = b.get();
+    if (get<0>(*new_a) < get<0>(*new_b))
+        return true;
+    if ((get<0>(*new_a) == get<0>(*new_b))){
+        if (get<1>(*new_a) < get<1>(*new_b))
+            return true;
+        if (get<1>(*new_a) == get<1>(*new_b) && (get<2>(*new_a) < get<2>(*new_b)))
+            return true;
+    }
+    return false;
+}
 int main() {
 
-    int a = 2;
-    int s1 = 1;
-    int s2 = 2;
-    int s3 = 3;
-    int s4 = 4;
-    auto e1 = std::make_tuple(s1, s2, 5.4);
-    auto e2 = std::make_tuple(s2, s3, 7.6);
-    auto e3 = std::make_tuple(s3, s4, 8.3);
-    auto e = std::vector<std::tuple<int, int, double>>{e1, e2, e3};
-    gdwg::Graph<int, double> g{e.begin(), e.end()};
+    std::tuple<int, int, int> tup4 {3,2,-8};
+    std::tuple<int, int, int> tup2 {2,1,1};
+    std::tuple<int, int, int> tup3 {2,4,2};
     
+    std::tuple<int, int, int> tup5 {3,2,2};
+    
+    std::vector<std::shared_ptr<std::tuple<int,int,int>>> vec;
+    vec.push_back(make_shared<tuple<int, int, int>>(tup2));
+    vec.push_back(make_shared<tuple<int, int, int>>(tup4));
+    vec.push_back(make_shared<tuple<int, int, int>>(tup3));
+    vec.push_back(make_shared<tuple<int, int, int>>(tup5));
+
+    std::cout << "vector of pointers before sorting: " << endl;
+    for (const auto& i : vec){
+        std::cout << std::get<0>(*i) << std::get<1>(*i) << std::get<2>(*i) << std::endl;
+    }
+    std::cout << "vector of pointers after sorting: " << endl;
+    std::sort(vec.begin(), vec.end(), CompareSort);
+    for (const auto& i : vec){
+        std::cout << std::get<0>(*i) << std::get<1>(*i) << std::get<2>(*i) << std::endl;
+    }
 }
