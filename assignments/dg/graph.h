@@ -85,8 +85,8 @@ template <typename N, typename E>
 class graph_iterator {
   public:
     using iterator_category = std::forward_iterator_tag;
-    using value_type = typename std::remove_const<N>::type;
-    using reference = N&;
+    using value_type = std::tuple<N, N, E>;
+    using reference = std::tuple<const N&, const N&, const E&>;
     using pointer = N*;
     using difference_type = int;
 
