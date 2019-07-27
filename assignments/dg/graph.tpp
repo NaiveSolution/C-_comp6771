@@ -298,10 +298,7 @@ bool gdwg::Graph<N,E>::Replace(const N& oldData, const N& newData) {
   }
   for (auto& node : nodes_) {
     if (node->value_ == oldData) {
-      node->value_ = newData; // std::move(newData) - see lecture 1:41:00 Matt suggests to construct a new node and
-                              // rearrange the edges, instead of just copying the data into the existing node
-                              // what if the nodes value is a container of sets or vectors?
-                              // need to test this.....
+      node->value_ = newData; 
       break;
     }
   }

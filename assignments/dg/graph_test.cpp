@@ -381,6 +381,7 @@ SCENARIO("A graph can erase edges") {
 }
 
 // Replace()
+// Check if this works with N = std::vector<int>
 SCENARIO("A graph can replace nodes") {
   GIVEN("A Graph 'g' with some char nodes (a,b,c)") {
     std::vector<char> v{'a','b','c'};

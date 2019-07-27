@@ -6,6 +6,7 @@
 
 int main() {
 
+    int a = 2;
     int s1 = 1;
     int s2 = 2;
     int s3 = 3;
