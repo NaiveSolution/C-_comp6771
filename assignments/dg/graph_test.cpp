@@ -414,7 +414,8 @@ SCENARIO("A graph can replace nodes") {
     }
     WHEN("A node that does not exist in 'g' is replaced") {
       THEN("No changes are made to existing nodes in graph 'g'") {
-        REQUIRE_THROWS_WITH(g.Replace('f','g'), "Cannot call Graph::Replace on a node that doesn't exist");
+        REQUIRE_THROWS_WITH(g.Replace('f','g'),
+            "Cannot call Graph::Replace on a node that doesn't exist");
       }
     }
   }

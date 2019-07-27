@@ -41,8 +41,6 @@ class Graph {
   Graph& operator=(gdwg::Graph<N, E>&&) noexcept;
 
 
-
-
   /********************** METHODS **********************/
   bool InsertEdge(const N&, const N&, const E&);
   bool IsNode(const N&) const noexcept;
@@ -94,8 +92,6 @@ class graph_iterator {
 
     reference operator*() const;
     reference operator*();
-
-
 
 };
 

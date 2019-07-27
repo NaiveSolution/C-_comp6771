@@ -285,6 +285,7 @@ std::vector<N> gdwg::Graph<N,E>::GetConnected(const N& src) const {
       new_vector.push_back(edge->dest_.lock()->value_);
     }
   }
+  std::sort(new_vector.begin(), new_vector.end());
   return new_vector;
 }
 
