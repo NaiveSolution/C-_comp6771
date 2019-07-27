@@ -25,39 +25,7 @@ namespace gdwg {
 
 template<typename N, typename E>
 class Graph {
- public:
- /********************** CONSTRUCTORS **********************/
-  Graph() noexcept;
-  Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
-  Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator,
-      typename std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
-  Graph(std::initializer_list<N>) noexcept;
-  Graph(const Graph&) noexcept;
-  Graph(Graph&&) noexcept;
-  ~Graph() = default;
 
-  /********************** OPERATORS **********************/
-  Graph& operator=(const gdwg::Graph<N, E>&) noexcept;
-  Graph& operator=(gdwg::Graph<N, E>&&) noexcept;
-
-
-
-
-  /********************** METHODS **********************/
-  bool InsertEdge(const N&, const N&, const E&);
-  bool IsNode(const N&) const noexcept;
-  bool IsConnected(const N&, const N&) const noexcept;
-  std::vector<N> GetNodes() const;
-  bool InsertNode(const N&);
-  bool DeleteNode(const N&);
-  std::vector<N> GetConnected(const N&) const;
-  std::vector<E> GetWeights(const N&, const N&) const;
-  void clear() noexcept;
-  bool erase(const N&, const N&, const E&);
-  bool Replace(const N&, const N&);
-  void MergeReplace(const N&, const N&);
-
- private:
   struct Node;
   struct Edge;
 
@@ -79,6 +47,38 @@ class Graph {
     std::weak_ptr<Node> dest_;
   };
 
+ public:
+ /********************** CONSTRUCTORS **********************/
+  Graph() noexcept;
+  Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
+  Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator,
+      typename std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
+  Graph(std::initializer_list<N>) noexcept;
+  Graph(const Graph&) noexcept;
+  Graph(Graph&&) noexcept;
+  ~Graph() = default;
+
+  /********************** OPERATORS **********************/
+  Graph& operator=(const gdwg::Graph<N, E>&) noexcept;
+  Graph& operator=(gdwg::Graph<N, E>&&) noexcept;
+
+  /********************** METHODS **********************/
+  bool InsertEdge(const N&, const N&, const E&);
+  bool IsNode(const N&) const noexcept;
+  bool IsConnected(const N&, const N&) const noexcept;
+  std::vector<N> GetNodes() const;
+  bool InsertNode(const N&);
+  bool DeleteNode(const N&);
+  std::vector<N> GetConnected(const N&) const;
+  std::vector<E> GetWeights(const N&, const N&) const;
+  void clear() noexcept;
+  bool erase(const N&, const N&, const E&);
+  bool Replace(const N&, const N&);
+  void MergeReplace(const N&, const N&);
+  void PrintEdges();
+  static bool CompareSort(const std::shared_ptr<Edge>&, const std::shared_ptr<Edge>&);
+
+ private:
   std::vector<std::shared_ptr<Node>> nodes_;
   std::vector<std::shared_ptr<Edge>> edges_;
 };

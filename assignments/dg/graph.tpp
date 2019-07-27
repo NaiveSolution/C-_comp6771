@@ -208,7 +208,6 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
           ++it;
         }
     }
-
     return true;
 }
 
@@ -330,6 +329,36 @@ void gdwg::Graph<N,E>::MergeReplace(const N& oldData, const N& newData) {
   DeleteNode(oldData);
 }
 
+// NOT IN SPEC
+template<typename N, typename E>
+bool gdwg::Graph<N,E>::CompareSort(const std::shared_ptr<Edge>& a, const std::shared_ptr<Edge>& b){
+  auto new_a = a.get();
+  auto new_b = b.get();
+  if (new_a->src_.lock()->value_ < new_b->src_.lock()->value_){
+    return true;
+  }
+  if ((*new_a).src_.lock()->value_ == (*new_b).src_.lock()->value_){
+    if ((*new_a).dest_.lock()->value_ < (*new_b).dest_.lock()->value_)
+      return true;
+    if ((*new_a).dest_.lock()->value_ == (*new_b).dest_.lock()->value_ &&  (*new_a).weight_ < (*new_b).weight_)
+      return true;
+  }
+  return false;
+}
+
+// NOT IN SPEC
+template<typename N, typename E>
+void gdwg::Graph<N,E>::PrintEdges(){
+  std::cout << "vector of edges before sorting: " << std::endl;
+  for (const auto& i : this->edges_){
+    std::cout << (*i).src_.lock()->value_ << "-" << (*i).dest_.lock()->value_ << "-" << (*i).weight_ << std::endl;
+  }
+  std::cout << "vector of pointers after sorting: " << std::endl;
+  std::sort(this->edges_.begin(), this->edges_.end(), gdwg::Graph<N,E>::CompareSort);
+  for (const auto& i : this->edges_){
+    std::cout << (*i).src_.lock()->value_ << "-" << (*i).dest_.lock()->value_ << "-" << (*i).weight_ << std::endl;
+  }
+}
 
 /************** FRIENDS ******************/
 
