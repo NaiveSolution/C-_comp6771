@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include "graph.h"
 
 /************** CONSTRUCTORS ******************/
 template <typename N, typename E>
@@ -396,6 +397,23 @@ typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N,E>::cend() noexcept{
   const_iterator it;
   it.iterator_ =  edges_.cend();
   it.end_iterator_ = edges_.cend();
+  return it;
+}
+
+template<typename N, typename E>
+typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::find(const N& src, const N& dest, const E& weight) {
+  const_iterator it;
+  it.iterator_ = edges_.cbegin();
+  it.end_iterator_ = edges_.cend();
+
+  while (it.iterator_ != it.end_iterator_){
+    auto node = *(it.iterator_);
+    if (node->src_.lock()->value_ == src && node->dest_.lock()->value_ == dest && node->weight_ == weight) {
+      std::cout << "Found: (" << node->src_.lock()->value_ << ", " << node->dest_.lock()->value_ << ", " << node->weight_ << ")" << '\n';
+      break;
+    }
+    ++it.iterator_;
+  }
   return it;
 }
 

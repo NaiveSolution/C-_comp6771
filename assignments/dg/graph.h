@@ -141,6 +141,9 @@ class Graph {
     typename std::vector<std::shared_ptr<Edge>>::const_reverse_iterator end_iterator_;
   };
 
+  const_iterator find(const N&, const N&, const E&);
+  const_iterator erase();
+
   const_iterator begin() {return this->cbegin();}
   const_iterator end() {return this->cend();}
 

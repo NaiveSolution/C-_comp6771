@@ -58,7 +58,10 @@ int main() {
 
     auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
     gdwg::Graph<std::string, double> g{e.begin(), e.end()};
-//  g.PrintEdges();
+  g.PrintEdges();
+    g.find("a","b",-3.4);
+    //std::cout << "Found: (" << (*it2)->src_.lock()->value_ << ", " << (*it2)->dest_.lock()->value_ << ", " << it2->weight_ << ")" << '\n';
+
 //    for (const auto it: g) {
 //        std::cout << '<' << std::get<0>(it) << ", ";
 //        std::cout << std::get<1>(it) << ", ";
