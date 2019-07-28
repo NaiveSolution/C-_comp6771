@@ -52,12 +52,12 @@ class Graph {
    public:
     using iterator_category = std::bidirectional_iterator_tag;
     using value_type = std::tuple<N, N, E>;
-    using reference = std::tuple<N&, N&, E&>;
+    using reference = std::tuple<const N&, const N&, const E&>;
     using pointer = std::tuple<N,N,E>*;
     using difference_type = int;
 
     reference operator*() const { return *iterator_;}
-    reference operator*() {return *iterator_;}
+    reference operator*();
 
     // Preincrement
     graph_iterator& operator++();

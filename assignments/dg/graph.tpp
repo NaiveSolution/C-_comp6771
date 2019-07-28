@@ -379,21 +379,9 @@ typename gdwg::Graph<N,E>::graph_iterator& gdwg::Graph<N,E>::graph_iterator::ope
 
 template<typename N, typename E>
 typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::begin() {
-  /* graph_iterator it;
-  std::vector<std::tuple<N,N,E>> to_iterator;
-  std::sort(edges_.begin(), edges_.end(), CompareSort);
-  for (const auto& edge : edges_) {
-    std::tuple<N,N,E> new_tuple{edge->src.lock()->value_,
-                                edge->dest.lock()->value_,
-                                edge->weight()};
-    to_iterator.push_back(new_tuple);
-  }
-  it.iterator_ = to_iterator.begin();
-  it.end_iterator_ = to_iterator.end();
-  return it; */
   graph_iterator it;
   it.iterator_ =  edges_.begin();
-  it.end_iterator_ = edges_.begin();
+  it.end_iterator_ = edges_.end();
   return it;
 }
 
@@ -403,6 +391,14 @@ typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::end(){
   it.iterator_ =  edges_.end();
   it.end_iterator_ = edges_.end();
   return it;
+}
+
+template <typename N, typename E>
+std::tuple<const N&, const N&, const E&> gdwg::Graph<N, E>::graph_iterator::operator*(){
+  N& node1 = iterator_->src_;
+  N& node2 = iterator_->dest_;
+  E& edge = iterator_->weight_;
+  return {node1, node2, edge};
 }
 //#include "assignments/dg/graph.h"
 //#include "graph.h"
