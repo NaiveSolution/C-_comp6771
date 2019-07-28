@@ -173,6 +173,7 @@ bool gdwg::Graph<N, E>::InsertEdge(const N& src, const N& dest, const E& w) {
     }
   }
   this->edges_.push_back(std::make_shared<Edge>(new_edge));
+  std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
   return true;
 }
 
@@ -208,6 +209,7 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
           ++it;
         }
     }
+    std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
     return true;
 }
 
@@ -266,6 +268,7 @@ bool gdwg::Graph<N,E>::erase(const N& src, const N& dest, const E& w) {
       (*it)->dest_.lock()->indegree_--;
       (*it).reset();
       edges_.erase(it);
+      std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
       return true;
     }
   }
