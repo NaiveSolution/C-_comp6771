@@ -5,10 +5,10 @@
 #include <tuple>
 #include <algorithm>
 
-//#include "graph.h"
+#include "graph.h"
 
 using namespace std;
-
+/*/
 bool CompareSort(const std::shared_ptr<std::tuple<int, int, int>>& a, const std::shared_ptr<std::tuple<int, int, int>>& b ){
     auto new_a = a.get();
     auto new_b = b.get();
@@ -22,8 +22,9 @@ bool CompareSort(const std::shared_ptr<std::tuple<int, int, int>>& a, const std:
     }
     return false;
 }
+*/
 int main() {
-
+/*
     std::tuple<int, int, int> tup4 {3,2,-8};
     std::tuple<int, int, int> tup2 {2,1,1};
     std::tuple<int, int, int> tup3 {2,4,2};
@@ -45,4 +46,20 @@ int main() {
     for (const auto& i : vec){
         std::cout << std::get<0>(*i) << std::get<1>(*i) << std::get<2>(*i) << std::endl;
     }
+    */
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    g.PrintEdges();
+
+
 }
