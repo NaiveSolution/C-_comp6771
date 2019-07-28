@@ -52,7 +52,7 @@ class Graph {
    public:
     using iterator_category = std::forward_iterator_tag;
     using value_type = std::tuple<N, N, E>;
-    using reference = std::tuple<const N&, const N&, const E&>;
+    using reference = std::tuple<N&, N&, E&>;
     using pointer = std::tuple<N,N,E>*;
     using difference_type = int;
 
@@ -81,7 +81,7 @@ class Graph {
    private:
     friend class Graph<N,E>;
     typename std::vector<std::tuple<N,N,E>>::iterator iterator_;
-    const typename std::vector<std::tuple<N,N,E>> end_iterator_;
+    const typename std::vector<std::tuple<N,N,E>>::iterator end_iterator_;
   };
 
   graph_iterator begin();
