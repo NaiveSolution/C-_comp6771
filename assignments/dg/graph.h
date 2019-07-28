@@ -25,29 +25,68 @@ namespace gdwg {
 
 template<typename N, typename E>
 class Graph {
-
-  struct Node;
-  struct Edge;
-
-  /* Node data structure that stores a generic value,
-   * incoming and outgoing edges, in and out degrees
-   */
-  struct Node {
-    N value_;
-    int indegree_ = 0;
-    int outdegree_ = 0;
-  };
-
-  /* Edge data structure that stores a generic weight,
-   * source and destination nodes.
-   */
-  struct Edge {
-    E weight_;
-    std::weak_ptr<Node> src_;
-    std::weak_ptr<Node> dest_;
-  };
+  private:
+    struct Node;
+    struct Edge;
+    /* Node data structure that stores a generic value,
+     * incoming and outgoing edges, in and out degrees
+     */
+    struct Node {
+      N value_;
+      int indegree_ = 0;
+      int outdegree_ = 0;
+    };
+    /* Edge data structure that stores a generic weight,
+     * source and destination nodes.
+     */
+    struct Edge {
+      E weight_;
+      std::weak_ptr<Node> src_;
+      std::weak_ptr<Node> dest_;
+    };
 
  public:
+
+  /********************** ITERATOR **********************/
+  class graph_iterator {
+   public:
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = std::tuple<N, N, E>;
+    using reference = std::tuple<const N&, const N&, const E&>;
+    using pointer = std::tuple<N,N,E>*;
+    using difference_type = int;
+
+    reference operator*() const { return *iterator_;}
+    reference operator*() {return *iterator_;}
+
+    // Preincrement
+    graph_iterator& operator++();
+    // Post increment
+    graph_iterator operator++(int) {
+      auto copy{*this};
+      ++(*this);
+      return copy;
+    }
+
+    pointer operator->() const { return &(operator*());}
+
+    friend bool operator==(const graph_iterator& lhs, const graph_iterator& rhs) {
+      return lhs.iterator_ == rhs.iterator_ && lhs.iterator_ == lhs.end_iterator_;
+    }
+
+    friend bool operator!=(const graph_iterator& lhs, const graph_iterator& rhs) {
+      return !(lhs == rhs);
+    }
+
+   private:
+    friend class Graph<N,E>;
+    typename std::vector<std::tuple<N,N,E>>::iterator iterator_;
+    const typename std::vector<std::tuple<N,N,E>> end_iterator_;
+  };
+
+  graph_iterator begin();
+  graph_iterator end();
+
  /********************** CONSTRUCTORS **********************/
   Graph() noexcept;
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
@@ -78,27 +117,11 @@ class Graph {
   void PrintEdges();
   static bool CompareSort(const std::shared_ptr<Edge>&, const std::shared_ptr<Edge>&);
 
+
  private:
   std::vector<std::shared_ptr<Node>> nodes_;
   std::vector<std::shared_ptr<Edge>> edges_;
 };
-// Define your graph_iterator here
-template <typename N, typename E>
-class graph_iterator {
-  public:
-    using iterator_category = std::forward_iterator_tag;
-    using value_type = std::tuple<N, N, E>;
-    using reference = std::tuple<const N&, const N&, const E&>;
-    using pointer = std::tuple<N,N,E>*;
-    using difference_type = int;
-
-    reference operator*() const;
-    reference operator*();
-
-
-};
-
-// Define your graph_const_iterator here
 
 }
 

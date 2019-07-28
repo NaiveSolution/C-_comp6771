@@ -80,6 +80,7 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
       }
       this->edges_.push_back(std::make_shared<Edge>(new_edge));
     }
+    std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
   }
 }
 
