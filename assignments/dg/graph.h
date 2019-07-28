@@ -50,14 +50,19 @@ class Graph {
   /********************** ITERATOR **********************/
   class graph_iterator {
    public:
-    using iterator_category = std::forward_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
     using value_type = std::tuple<N, N, E>;
-    using reference = std::tuple<N&, N&, E&>;
+    using reference = std::tuple<const N&, const N&, const E&>;
     using pointer = std::tuple<N,N,E>*;
     using difference_type = int;
 
-    reference operator*() const { return *iterator_;}
-    reference operator*() {return *iterator_;}
+    reference operator*() const {
+      reference r_tuple{(*iterator_)->src_.lock()->value_,
+                        (*iterator_)->dest_.lock()->value_,
+                        (*iterator_)->weight_};
+      return r_tuple;
+    }
+//    reference operator*() { return *iterator_; }
 
     // Preincrement
     graph_iterator& operator++();
@@ -80,8 +85,8 @@ class Graph {
 
    private:
     friend class Graph<N,E>;
-    typename std::vector<std::tuple<N,N,E>>::iterator iterator_;
-    typename std::vector<std::tuple<N,N,E>>::iterator end_iterator_;
+    typename std::vector<std::shared_ptr<Edge>>::iterator iterator_;
+    typename std::vector<std::shared_ptr<Edge>>::iterator end_iterator_;
   };
 
   graph_iterator begin();
