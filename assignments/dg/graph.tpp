@@ -372,46 +372,58 @@ void gdwg::Graph<N,E>::PrintEdges(){
 
 /************** ITERATORS ******************/
 template<typename N, typename E>
-typename gdwg::Graph<N,E>::graph_iterator& gdwg::Graph<N,E>::graph_iterator::operator++() {
+typename gdwg::Graph<N,E>::const_iterator& gdwg::Graph<N,E>::const_iterator::operator++() {
   ++iterator_;
   return *this;
 }
 
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::const_iterator& gdwg::Graph<N, E>::const_iterator::operator--(){
+  --iterator_;
+  return *this;
+}
+
 template<typename N, typename E>
-typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::cbegin() noexcept{
-  graph_iterator it;
-  it.iterator_ =  edges_.begin();
-  it.end_iterator_ = edges_.end();
+typename gdwg::Graph<N,E>::const_iterator gdwg::Graph<N,E>::cbegin() noexcept{
+  const_iterator it;
+  it.iterator_ =  edges_.cbegin();
+  it.end_iterator_ = edges_.cend();
   return it;
 }
 
 template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::cend() noexcept{
-  graph_iterator it;
-  it.iterator_ =  edges_.end();
-  it.end_iterator_ = edges_.end();
+typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N,E>::cend() noexcept{
+  const_iterator it;
+  it.iterator_ =  edges_.cend();
+  it.end_iterator_ = edges_.cend();
+  return it;
+}
+
+template<typename N, typename E>
+typename gdwg::Graph<N,E>::const_reverse_iterator& gdwg::Graph<N,E>::const_reverse_iterator::operator++() {
+  ++iterator_;
+  return *this;
+}
+
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::const_reverse_iterator& gdwg::Graph<N, E>::const_reverse_iterator::operator--(){
+  --iterator_;
+  return *this;
+}
+
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::const_reverse_iterator gdwg::Graph<N,E>::crbegin() noexcept{
+  const_reverse_iterator it;
+  it.iterator_ =  edges_.crbegin();
+  it.end_iterator_ = edges_.crend();
   return it;
 }
 
 template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator& gdwg::Graph<N, E>::graph_iterator::operator--(){
- --iterator_;
- return *this;
-}
-
-template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::crbegin() noexcept{
-  graph_iterator it;
-  it.iterator_ =  edges_.rbegin();
-  it.end_iterator_ = edges_.rend();
-  return it;
-}
-
-template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::crend() noexcept{
-  graph_iterator it;
-  it.iterator_ =  edges_.rend();
-  it.end_iterator_ = edges_.rend();
+typename gdwg::Graph<N, E>::const_reverse_iterator gdwg::Graph<N,E>::crend() noexcept{
+  const_reverse_iterator it;
+  it.iterator_ =  edges_.crend();
+  it.end_iterator_ = edges_.crend();
   return it;
 }
 
