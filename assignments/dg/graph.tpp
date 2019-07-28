@@ -372,33 +372,37 @@ void gdwg::Graph<N,E>::PrintEdges(){
 
 /************** ITERATORS ******************/
 template<typename N, typename E>
-typename gdwg::Graph<N,E>::graph_iterator& gdwg::Graph<N,E>::graph_iterator::operator++() {
+typename gdwg::Graph<N,E>::const_iterator& gdwg::Graph<N,E>::const_iterator::operator++() {
   ++iterator_;
   return *this;
 }
 
 template<typename N, typename E>
-typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::cbegin() const noexcept{
-  graph_iterator it;
-  it.iterator_ =  edges_.begin();
-  it.end_iterator_ = edges_.end();
+const typename gdwg::Graph<N,E>::const_iterator gdwg::Graph<N,E>::cbegin() noexcept{
+  const_iterator it;
+  it.iterator_ =  edges_.cbegin();
+  it.end_iterator_ = edges_.cend();
   return it;
 }
 
 template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::cend() const noexcept{
-  graph_iterator it;
-  it.iterator_ =  edges_.end();
-  it.end_iterator_ = edges_.end();
+const typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N,E>::cend() noexcept{
+  const_iterator it;
+  it.iterator_ =  edges_.cend();
+  it.end_iterator_ = edges_.cend();
   return it;
 }
 
 template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator& gdwg::Graph<N, E>::graph_iterator::operator--(){
+typename gdwg::Graph<N, E>::const_iterator& gdwg::Graph<N, E>::const_iterator::operator--(){
  --iterator_;
  return *this;
 }
 
+template <typname N, typename E>
+typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::find(const N& src, const N& dest, const E& edge){
+
+}
 //#include "assignments/dg/graph.h"
 //#include "graph.h"
 

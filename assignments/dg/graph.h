@@ -48,7 +48,7 @@ class Graph {
  public:
 
   /********************** ITERATOR **********************/
-  class graph_iterator {
+  class const_iterator {
    public:
     using iterator_category = std::bidirectional_iterator_tag;
     using value_type = std::tuple<N, N, E>;
@@ -62,17 +62,17 @@ class Graph {
               (*iterator_)->weight_);
     }
 
-    graph_iterator& operator--();
-    graph_iterator operator--(int) {
+    const_iterator& operator--();
+    const_iterator operator--(int) {
       auto copy{*this};
       --(*this);
       return copy;
     }
 
     // Preincrement
-    graph_iterator& operator++();
+    const_iterator& operator++();
     // Post increment
-    graph_iterator operator++(int) {
+    const_iterator operator++(int) {
       auto copy{*this};
       ++(*this);
       return copy;
@@ -80,25 +80,29 @@ class Graph {
 
     pointer operator->() const { return &(operator*());}
 
-    friend bool operator==(const graph_iterator& lhs, const graph_iterator& rhs) {
+    friend bool operator==(const const_iterator& lhs, const const_iterator& rhs) {
       return lhs.iterator_ == rhs.iterator_ && lhs.iterator_ == lhs.end_iterator_;
     }
 
-    friend bool operator!=(const graph_iterator& lhs, const graph_iterator& rhs) {
+    friend bool operator!=(const const_iterator& lhs, const const_iterator& rhs) {
       return !(lhs == rhs);
     }
 
+    const_iterator begin() {return this->cbegin();};
+    const_iterator end() {return this->cend();};
+    const_iterator find(const N&, const N&, const E&);
+
+    const const_iterator cbegin() noexcept;
+    const const_iterator cend() noexcept;
+
    private:
     friend class Graph<N,E>;
-    typename std::vector<std::shared_ptr<Edge>>::iterator iterator_;
-    typename std::vector<std::shared_ptr<Edge>>::iterator end_iterator_;
+    typename std::vector<std::shared_ptr<Edge>>::const_iterator iterator_;
+    typename std::vector<std::shared_ptr<Edge>>::const_iterator end_iterator_;
   };
 
-  graph_iterator begin() {return this->cbegin()};
-  graph_iterator end() {return this->cend()};
+  
 
-  graph_iterator cbegin() const noexcept;
-  graph_iterator cend() const noexcept;
  /********************** CONSTRUCTORS **********************/
   Graph() noexcept;
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
