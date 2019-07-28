@@ -377,9 +377,8 @@ typename gdwg::Graph<N,E>::graph_iterator& gdwg::Graph<N,E>::graph_iterator::ope
   return *this;
 }
 
-
 template<typename N, typename E>
-typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::begin() {
+typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::cbegin() const noexcept{
   graph_iterator it;
   it.iterator_ =  edges_.begin();
   it.end_iterator_ = edges_.end();
@@ -387,20 +386,19 @@ typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::begin() {
 }
 
 template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::end(){
+typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::cend() const noexcept{
   graph_iterator it;
   it.iterator_ =  edges_.end();
   it.end_iterator_ = edges_.end();
   return it;
 }
 
-/* template <typename N, typename E>
-std::tuple<const N&, const N&, const E&> gdwg::Graph<N, E>::graph_iterator::operator*(){
-  N& node1 = iterator_->src_.lock()->value_;
-  N& node2 = iterator_->dest_.lock()->value_;
-  E& edge = iterator_->weight_;
-  return {node1, node2, edge};
-} */
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::graph_iterator& gdwg::Graph<N, E>::graph_iterator::operator--(){
+ --iterator_;
+ return *this;
+}
+
 //#include "assignments/dg/graph.h"
 //#include "graph.h"
 
