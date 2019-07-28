@@ -377,9 +377,8 @@ typename gdwg::Graph<N,E>::graph_iterator& gdwg::Graph<N,E>::graph_iterator::ope
   return *this;
 }
 
-
 template<typename N, typename E>
-typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::cbegin() const noexcept {
+typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::cbegin() noexcept{
   graph_iterator it;
   it.iterator_ =  edges_.begin();
   it.end_iterator_ = edges_.end();
@@ -387,15 +386,33 @@ typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::cbegin() const noexc
 }
 
 template <typename N, typename E>
-typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::cend() const noexcept {
+typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::cend() noexcept{
   graph_iterator it;
   it.iterator_ =  edges_.end();
   it.end_iterator_ = edges_.end();
   return it;
 }
 
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::graph_iterator& gdwg::Graph<N, E>::graph_iterator::operator--(){
+ --iterator_;
+ return *this;
+}
 
-//#include "assignments/dg/graph.h"
-//#include "graph.h"
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::crbegin() noexcept{
+  graph_iterator it;
+  it.iterator_ =  edges_.rbegin();
+  it.end_iterator_ = edges_.rend();
+  return it;
+}
+
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::crend() noexcept{
+  graph_iterator it;
+  it.iterator_ =  edges_.rend();
+  it.end_iterator_ = edges_.rend();
+  return it;
+}
 
 #endif // ASSIGNMENTS_DG_GRAPH_T_

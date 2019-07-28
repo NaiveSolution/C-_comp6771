@@ -61,7 +61,13 @@ class Graph {
               (*iterator_)->dest_.lock()->value_,
               (*iterator_)->weight_);
     }
-//    reference operator*() { return *iterator_; }
+
+    graph_iterator& operator--();
+    graph_iterator operator--(int) {
+      auto copy{*this};
+      --(*this);
+      return copy;
+    }
 
     // Pre increment
     graph_iterator& operator++();
@@ -88,11 +94,18 @@ class Graph {
     typename std::vector<std::shared_ptr<Edge>>::iterator end_iterator_;
   };
 
-  graph_iterator begin() { return this->cbegin();};
-  graph_iterator end() {return this->cend();};
-  graph_iterator cbegin() const noexcept;
-  graph_iterator cend() const noexcept;
-  
+
+  graph_iterator begin() {return this->cbegin();}
+  graph_iterator end() {return this->cend();}
+
+  graph_iterator rbegin() {return this->crbegin();}
+  graph_iterator rend() {return this->crend();}
+
+  graph_iterator cbegin() noexcept;
+  graph_iterator cend() noexcept;
+
+  graph_iterator crbegin() noexcept;
+  graph_iterator crend() noexcept;
  /********************** CONSTRUCTORS **********************/
   Graph() noexcept;
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
