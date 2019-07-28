@@ -337,10 +337,10 @@ bool gdwg::Graph<N,E>::CompareSort(const std::shared_ptr<Edge>& a, const std::sh
   if (new_a->src_.lock()->value_ < new_b->src_.lock()->value_){
     return true;
   }
-  if ((*new_a).src_.lock()->value_ == (*new_b).src_.lock()->value_){
-    if ((*new_a).dest_.lock()->value_ < (*new_b).dest_.lock()->value_)
+  if (new_a->src_.lock()->value_ == new_b->src_.lock()->value_){
+    if (new_a->dest_.lock()->value_ < new_b->dest_.lock()->value_)
       return true;
-    if ((*new_a).dest_.lock()->value_ == (*new_b).dest_.lock()->value_ &&  (*new_a).weight_ < (*new_b).weight_)
+    if (new_a->dest_.lock()->value_ == new_b->dest_.lock()->value_ &&  new_a->weight_ < new_b->weight_)
       return true;
   }
   return false;
@@ -353,8 +353,8 @@ void gdwg::Graph<N,E>::PrintEdges(){
   for (const auto& i : this->edges_){
     std::cout << (*i).src_.lock()->value_ << "-" << (*i).dest_.lock()->value_ << "-" << (*i).weight_ << std::endl;
   }
-  std::cout << "vector of pointers after sorting: " << std::endl;
-  std::sort(this->edges_.begin(), this->edges_.end(), gdwg::Graph<N,E>::CompareSort);
+  std::cout << "vector of edges after sorting: " << std::endl;
+  std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
   for (const auto& i : this->edges_){
     std::cout << (*i).src_.lock()->value_ << "-" << (*i).dest_.lock()->value_ << "-" << (*i).weight_ << std::endl;
   }
