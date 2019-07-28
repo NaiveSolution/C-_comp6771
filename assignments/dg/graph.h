@@ -57,10 +57,9 @@ class Graph {
     using difference_type = int;
 
     reference operator*() const {
-      reference r_tuple{(*iterator_)->src_.lock()->value_,
-                        (*iterator_)->dest_.lock()->value_,
-                        (*iterator_)->weight_};
-      return r_tuple;
+      return {(*iterator_)->src_.lock()->value_,
+              (*iterator_)->dest_.lock()->value_,
+              (*iterator_)->weight_};
     }
 //    reference operator*() { return *iterator_; }
 
