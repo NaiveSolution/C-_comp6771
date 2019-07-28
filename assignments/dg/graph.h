@@ -57,13 +57,13 @@ class Graph {
     using difference_type = int;
 
     reference operator*() const {
-      return {(*iterator_)->src_.lock()->value_,
+      return std::tie((*iterator_)->src_.lock()->value_,
               (*iterator_)->dest_.lock()->value_,
-              (*iterator_)->weight_};
+              (*iterator_)->weight_);
     }
 //    reference operator*() { return *iterator_; }
 
-    // Preincrement
+    // Pre increment
     graph_iterator& operator++();
     // Post increment
     graph_iterator operator++(int) {
@@ -88,9 +88,11 @@ class Graph {
     typename std::vector<std::shared_ptr<Edge>>::iterator end_iterator_;
   };
 
-  graph_iterator begin();
-  graph_iterator end();
-
+  graph_iterator begin() { return this->cbegin();};
+  graph_iterator end() {return this->cend();};
+  graph_iterator cbegin() const noexcept;
+  graph_iterator cend() const noexcept;
+  
  /********************** CONSTRUCTORS **********************/
   Graph() noexcept;
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
