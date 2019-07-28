@@ -367,12 +367,43 @@ void gdwg::Graph<N,E>::PrintEdges(){
 
 /************** FRIENDS ******************/
 
-/*********** ITERATOR METHODS ************/
-template <typename N, typename E>
-gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::end(){
-  return {edges_.end(), edges_.end(), {}};
+
+
+
+/************** ITERATORS ******************/
+template<typename N, typename E>
+typename gdwg::Graph<N,E>::graph_iterator& gdwg::Graph<N,E>::graph_iterator::operator++() {
+  ++iterator_;
+  return *this;
 }
 
+template<typename N, typename E>
+typename gdwg::Graph<N,E>::graph_iterator gdwg::Graph<N,E>::begin() {
+  /* graph_iterator it;
+  std::vector<std::tuple<N,N,E>> to_iterator;
+  std::sort(edges_.begin(), edges_.end(), CompareSort);
+  for (const auto& edge : edges_) {
+    std::tuple<N,N,E> new_tuple{edge->src.lock()->value_,
+                                edge->dest.lock()->value_,
+                                edge->weight()};
+    to_iterator.push_back(new_tuple);
+  }
+  it.iterator_ = to_iterator.begin();
+  it.end_iterator_ = to_iterator.end();
+  return it; */
+  graph_iterator it;
+  it.iterator_ =  edges_.begin();
+  it.end_iterator_ = edges_.begin();
+  return it;
+}
+
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::end(){
+  graph_iterator it;
+  it.iterator_ =  edges_.end();
+  it.end_iterator_ = edges_.end();
+  return it;
+}
 //#include "assignments/dg/graph.h"
 //#include "graph.h"
 

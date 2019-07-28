@@ -60,6 +60,7 @@ int main() {
     auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
     gdwg::Graph<std::string, double> g{e.begin(), e.end()};
     g.PrintEdges();
+    g.begin();
 
 
 }
