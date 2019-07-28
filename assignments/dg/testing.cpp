@@ -49,17 +49,17 @@ int main() {
     */
     std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
 
-    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
-    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+  std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+  std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
 
-    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
-    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
-    
-    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+  std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+  std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
 
-    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
-    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
-    g.PrintEdges();
+  std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+
+  auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+  gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+  std::cout << std::get<0>(*g.begin()) << '\n';
 
 
 }

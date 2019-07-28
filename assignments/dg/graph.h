@@ -81,7 +81,7 @@ class Graph {
    private:
     friend class Graph<N,E>;
     typename std::vector<std::tuple<N,N,E>>::iterator iterator_;
-    const typename std::vector<std::tuple<N,N,E>>::iterator end_iterator_;
+    typename std::vector<std::tuple<N,N,E>>::iterator end_iterator_;
   };
 
   graph_iterator begin();
