@@ -50,7 +50,7 @@ class Graph {
   /********************** ITERATOR **********************/
   class graph_iterator {
    public:
-    using iterator_category = std::forward_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
     using value_type = std::tuple<N, N, E>;
     using reference = std::tuple<const N&, const N&, const E&>;
     using pointer = std::tuple<N,N,E>*;

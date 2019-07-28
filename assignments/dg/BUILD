@@ -12,6 +12,14 @@ cc_binary(
     ],
 )
 
+cc_binary(
+    name = "testing",
+    srcs = ["testing.cpp"],
+    deps = [
+        ":graph",
+    ],
+)
+
 cc_test(
     name = "graph_test",
     srcs = ["graph_test.cpp"],

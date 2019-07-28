@@ -367,6 +367,12 @@ void gdwg::Graph<N,E>::PrintEdges(){
 
 /************** FRIENDS ******************/
 
+/*********** ITERATOR METHODS ************/
+template <typename N, typename E>
+gdwg::Graph<N, E>::graph_iterator gdwg::Graph<N,E>::end(){
+  return {edges_.end(), edges_.end(), {}};
+}
+
 //#include "assignments/dg/graph.h"
 //#include "graph.h"
 
