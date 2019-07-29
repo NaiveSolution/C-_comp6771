@@ -82,7 +82,8 @@ class Graph {
     pointer operator->() const { return &(operator*());}
 
     friend bool operator==(const const_iterator& lhs, const const_iterator& rhs) {
-      return lhs.iterator_ == rhs.iterator_ && lhs.iterator_ == lhs.end_iterator_;
+      return lhs.iterator_ == rhs.iterator_ && (lhs.iterator_ == lhs.end_iterator_ ||
+                                                lhs.end_iterator_ == rhs.end_iterator_);
     }
 
     friend bool operator!=(const const_iterator& lhs, const const_iterator& rhs) {
@@ -135,7 +136,8 @@ class Graph {
     pointer operator->() const { return &(operator*());}
 
     friend bool operator==(const const_reverse_iterator& lhs, const const_reverse_iterator& rhs) {
-      return lhs.iterator_ == rhs.iterator_ && lhs.iterator_ == lhs.end_iterator_;
+      return lhs.iterator_ == rhs.iterator_ && (lhs.iterator_ == lhs.end_iterator_ ||
+                                                lhs.end_iterator_ == rhs.end_iterator_);
     }
 
     friend bool operator!=(const const_reverse_iterator& lhs, const const_reverse_iterator& rhs) {
