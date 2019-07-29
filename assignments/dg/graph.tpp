@@ -7,7 +7,6 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include "graph.h"
 
 /************** CONSTRUCTORS ******************/
 template <typename N, typename E>
@@ -393,6 +392,14 @@ typename gdwg::Graph<N,E>::const_iterator gdwg::Graph<N,E>::cbegin() noexcept{
 }
 
 template<typename N, typename E>
+typename gdwg::Graph<N,E>::const_iterator gdwg::Graph<N,E>::cend() noexcept{
+  const_iterator it;
+  it.iterator_ =  edges_.cend();
+  it.end_iterator_ = edges_.cend();
+  return it;
+}
+
+template<typename N, typename E>
 typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::find(const N& src, const N& dest, const E& weight) {
   const_iterator it;
   it.iterator_ = edges_.cbegin();
@@ -401,7 +408,7 @@ typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::find(const N& src,
   while (it.iterator_ != it.end_iterator_){
     auto node = *(it.iterator_);
     if (node->src_.lock()->value_ == src && node->dest_.lock()->value_ == dest && node->weight_ == weight) {
-      std::cout << "Found: (" << node->src_.lock()->value_ << ", " << node->dest_.lock()->value_ << ", " << node->weight_ << ")" << '\n';
+//      std::cout << "Found: (" << node->src_.lock()->value_ << ", " << node->dest_.lock()->value_ << ", " << node->weight_ << ")" << '\n';
       break;
     }
     ++it.iterator_;
@@ -410,16 +417,25 @@ typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::find(const N& src,
 }
 
 template<typename N, typename E>
-typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::erase(const_iterator it){
-  // check if the iterator is valid
-  // what are the conditions of a valid iterator? not at end, not null
-  const_iterator next_node_it;
-  if (it.iterator_ != nullptr && it.iterator_ != it.end_iterator_){
-    // get src, dest, weight of node after it
-    // delete node (as below)
-    bool deleted_node = DeleteNode(*(it.iterator_)->src_.lock()->value_);
-    // return find(src,dest,weight);
+typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::erase(const_iterator old_it){
+  if (old_it.iterator_ == old_it.end_iterator_ || *old_it.iterator_ == nullptr) {
+    return old_it;
   }
+  N& erase_src = old_it.iterator_->get()->src_.lock()->value_;
+  N& erase_dest = old_it.iterator_->get()->dest_.lock()->value_;
+  E& erase_weight = old_it.iterator_->get()->weight_;
+  ++old_it.iterator_;
+  N& new_src = old_it.iterator_->get()->src_.lock()->value_;
+  N& new_dest = old_it.iterator_->get()->dest_.lock()->value_;
+  E& new_weight = old_it.iterator_->get()->weight_;
+  bool deleted = this->erase(erase_src,erase_dest,erase_weight);
+
+  // If no erase can be made, the equivalent of gdwg::Graph<N, E>::end() is returned.
+  if (deleted == false) {
+    old_it.iterator_ = old_it.end_iterator_;
+    return old_it;
+  }
+  return this->find(new_src, new_dest, new_weight);
 }
 
 template<typename N, typename E>
