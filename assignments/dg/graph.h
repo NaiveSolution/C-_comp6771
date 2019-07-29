@@ -207,7 +207,7 @@ class Graph {
   void MergeReplace(const N&, const N&);
   void PrintEdges();
   static bool CompareSort(const std::shared_ptr<Edge>&, const std::shared_ptr<Edge>&);
-
+  bool IsEmpty() const {return graph_empty_;}
   /************** FRIENDS ******************/
 
   friend bool operator==(const gdwg::Graph<N, E>& g1, const gdwg::Graph<N, E>& g2) {
@@ -236,14 +236,9 @@ class Graph {
 
   friend std::ostream& operator<<(std::ostream& os, const gdwg::Graph<N, E>& g) {
     auto nodes = g.GetNodes();
-/*     if (nodes.size() == 1){
-      try{
-        g.GetConnected(nodes[0]);
-      }
-      catch(std::out_of_range){
+     if (g.IsEmpty()){
         os << "";
         return os;
-      } */
     }
     for (const auto& src : nodes) {
       os << src << " (" << '\n';
@@ -268,6 +263,7 @@ class Graph {
  private:
   std::vector<std::shared_ptr<Node>> nodes_;
   std::vector<std::shared_ptr<Edge>> edges_;
+  bool graph_empty_ = false;
 };
 
 }

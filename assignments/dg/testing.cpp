@@ -66,7 +66,7 @@ int main() {
     tuple<int, int, int> n10{6,3,10};
     auto f = std::vector<std::tuple<int, int, int>>{n1, n2, n3, n4, n5, n6, n7, n8, n9, n10};
     gdwg::Graph<int, int> g2{f.begin(), f.end()};
-    cout<< g2;
+    //cout<< g2;
 
     gdwg::Graph<int, int> g3;
     cout << g3;
@@ -83,6 +83,15 @@ int main() {
     //  copied resource that it has stored, so the node
     //  will still be in here.
     std::cout << g4.IsNode("Hello") << "\n"; // prints 'true';
+
+    tuple<int, int, int> m1{1,1,-1};
+    tuple<int, int, int> m2{1,1,1};
+    tuple<int, int, int> m3{1,1,2};
+    tuple<int, int, int> m4{1,1,-8};
+    tuple<int, int, int> m5{1,0,2};
+    auto h = std::vector<std::tuple<int, int, int>>{m1, m2, m3, m4, m5};
+    gdwg::Graph<int, int> g5{h.begin(), h.end()};
+    cout << g5;
 
 //    for (const auto& it : g) {
 //        std::cout << '<' << std::get<0>(it) << ", ";

@@ -8,6 +8,8 @@
 #include <utility>
 #include <vector>
 
+#include "graph.h"
+
 /************** CONSTRUCTORS ******************/
 template <typename N, typename E>
 gdwg::Graph<N, E>::Graph() noexcept{
@@ -15,6 +17,7 @@ gdwg::Graph<N, E>::Graph() noexcept{
     Edge empty_edge = {};
     this->nodes_.push_back(std::make_shared<Node>(empty_node));
     this->edges_.push_back(std::make_shared<Edge>(empty_edge));
+    this->graph_empty_ = true;
 }
 
 template <typename N, typename E>
@@ -145,6 +148,7 @@ bool gdwg::Graph<N, E>::InsertNode(const N& new_node){
     Node additional_node = {};
     additional_node.value_ = new_node;
     this->nodes_.push_back(std::make_shared<Node>(additional_node));
+    this->graph_empty_ = false;
     return true;
 }
 
