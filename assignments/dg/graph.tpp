@@ -367,9 +367,6 @@ void gdwg::Graph<N,E>::PrintEdges(){
 
 /************** FRIENDS ******************/
 
-
-
-
 /************** ITERATORS ******************/
 template<typename N, typename E>
 typename gdwg::Graph<N,E>::const_iterator& gdwg::Graph<N,E>::const_iterator::operator++() {
@@ -381,6 +378,22 @@ template <typename N, typename E>
 typename gdwg::Graph<N, E>::const_iterator& gdwg::Graph<N, E>::const_iterator::operator--(){
   --iterator_;
   return *this;
+}
+
+template<typename N, typename E>
+typename gdwg::Graph<N,E>::const_iterator gdwg::Graph<N,E>::cbegin() const noexcept{
+  const_iterator it;
+  it.iterator_ =  edges_.cbegin();
+  it.end_iterator_ = edges_.cend();
+  return it;
+}
+
+template<typename N, typename E>
+typename gdwg::Graph<N,E>::const_iterator gdwg::Graph<N,E>::cend() const noexcept{
+  const_iterator it;
+  it.iterator_ =  edges_.cend();
+  it.end_iterator_ = edges_.cend();
+  return it;
 }
 
 template<typename N, typename E>
@@ -408,7 +421,22 @@ typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::find(const N& src,
   while (it.iterator_ != it.end_iterator_){
     auto node = *(it.iterator_);
     if (node->src_.lock()->value_ == src && node->dest_.lock()->value_ == dest && node->weight_ == weight) {
-//      std::cout << "Found: (" << node->src_.lock()->value_ << ", " << node->dest_.lock()->value_ << ", " << node->weight_ << ")" << '\n';
+      break;
+    }
+    ++it.iterator_;
+  }
+  return it;
+}
+
+template<typename N, typename E>
+typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::find(const N& src, const N& dest, const E& weight) const {
+  const_iterator it;
+  it.iterator_ = edges_.cbegin();
+  it.end_iterator_ = edges_.cend();
+
+  while (it.iterator_ != it.end_iterator_){
+    auto node = *(it.iterator_);
+    if (node->src_.lock()->value_ == src && node->dest_.lock()->value_ == dest && node->weight_ == weight) {
       break;
     }
     ++it.iterator_;
@@ -459,6 +487,22 @@ typename gdwg::Graph<N, E>::const_reverse_iterator gdwg::Graph<N,E>::crbegin() n
 
 template <typename N, typename E>
 typename gdwg::Graph<N, E>::const_reverse_iterator gdwg::Graph<N,E>::crend() noexcept{
+  const_reverse_iterator it;
+  it.iterator_ =  edges_.crend();
+  it.end_iterator_ = edges_.crend();
+  return it;
+}
+
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::const_reverse_iterator gdwg::Graph<N,E>::crbegin() const noexcept{
+  const_reverse_iterator it;
+  it.iterator_ =  edges_.crbegin();
+  it.end_iterator_ = edges_.crend();
+  return it;
+}
+
+template <typename N, typename E>
+typename gdwg::Graph<N, E>::const_reverse_iterator gdwg::Graph<N,E>::crend() const noexcept{
   const_reverse_iterator it;
   it.iterator_ =  edges_.crend();
   it.end_iterator_ = edges_.crend();

@@ -57,24 +57,25 @@ int main() {
     auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
     gdwg::Graph<std::string, double> g{e.begin(), e.end()};
 //  g.PrintEdges();
-    for (const auto it: g) {
+
+    for (const auto& it : g) {
         std::cout << '<' << std::get<0>(it) << ", ";
         std::cout << std::get<1>(it) << ", ";
         std::cout << std::get<2>(it) << '>' << '\n';
     }
-    auto it1 = g.find("a","c",1.1);
-    std:: cout << "Removing: <" << std::get<0>(*it1) << "," <<
-        std::get<1>(*it1) << "," << std::get<2>(*it1) << ">" << '\n';
-    auto it2 = g.erase(it1);
-    while (it2 != g.begin()) {
-      --it2;
-    }
-    while (it2 != g.end()) {
-      std::cout << '<' << std::get<0>(*it2) << ", ";
-      std::cout << std::get<1>(*it2) << ", ";
-      std::cout << std::get<2>(*it2) << '>' << '\n';
-      ++it2;
-    }
+//    auto it1 = g.find("a","c",1.1);
+//    std:: cout << "Removing: <" << std::get<0>(*it1) << "," <<
+//        std::get<1>(*it1) << "," << std::get<2>(*it1) << ">" << '\n';
+//    auto it2 = g.erase(it1);
+//    while (it2 != g.begin()) {
+//      --it2;
+//    }
+//    while (it2 != g.end()) {
+//      std::cout << '<' << std::get<0>(*it2) << ", ";
+//      std::cout << std::get<1>(*it2) << ", ";
+//      std::cout << std::get<2>(*it2) << '>' << '\n';
+//      ++it2;
+//    }
 //    for (const auto it: g) {
 //        std::cout << '<' << std::get<0>(it) << ", ";
 //        std::cout << std::get<1>(it) << ", ";

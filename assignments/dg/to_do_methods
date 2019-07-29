@@ -20,11 +20,11 @@ std::vector<N> GetConnected(const N& src) -- COMPLETED / TESTED
 
 std::vector<E> GetWeights(const N& src, const N& dst) -- COMPLETED / TESTED
 
-const_iterator find(const N&, const N&, const E&); -- TODO Const Iterators
+const_iterator find(const N&, const N&, const E&); -- COMPLETED / TODO TESTING
 
 bool erase(const N& src, const N& dst, const E& w) -- COMPELTED / TESTED
 
-const_iterator erase(const_iterator it); -- TODO Const Iterators
+const_iterator erase(const_iterator it); -- COMPLETED / TODO TESTING
 
 const_iterator cbegin(); -- COMPLETED / TODO TESTING
 
@@ -41,3 +41,11 @@ const_iterator end(); -- COMPLETED / TODO TESTING
 const_reverse_iterator rbegin(); -- COMPLETED / TODO TESTING
 
 const_reverse_iterator rend(); -- COMPLETED / TODO TESTING
+
+/************** FRIENDS ******************/
+
+bool operator==(const gdwg::Graph<N, E>&, const gdwg::Graph<N, E>&) -- COMPLETED / TODO PARTIALLY TESTED
+
+bool operator!=(const gdwg::Graph<N, E>&, const gdwg::Graph<N, E>&) -- COMPLETED / TODO PARTIALLY TESTED
+
+std::ostream& operator<<(std::ostream&, const gdwg::Graph<N, E>&) -- TODO

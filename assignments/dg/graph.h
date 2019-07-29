@@ -151,19 +151,32 @@ class Graph {
   };
 
   const_iterator find(const N&, const N&, const E&);
+  const_iterator find(const N&, const N&, const E&) const;
   const_iterator erase(const_iterator);
 
   const_iterator begin() {return this->cbegin();}
   const_iterator end() {return this->cend();}
 
+  const_iterator begin() const {return this->cbegin();}
+  const_iterator end() const {return this->cend();}
+
   const_reverse_iterator rbegin() {return this->crbegin();}
   const_reverse_iterator rend() {return this->crend();}
+
+  const_reverse_iterator rbegin() const {return this->crbegin();}
+  const_reverse_iterator rend() const {return this->crend();}
 
   const_iterator cbegin() noexcept;
   const_iterator cend() noexcept;
 
+  const_iterator cbegin() const noexcept;
+  const_iterator cend() const noexcept;
+
   const_reverse_iterator crbegin() noexcept;
   const_reverse_iterator crend() noexcept;
+
+  const_reverse_iterator crbegin() const noexcept;
+  const_reverse_iterator crend() const noexcept;
 
  /********************** CONSTRUCTORS **********************/
   Graph() noexcept;
@@ -195,6 +208,31 @@ class Graph {
   void PrintEdges();
   static bool CompareSort(const std::shared_ptr<Edge>&, const std::shared_ptr<Edge>&);
 
+  /************** FRIENDS ******************/
+
+  friend bool operator==(const gdwg::Graph<N, E>& g1, const gdwg::Graph<N, E>& g2) {
+    bool same_nodes = (g1.GetNodes() == g2.GetNodes());
+    std::vector<std::tuple<N,N,E>> g1_edges;
+    std::vector<std::tuple<N,N,E>> g2_edges;
+    for (const auto edge : g1) {
+      g1_edges.push_back(edge);
+    }
+    for (const auto edge : g2) {
+      g2_edges.push_back(edge);
+    }
+    bool same_edges = (g1_edges == g2_edges);
+    if (same_nodes == true && same_edges == true) {
+      return true;
+    }
+    return false;
+  }
+
+  friend bool operator!=(const gdwg::Graph<N, E>& g1, const gdwg::Graph<N, E>& g2) {
+    if (g1 == g2) {
+      return false;
+    }
+    return true;
+  }
 
  private:
   std::vector<std::shared_ptr<Node>> nodes_;

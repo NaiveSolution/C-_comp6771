@@ -461,9 +461,62 @@ SCENARIO("A graph can merge replace nodes") {
   }
 }
 
+// Friend operator == (NEED TO TEST ITERATORS BEFORE THIS SINCE WE USE ITERATORS IN FUNCTION)
+SCENARIO("Two graphs can be compared using the == and != operators") {
+  GIVEN("Two Equal Graphs") {
+    char s1{'a'};
+    char s2{'b'};
+    char s3{'c'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s2, s3, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    gdwg::Graph<char, double> g1{e.begin(), e.end()};
+    gdwg::Graph<char, double> g2{e.begin(), e.end()};
+    WHEN("They are compared using the == operator") {
+      bool result = (g1 == g2);
+      THEN("The result should return true") {
+        REQUIRE(result);
+      }
+    }
+    WHEN("They are compared using the != operator") {
+      bool result = (g1 != g2);
+      THEN("The result should return false") {
+        REQUIRE_FALSE(result);
+      }
+    }
+  }
+  GIVEN("Two graphs with same nodes but different edges") {
+    char s1{'a'};
+    char s2{'b'};
+    char s3{'c'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s2, s3, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    gdwg::Graph<char, double> g1{e.begin(), e.end()};
+    gdwg::Graph<char, double> g2{'a','b','c'};
+    WHEN("They are compared using the == operator") {
+      bool result = (g1 == g2);
+      THEN("The result should return false") {
+        REQUIRE_FALSE(result);
+      }
+    }
+    WHEN("They are compared using the != operator") {
+      bool result = (g1 != g2);
+      THEN("The result should return true") {
+        REQUIRE(result);
+      }
+    }
+  }
+  // STILL TO TEST IF DIFFERENT NODES SAME EDGES
+}
 
 /*
  * Additional test ideas:
  *  - Test for edge that connects to the same node (a->a)
  *    - Test for getConnected etc.
+ *
+ * Iterator tests:
+ *  - Testing iteration through const graph
+ *  - Testing iteration through non-const graph
+ *
  */
