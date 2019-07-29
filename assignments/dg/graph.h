@@ -236,6 +236,15 @@ class Graph {
 
   friend std::ostream& operator<<(std::ostream& os, const gdwg::Graph<N, E>& g) {
     auto nodes = g.GetNodes();
+/*     if (nodes.size() == 1){
+      try{
+        g.GetConnected(nodes[0]);
+      }
+      catch(std::out_of_range){
+        os << "";
+        return os;
+      } */
+    }
     for (const auto& src : nodes) {
       os << src << " (" << '\n';
       bool has_edge = false;
