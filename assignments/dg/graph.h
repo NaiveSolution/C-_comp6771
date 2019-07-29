@@ -234,6 +234,28 @@ class Graph {
     return true;
   }
 
+  friend std::ostream& operator<<(std::ostream& os, const gdwg::Graph<N, E>& g) {
+    auto nodes = g.GetNodes();
+    for (const auto& src : nodes) {
+      os << src << " (" << '\n';
+      bool has_edge = false;
+      for (const auto& edge : g.edges_) {
+        if (edge->src_.lock()->value_ == src) {
+          os << "  " << edge->dest_.lock()->value_
+          << " | " << edge->weight_ << '\n';
+          has_edge = true;
+        }
+        // Breaks out of the loop if it has moved onto the next src edge
+        if (edge->src_.lock()->value_ != src &&
+            has_edge == true) {
+          break;
+        }
+      }
+      os << ")" << '\n';
+    }
+    return os;
+  }
+
  private:
   std::vector<std::shared_ptr<Node>> nodes_;
   std::vector<std::shared_ptr<Edge>> edges_;
