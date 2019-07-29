@@ -48,6 +48,7 @@ class Graph {
  public:
 
   /********************** ITERATOR **********************/
+  // CONST_ITERATOR
   class const_iterator {
    public:
     using iterator_category = std::bidirectional_iterator_tag;
@@ -69,7 +70,7 @@ class Graph {
       return copy;
     }
 
-    // Preincrement
+    // Pre increment
     const_iterator& operator++();
     // Post increment
     const_iterator operator++(int) {
@@ -100,8 +101,67 @@ class Graph {
     typename std::vector<std::shared_ptr<Edge>>::const_iterator iterator_;
     typename std::vector<std::shared_ptr<Edge>>::const_iterator end_iterator_;
   };
+  // CONST_REVERSE_ITERATOR
+  class const_reverse_iterator {
+   public:
+    using iterator_category = std::bidirectional_iterator_tag;
+    using value_type = std::tuple<N, N, E>;
+    using reference = std::tuple<const N&, const N&, const E&>;
+    using pointer = std::tuple<N,N,E>*;
+    using difference_type = int;
 
-  
+    reference operator*() const {
+      return std::tie((*iterator_)->src_.lock()->value_,
+                      (*iterator_)->dest_.lock()->value_,
+                      (*iterator_)->weight_);
+    }
+
+    const_reverse_iterator& operator--();
+    const_reverse_iterator operator--(int) {
+      auto copy{*this};
+      --(*this);
+      return copy;
+    }
+
+    // Pre increment
+    const_reverse_iterator& operator++();
+    // Post increment
+    const_reverse_iterator operator++(int) {
+      auto copy{*this};
+      ++(*this);
+      return copy;
+    }
+
+    pointer operator->() const { return &(operator*());}
+
+    friend bool operator==(const const_reverse_iterator& lhs, const const_reverse_iterator& rhs) {
+      return lhs.iterator_ == rhs.iterator_ && lhs.iterator_ == lhs.end_iterator_;
+    }
+
+    friend bool operator!=(const const_reverse_iterator& lhs, const const_reverse_iterator& rhs) {
+      return !(lhs == rhs);
+    }
+
+   private:
+    friend class Graph<N,E>;
+    typename std::vector<std::shared_ptr<Edge>>::const_reverse_iterator iterator_;
+    typename std::vector<std::shared_ptr<Edge>>::const_reverse_iterator end_iterator_;
+  };
+
+  const_iterator find(const N&, const N&, const E&);
+  const_iterator erase(const_iterator);
+
+  const_iterator begin() {return this->cbegin();}
+  const_iterator end() {return this->cend();}
+
+  const_reverse_iterator rbegin() {return this->crbegin();}
+  const_reverse_iterator rend() {return this->crend();}
+
+  const_iterator cbegin() noexcept;
+  const_iterator cend() noexcept;
+
+  const_reverse_iterator crbegin() noexcept;
+  const_reverse_iterator crend() noexcept;
 
  /********************** CONSTRUCTORS **********************/
   Graph() noexcept;

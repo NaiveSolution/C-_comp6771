@@ -26,18 +26,18 @@ bool erase(const N& src, const N& dst, const E& w) -- COMPELTED / TESTED
 
 const_iterator erase(const_iterator it); -- TODO Const Iterators
 
-const_iterator cbegin(); -- TODO Const Iterators
+const_iterator cbegin(); -- COMPLETED / TODO TESTING
 
-const_iterator cend(); -- TODO Const Iterators
+const_iterator cend(); -- COMPLETED / TODO TESTING
 
-const_reverse_iterator crbegin(); -- TODO Const Iterators
+const_reverse_iterator crbegin(); -- COMPLETED / TODO TESTING
 
-const_iterator crend(); -- TODO Const Iterators
+const_reverse_iterator crend(); -- COMPLETED / TODO TESTING
 
-const_iterator begin(); -- TODO Const Iterators
+const_iterator begin(); -- COMPLETED / TODO TESTING
 
-const_iterator end(); -- TODO Const Iterators
+const_iterator end(); -- COMPLETED / TODO TESTING
 
-const_iterator rbegin(); -- TODO Const Iterators
+const_reverse_iterator rbegin(); -- COMPLETED / TODO TESTING
 
-const_iterator rend(); -- TODO Const Iterators
+const_reverse_iterator rend(); -- COMPLETED / TODO TESTING
