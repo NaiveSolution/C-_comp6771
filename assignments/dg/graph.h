@@ -236,6 +236,7 @@ class Graph {
 
   friend std::ostream& operator<<(std::ostream& os, const gdwg::Graph<N, E>& g) {
     auto nodes = g.GetNodes();
+    // We can just use nodes.empty() b/c if there are no nodes in the graph its empty
      if (g.IsEmpty()){
         os << "";
         return os;

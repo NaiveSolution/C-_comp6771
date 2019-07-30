@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "graph.h"
+//#include "graph.h"
 
 /************** CONSTRUCTORS ******************/
 template <typename N, typename E>
@@ -64,6 +64,17 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
           new_edge.dest_ = node;
           exists_dest = true;
         }
+      }
+      if (exists_src == false &&
+          std::get<0>(N_element) == std::get<1>(N_element)) {
+        Node src_node = {};
+        src_node.value_ = std::get<0>(N_element);
+        src_node.outdegree_++;
+        src_node.indegree_++;
+        this->nodes_.push_back(std::make_shared<Node>(src_node));
+        new_edge.src_ = this->nodes_.back();
+        new_edge.dest_ = this->nodes_.back();
+        continue;
       }
       if (exists_src == false) {
         // Source node doesn't exist create new node

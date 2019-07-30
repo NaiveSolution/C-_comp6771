@@ -44,28 +44,28 @@ int main() {
         std::cout << std::get<0>(*i) << std::get<1>(*i) << std::get<2>(*i) << std::endl;
     }
     */
-    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
-    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
-    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
-    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
-    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
-    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
-    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
-    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+//    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+//    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+//    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+//    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+//    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+//    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+//    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+//    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
     //std::cout << g;
 
-    tuple<int, int, int> n1{1,5,-1};
-    tuple<int, int, int> n2{2,1,1};
-    tuple<int, int, int> n3{2,4,2};
-    tuple<int, int, int> n4{3,6,-8};
-    tuple<int, int, int> n5{3,2,2};
-    tuple<int, int, int> n6{4,1,-4};
-    tuple<int, int, int> n7{4,5,3};
-    tuple<int, int, int> n8{5,2,7};
-    tuple<int, int, int> n9{6,2,5};
-    tuple<int, int, int> n10{6,3,10};
-    auto f = std::vector<std::tuple<int, int, int>>{n1, n2, n3, n4, n5, n6, n7, n8, n9, n10};
-    gdwg::Graph<int, int> g2{f.begin(), f.end()};
+//    tuple<int, int, int> n1{1,5,-1};
+//    tuple<int, int, int> n2{2,1,1};
+//    tuple<int, int, int> n3{2,4,2};
+//    tuple<int, int, int> n4{3,6,-8};
+//    tuple<int, int, int> n5{3,2,2};
+//    tuple<int, int, int> n6{4,1,-4};
+//    tuple<int, int, int> n7{4,5,3};
+//    tuple<int, int, int> n8{5,2,7};
+//    tuple<int, int, int> n9{6,2,5};
+//    tuple<int, int, int> n10{6,3,10};
+//    auto f = std::vector<std::tuple<int, int, int>>{n1, n2, n3, n4, n5, n6, n7, n8, n9, n10};
+//    gdwg::Graph<int, int> g2{f.begin(), f.end()};
     //cout<< g2;
 
     gdwg::Graph<int, int> g3;
@@ -73,25 +73,25 @@ int main() {
 
 
     // Internal representation
-    gdwg::Graph<std::string, int> g4;
-    {
-        std::string s1{"Hello"};
-        g4.InsertNode(s1);
-    }
+//    gdwg::Graph<std::string, int> g4;
+//    {
+//        std::string s1{"Hello"};
+//        g4.InsertNode(s1);
+//    }
 
     // Even though s1 has gone out of scope, g has its own
     //  copied resource that it has stored, so the node
     //  will still be in here.
-    std::cout << g4.IsNode("Hello") << "\n"; // prints 'true';
+//    std::cout << g4.IsNode("Hello") << "\n"; // prints 'true';
 
-    tuple<int, int, int> m1{1,1,-1};
-    tuple<int, int, int> m2{1,1,1};
-    tuple<int, int, int> m3{1,1,2};
-    tuple<int, int, int> m4{1,1,-8};
-    tuple<int, int, int> m5{1,0,2};
-    auto h = std::vector<std::tuple<int, int, int>>{m1, m2, m3, m4, m5};
-    gdwg::Graph<int, int> g5{h.begin(), h.end()};
-    cout << g5;
+//    tuple<int, int, int> m1{1,1,-1};
+//    tuple<int, int, int> m2{1,1,1};
+//    tuple<int, int, int> m3{1,1,2};
+//    tuple<int, int, int> m4{1,1,-8};
+//    tuple<int, int, int> m5{1,0,2};
+//    auto h = std::vector<std::tuple<int, int, int>>{m1, m2, m3, m4, m5};
+//    gdwg::Graph<int, int> g5{h.begin(), h.end()};
+//    cout << g5;
 
 //    for (const auto& it : g) {
 //        std::cout << '<' << std::get<0>(it) << ", ";
