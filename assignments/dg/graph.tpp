@@ -47,6 +47,10 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
     std::vector<std::tuple<N, N, E>> to_vector;
     std::copy(start, finish, std::back_inserter(to_vector));
     for (auto& N_element : to_vector) {
+      if (this->GetWeights(std::get<0>(N_element),
+          std::get<1>(N_element)) == std::get<2>(N_element)) {
+        continue;
+      }
       bool exists_src = false;
       bool exists_dest = false;
       Edge new_edge = {};
