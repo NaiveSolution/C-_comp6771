@@ -179,7 +179,7 @@ class Graph {
   const_reverse_iterator crend() const noexcept;
 
  /********************** CONSTRUCTORS **********************/
-  Graph() noexcept;
+  Graph() noexcept = default;
   Graph(typename std::vector<N>::const_iterator, typename std::vector<N>::const_iterator) noexcept;
   Graph(typename std::vector<std::tuple<N, N, E>>::const_iterator,
       typename std::vector<std::tuple<N, N, E>>::const_iterator) noexcept;
@@ -205,9 +205,7 @@ class Graph {
   bool erase(const N&, const N&, const E&);
   bool Replace(const N&, const N&);
   void MergeReplace(const N&, const N&);
-  void PrintEdges();
   static bool CompareSort(const std::shared_ptr<Edge>&, const std::shared_ptr<Edge>&);
-  bool IsEmpty() const {return graph_empty_;}
   /************** FRIENDS ******************/
 
   friend bool operator==(const gdwg::Graph<N, E>& g1, const gdwg::Graph<N, E>& g2) {
@@ -237,7 +235,7 @@ class Graph {
   friend std::ostream& operator<<(std::ostream& os, const gdwg::Graph<N, E>& g) {
     auto nodes = g.GetNodes();
     // We can just use nodes.empty() b/c if there are no nodes in the graph its empty
-     if (g.IsEmpty()){
+     if (g.GetNodes().empty()){
         os << "";
         return os;
     }
@@ -264,7 +262,6 @@ class Graph {
  private:
   std::vector<std::shared_ptr<Node>> nodes_;
   std::vector<std::shared_ptr<Edge>> edges_;
-  bool graph_empty_ = false;
 };
 
 }

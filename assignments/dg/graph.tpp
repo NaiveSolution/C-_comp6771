@@ -11,14 +11,6 @@
 //#include "graph.h"
 
 /************** CONSTRUCTORS ******************/
-template <typename N, typename E>
-gdwg::Graph<N, E>::Graph() noexcept{
-    Node empty_node = {};
-    Edge empty_edge = {};
-    this->nodes_.push_back(std::make_shared<Node>(empty_node));
-    this->edges_.push_back(std::make_shared<Edge>(empty_edge));
-    this->graph_empty_ = true;
-}
 
 template <typename N, typename E>
 gdwg::Graph<N, E>::Graph(typename std::vector<N>::const_iterator start,
@@ -47,12 +39,18 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
     std::vector<std::tuple<N, N, E>> to_vector;
     std::copy(start, finish, std::back_inserter(to_vector));
     for (auto& N_element : to_vector) {
-      if (this->GetWeights(std::get<0>(N_element),
-          std::get<1>(N_element)) == std::get<2>(N_element)) {
-        continue;
-      }
+      bool exists_edge = false;
       bool exists_src = false;
       bool exists_dest = false;
+      for (const auto& edge : edges_) {
+        if (std::get<0>(N_element) == edge->src_.lock()->value_ &&
+            std::get<1>(N_element) == edge->dest_.lock()->value_ &&
+            std::get<2>(N_element) == edge->weight_) {
+          exists_edge = true;
+          break;
+        }
+      }
+      if (exists_edge) {continue;}
       Edge new_edge = {};
       new_edge.weight_ = std::get<2>(N_element);
       for (const auto& node : nodes_) {
@@ -163,7 +161,6 @@ bool gdwg::Graph<N, E>::InsertNode(const N& new_node){
     Node additional_node = {};
     additional_node.value_ = new_node;
     this->nodes_.push_back(std::make_shared<Node>(additional_node));
-    this->graph_empty_ = false;
     return true;
 }
 
@@ -368,20 +365,6 @@ bool gdwg::Graph<N,E>::CompareSort(const std::shared_ptr<Edge>& a, const std::sh
       return true;
   }
   return false;
-}
-
-// NOT IN SPEC
-template<typename N, typename E>
-void gdwg::Graph<N,E>::PrintEdges(){
-  std::cout << "vector of edges before sorting: " << std::endl;
-  for (const auto& i : this->edges_){
-    std::cout << (*i).src_.lock()->value_ << "-" << (*i).dest_.lock()->value_ << "-" << (*i).weight_ << std::endl;
-  }
-  std::cout << "vector of edges after sorting: " << std::endl;
-  std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
-  for (const auto& i : this->edges_){
-    std::cout << (*i).src_.lock()->value_ << "-" << (*i).dest_.lock()->value_ << "-" << (*i).weight_ << std::endl;
-  }
 }
 
 /************** FRIENDS ******************/

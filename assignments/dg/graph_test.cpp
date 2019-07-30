@@ -520,6 +520,7 @@ SCENARIO("Two graphs can be compared using the == and != operators") {
  *  - Testing iteration through non-const graph
  *
  * Constructor tests:
- *  - Test for
+ *  - Test for constructing same edeges
+ *  - Test for constructing nodes with self-pointing edges
  *
  */
