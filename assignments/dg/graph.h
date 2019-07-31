@@ -206,8 +206,8 @@ class Graph {
   bool Replace(const N&, const N&);
   void MergeReplace(const N&, const N&);
   static bool CompareSort(const std::shared_ptr<Edge>&, const std::shared_ptr<Edge>&);
-  /************** FRIENDS ******************/
 
+  /************** FRIENDS ******************/
   friend bool operator==(const gdwg::Graph<N, E>& g1, const gdwg::Graph<N, E>& g2) {
     bool same_nodes = (g1.GetNodes() == g2.GetNodes());
     std::vector<std::tuple<N,N,E>> g1_edges;
@@ -236,7 +236,7 @@ class Graph {
     auto nodes = g.GetNodes();
     // We can just use nodes.empty() b/c if there are no nodes in the graph its empty
      if (g.GetNodes().empty()){
-        os << "";
+        os << '\n';
         return os;
     }
     for (const auto& src : nodes) {

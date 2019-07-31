@@ -75,7 +75,6 @@ int main() {
     g3.DeleteNode(1);
     g3.DeleteNode(2);
     g3.DeleteNode(3);
-    g3.InsertNode(3);
     cout << g3;
 
 

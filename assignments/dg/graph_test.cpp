@@ -23,6 +23,25 @@ SCENARIO("Graphs can be constructed") {
         REQUIRE(g.GetNodes() == expected);
       }
     }
+  GIVEN("An empty Vector"){
+    std::vector<int> v{};
+    WHEN("The vector is used to construct a graph") {
+      gdwg::Graph<int,int> g(v.begin(),v.end());
+      THEN("Using the getNodes function will return an empty nodes vector") {
+        std::vector<int> expected{};
+        REQUIRE(g.GetNodes() == expected);
+      }
+    }
+  }
+  GIVEN("No inputs to a graph"){
+    WHEN("calling the default constructor"){
+      gdwg::Graph<int, int> g;
+      THEN("The getNodes function will return an unitialised nodes vector"){
+        std::vector<int> expected;
+        REQUIRE(g.GetNodes() == expected);
+        }
+      }
+    }
   }
   GIVEN("A vector of tuples") {
     std::string s1{"Hello"};
