@@ -44,28 +44,30 @@ int main() {
         std::cout << std::get<0>(*i) << std::get<1>(*i) << std::get<2>(*i) << std::endl;
     }
     */
-//    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
-//    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
-//    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
-//    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
-//    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
-//    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
-//    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
-//    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
-    //std::cout << g;
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    //g.DeleteNode("a");
+    std::cout << g;
 
-//    tuple<int, int, int> n1{1,5,-1};
-//    tuple<int, int, int> n2{2,1,1};
-//    tuple<int, int, int> n3{2,4,2};
-//    tuple<int, int, int> n4{3,6,-8};
-//    tuple<int, int, int> n5{3,2,2};
-//    tuple<int, int, int> n6{4,1,-4};
-//    tuple<int, int, int> n7{4,5,3};
-//    tuple<int, int, int> n8{5,2,7};
-//    tuple<int, int, int> n9{6,2,5};
-//    tuple<int, int, int> n10{6,3,10};
-//    auto f = std::vector<std::tuple<int, int, int>>{n1, n2, n3, n4, n5, n6, n7, n8, n9, n10};
-//    gdwg::Graph<int, int> g2{f.begin(), f.end()};
+    tuple<int, int, int> n1{1,5,-1};
+    tuple<int, int, int> n2{2,1,1};
+    tuple<int, int, int> n3{2,4,2};
+    tuple<int, int, int> n4{3,6,-8};
+    tuple<int, int, int> n5{3,2,2};
+    tuple<int, int, int> n6{4,1,-4};
+    tuple<int, int, int> n7{4,5,3};
+    tuple<int, int, int> n8{5,2,7};
+    tuple<int, int, int> n9{6,2,5};
+    tuple<int, int, int> n10{6,3,10};
+    auto f = std::vector<std::tuple<int, int, int>>{n1, n2, n3, n4, n5, n6, n7, n8, n9, n10};
+    gdwg::Graph<int, int> g2{f.begin(), f.end()};
+    g2.DeleteNode(2);
     //cout<< g2;
 
     gdwg::Graph<int, int> g3;
@@ -73,6 +75,7 @@ int main() {
     g3.InsertNode(2);
     g3.InsertNode(3);
     g3.DeleteNode(1);
+    auto vec = g3.GetNodes();
     g3.DeleteNode(2);
     g3.DeleteNode(3);
     cout << g3;

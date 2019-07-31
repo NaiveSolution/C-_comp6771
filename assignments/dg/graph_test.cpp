@@ -116,6 +116,35 @@ SCENARIO("Graphs can be constructed") {
   }
 }
 
+// GetNodes()
+SCENARIO("Construct a graph and get its nodes after operations") {
+  GIVEN("A new graph g is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("GetNodes() is called on g to return vector of nodes 'vec'"){
+      auto vec = g.GetNodes();
+      THEN("vec will have {a,b,c,d}"){
+        std::vector<std::string> expected{"a", "b", "c", "d"};
+        REQUIRE(vec == expected);
+      }
+    }
+    WHEN("DeleteNode('a') is called on g"){
+      g.DeleteNode("a");
+      auto vec = g.GetNodes();
+      THEN("vec will have {b,c,d}"){
+        std::vector<std::string> expected{ "b", "c", "d"};
+        REQUIRE(vec == expected);
+      }
+    }
+  }
+}
+
 // Copy and move operators
 SCENARIO("Graphs use copy and move equal operators") {
   GIVEN("Two existing graphs g1 & g2"){
@@ -359,8 +388,11 @@ SCENARIO("A Graph with nodes and edges can be cleared") {
     gdwg::Graph<char, double> g{e.begin(), e.end()};
     WHEN("The Graph is cleared") {
       g.clear();
-      THEN("There should be no nodes") {
+      THEN("There should be no nodes or edges") {
         REQUIRE(g.GetNodes().empty());
+        for (const auto& i : g.GetNodes()){
+          REQUIRE_THROWS_WITH(g.GetConnected(i), "Cannot call Graph::GetConnected if src doesn't exist in the graph");
+        }
       }
       AND_THEN("Nodes can be inserted") {
         g.InsertNode('d');

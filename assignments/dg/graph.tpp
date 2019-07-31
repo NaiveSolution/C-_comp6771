@@ -202,14 +202,14 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
 
     for (auto it = edges_.begin(); it != edges_.end();){
       if ((*it)->src_.lock()->value_ == deleted_node) {
-          (*it)->dest_.lock()->indegree_--;
-          (*it).reset();
-          edges_.erase(it);
+        (*it)->dest_.lock()->indegree_--;
+        //(*it).reset();
+        //edges_.erase(it);
       }
       if ((*it)->dest_.lock()->value_ == deleted_node) {
         (*it)->src_.lock()->outdegree_--;
-        (*it).reset();
-        edges_.erase(it);
+        //(*it).reset();
+        //edges_.erase(it);
       }
       else {
         ++it;
@@ -220,7 +220,7 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
         if ((*it)->value_ == deleted_node){
             //auto i = &node - &nodes_[0];
             (*it).reset();
-            nodes_.erase(it);
+            it = nodes_.erase(it);
             break;
         } else {
           ++it;

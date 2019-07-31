@@ -1,28 +1,28 @@
-bool InsertNode(const N& val) -- COMPLETED / TESTED
+//bool InsertNode(const N& val) -- COMPLETED / TESTED
 
-bool InsertEdge(const N& src, const N& dst, const E& w) -- COMPLETED / TESTED
+//bool InsertEdge(const N& src, const N& dst, const E& w) -- COMPLETED / TESTED
 
-bool DeleteNode(const N&) -- COMPLETED / TESTED
+bool DeleteNode(const N&) -- COMPLETED / FAILS WITH STRING NODES 
 
-bool Replace(const N& oldData, const N& newData) -- COMPLETED / TESTED
+//bool Replace(const N& oldData, const N& newData) -- COMPLETED / TESTED
 
-void MergeReplace(const N& oldData, const N& newData) -- COMPLETED / TESTED
+//void MergeReplace(const N& oldData, const N& newData) -- COMPLETED / TESTED
 
-void Clear() - COMPELTED / TESTED(**PARTIALLY**)
+// void Clear() - COMPLETED / TESTED // Without access to nodes_ or edges_ this is difficult
 
-bool IsNode(const N& val); -- COMPLETED / TESTED
+//bool IsNode(const N& val); -- COMPLETED / TESTED
 
-bool IsConnected(const N& src, const N& dst); -- COMPLETED / TESTED
+//bool IsConnected(const N& src, const N& dst); -- COMPLETED / TESTED
 
 std::vector<N> GetNodes() -- COMPLETED / TODO TESTING
 
-std::vector<N> GetConnected(const N& src) -- COMPLETED / TESTED
+//std::vector<N> GetConnected(const N& src) -- COMPLETED / TESTED
 
-std::vector<E> GetWeights(const N& src, const N& dst) -- COMPLETED / TESTED
+//std::vector<E> GetWeights(const N& src, const N& dst) -- COMPLETED / TESTED
 
 const_iterator find(const N&, const N&, const E&); -- COMPLETED / TODO TESTING
 
-bool erase(const N& src, const N& dst, const E& w) -- COMPELTED / TESTED
+//bool erase(const N& src, const N& dst, const E& w) -- COMPELTED / TESTED
 
 const_iterator erase(const_iterator it); -- COMPLETED / TODO TESTING
 
