@@ -2,7 +2,7 @@
 
 //bool InsertEdge(const N& src, const N& dst, const E& w) -- COMPLETED / TESTED
 
-bool DeleteNode(const N&) -- COMPLETED / FAILS WITH STRING NODES 
+//bool DeleteNode(const N&) -- COMPLETED / TESTED
 
 //bool Replace(const N& oldData, const N& newData) -- COMPLETED / TESTED
 
@@ -14,13 +14,13 @@ bool DeleteNode(const N&) -- COMPLETED / FAILS WITH STRING NODES
 
 //bool IsConnected(const N& src, const N& dst); -- COMPLETED / TESTED
 
-std::vector<N> GetNodes() -- COMPLETED / TODO TESTING
+//std::vector<N> GetNodes() -- COMPLETED / TESTED
 
 //std::vector<N> GetConnected(const N& src) -- COMPLETED / TESTED
 
 //std::vector<E> GetWeights(const N& src, const N& dst) -- COMPLETED / TESTED
 
-const_iterator find(const N&, const N&, const E&); -- COMPLETED / TODO TESTING
+// const_iterator find(const N&, const N&, const E&); -- COMPLETED / TESTED
 
 //bool erase(const N& src, const N& dst, const E& w) -- COMPELTED / TESTED
 

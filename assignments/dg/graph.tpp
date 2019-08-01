@@ -200,12 +200,6 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
         return false;
     }
 
-    std::cout << "Nodes before deleteNode: " << '\n';
-    for (auto const& e : this->GetNodes()){
-      std::cout << e << " -> ";
-    }
-    std::cout << '\n';
-
     for (auto it = edges_.begin(); it != edges_.end();){
       if ((*it)->src_.lock()->value_ == deleted_node) {
         (*it)->dest_.lock()->indegree_--;
@@ -232,12 +226,6 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
             break;
         }
     }
-    std::cout << "Nodes after deleteNode: " << '\n';
-    for (auto const& e : this->GetNodes()){
-      std::cout << e << " -> ";
-    }
-    std::cout << '\n';
-
     std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
     return true;
 }

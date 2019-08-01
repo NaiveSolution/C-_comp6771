@@ -117,8 +117,8 @@ SCENARIO("Graphs can be constructed") {
 }
 
 // GetNodes()
-SCENARIO("Construct a graph and get its nodes after operations") {
-  GIVEN("A new graph g is created"){
+SCENARIO("Construct a complicated graph and get its nodes after operations") {
+  GIVEN("A new graph 'g' is created"){
     std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
     std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
     std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
@@ -140,6 +140,39 @@ SCENARIO("Construct a graph and get its nodes after operations") {
       THEN("vec will have {b,c,d}"){
         std::vector<std::string> expected{ "b", "c", "d"};
         REQUIRE(vec == expected);
+      }
+      WHEN("DeleteNode('c') is called on g"){
+      g.DeleteNode("c");
+      auto vec = g.GetNodes();
+      THEN("vec will have {b,d}"){
+        std::vector<std::string> expected{ "b", "d"};
+        REQUIRE(vec == expected);
+      }
+      WHEN("DeleteNode('d') is called on g"){
+      g.DeleteNode("d");
+      auto vec = g.GetNodes();
+      THEN("vec will have {b}"){
+        std::vector<std::string> expected{ "b"};
+        REQUIRE(vec == expected);
+      }
+      WHEN("DeleteNode('b') is called on g"){
+      g.DeleteNode("b");
+      auto vec = g.GetNodes();
+      THEN("vec will be empty"){
+        std::vector<std::string> expected{};
+        REQUIRE(vec == expected);
+      }
+    }
+    }
+    }
+    }
+  }
+  GIVEN("The default constructor is used to get graph 'g'"){
+    gdwg::Graph<int,int> g;
+    WHEN("vec = g.GetNodes() is called"){
+      auto vec = g.GetNodes();
+      THEN("vec should be empty"){
+        REQUIRE(vec.empty());
       }
     }
   }
@@ -308,7 +341,7 @@ SCENARIO("A Graph can have its edges checked for weighting") {
 }
 
 // DeleteNode()
-SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
+SCENARIO("Given a graph 'a' and 'b', try and delete nodes"){
   GIVEN("A graph with some int nodes"){
     std::vector<int> v1{1, 2, 3, 4};
     std::vector<int> v2{5, 6, 7};
@@ -350,11 +383,32 @@ SCENARIO("Given a graph 'a' and 'b' with ints for nodes, try and delete nodes"){
         REQUIRE(g.GetWeights(3, 4)[0] == 8.3);
       }
     }
-
+    GIVEN("A large graph 'g' with many interconnected nodes"){
+      std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+      std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+      std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+      std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+      std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+      std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+      auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+      gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+      WHEN("Trying to delete the node 'a' that has an edge with every other node"){
+        g.DeleteNode("a");
+        THEN("Graph 'g' will have nodes {b,c,d}"){
+          std::vector<std::string> expected{"b","c","d"};
+          REQUIRE(g.GetNodes() == expected);
+        AND_THEN("Graph 'g' will contain no edges (as 'a' was connected to all nodes)"){
+          for (const auto& i : g.GetNodes()){
+            REQUIRE(g.GetConnected(i).empty());
+            }
+          }
+        }
+      }
+    }
   }
 }
 
-// InsertEdge() may need to further test????
+// InsertEdge()
 SCENARIO("A Graph with existing nodes can insert new edges") {
   GIVEN("A graph with some char nodes") {
     gdwg::Graph<char,int> g{'a','b','c'};
@@ -376,7 +430,7 @@ SCENARIO("A Graph with existing nodes can insert new edges") {
   }
 }
 
-// Clear() --> not sure how to check if all edges are removed
+// Clear()
 SCENARIO("A Graph with nodes and edges can be cleared") {
   GIVEN("A Graph with some char nodes and double weighted edges") {
     char s1{'a'};
@@ -512,6 +566,61 @@ SCENARIO("A graph can merge replace nodes") {
   }
 }
 
+// const_iterator find()
+SCENARIO("Construct a complicated graph and use an iterator to find nodes") {
+  GIVEN("A new graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("find(a,b,1.8) is called on a iterator of g"){
+      auto it = g.find("a","b",1.8);
+      THEN("the resultant iterator can be dereferenced to get node1, node2 and edge"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == 1.8);
+      }
+    }
+    WHEN("an edge cannot be found using find()"){
+      auto it = g.find("a","b", -2);
+      THEN("The iterator will be pointing to the end() of the graph"){
+        REQUIRE(it == g.end());
+      }
+    }
+  }
+}
+
+// const_iterator erase() // NOT FINISHED
+SCENARIO("Construct a complicated graph and use an iterator to erase nodes") {
+  GIVEN("A new graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("find(a,b,1.8) is called on a iterator of g"){
+      auto it = g.find("a","b",1.8);
+      THEN("the resultant iterator can be dereferenced to get node1, node2 and edge"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == 1.8);
+      }
+    }
+    WHEN("an edge cannot be found using find()"){
+      auto it = g.find("a","b", -2);
+      THEN("The iterator will be pointing to the end() of the graph"){
+        REQUIRE(it == g.end());
+      }
+    }
+  }
+}
 // Friend operator == (NEED TO TEST ITERATORS BEFORE THIS SINCE WE USE ITERATORS IN FUNCTION)
 SCENARIO("Two graphs can be compared using the == and != operators") {
   GIVEN("Two Equal Graphs") {
