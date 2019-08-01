@@ -200,32 +200,44 @@ bool gdwg::Graph<N, E>::DeleteNode(const N& deleted_node){
         return false;
     }
 
+    std::cout << "Nodes before deleteNode: " << '\n';
+    for (auto const& e : this->GetNodes()){
+      std::cout << e << " -> ";
+    }
+    std::cout << '\n';
+
     for (auto it = edges_.begin(); it != edges_.end();){
       if ((*it)->src_.lock()->value_ == deleted_node) {
         (*it)->dest_.lock()->indegree_--;
-        //(*it).reset();
-        //edges_.erase(it);
-      }
-      if ((*it)->dest_.lock()->value_ == deleted_node) {
-        (*it)->src_.lock()->outdegree_--;
-        //(*it).reset();
-        //edges_.erase(it);
-      }
-      else {
+        (*it).reset();
+        it = edges_.erase(it);
+      } else {
         ++it;
       }
     }
-
-    for (auto it = nodes_.begin(); it != nodes_.end();){
+    for (auto it = edges_.begin(); it != edges_.end();){
+      if ((*it)->dest_.lock()->value_ == deleted_node) {
+        (*it)->src_.lock()->outdegree_--;
+        (*it).reset();
+        it = edges_.erase(it);
+      } else {
+        ++it;
+      }
+    }
+    for (auto it = nodes_.begin(); it != nodes_.end(); ++it){
         if ((*it)->value_ == deleted_node){
             //auto i = &node - &nodes_[0];
             (*it).reset();
-            it = nodes_.erase(it);
+            nodes_.erase(it);
             break;
-        } else {
-          ++it;
         }
     }
+    std::cout << "Nodes after deleteNode: " << '\n';
+    for (auto const& e : this->GetNodes()){
+      std::cout << e << " -> ";
+    }
+    std::cout << '\n';
+
     std::sort(this->edges_.begin(), this->edges_.end(), CompareSort);
     return true;
 }
