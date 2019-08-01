@@ -24,7 +24,7 @@
 
 //bool erase(const N& src, const N& dst, const E& w) -- COMPELTED / TESTED
 
-const_iterator erase(const_iterator it); -- COMPLETED / TODO TESTING
+// **** const_iterator erase(const_iterator it); -- COMPLETED / PARTIALLY TESTED
 
 const_iterator cbegin(); -- COMPLETED / TODO TESTING
 

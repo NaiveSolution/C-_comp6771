@@ -566,9 +566,9 @@ SCENARIO("A graph can merge replace nodes") {
   }
 }
 
-// const_iterator find()
-SCENARIO("Construct a complicated graph and use an iterator to find nodes") {
-  GIVEN("A new graph 'g' is created"){
+// const_iterator find(), find() const
+SCENARIO("Construct a complicated graph and use an iterator to find edges") {
+  GIVEN("A new graph 'g' is created (non-const)"){
     std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
     std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
     std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
@@ -587,6 +587,30 @@ SCENARIO("Construct a complicated graph and use an iterator to find nodes") {
     }
     WHEN("an edge cannot be found using find()"){
       auto it = g.find("a","b", -2);
+      THEN("The iterator will be pointing to the end() of the graph"){
+        REQUIRE(it == g.end());
+      }
+    }
+  }
+  GIVEN("A new graph 'g' is created (const)"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("find(a,b,1.8) is called on a iterator of g"){
+      const auto it = g.find("a","b",1.8);
+      THEN("the resultant iterator can be dereferenced to get node1, node2 and edge"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == 1.8);
+      }
+    }
+    WHEN("an edge cannot be found using find()"){
+      const auto it = g.find("a","b", -2);
       THEN("The iterator will be pointing to the end() of the graph"){
         REQUIRE(it == g.end());
       }
@@ -594,8 +618,8 @@ SCENARIO("Construct a complicated graph and use an iterator to find nodes") {
   }
 }
 
-// const_iterator erase() // NOT FINISHED
-SCENARIO("Construct a complicated graph and use an iterator to erase nodes") {
+// const_iterator erase() 
+SCENARIO("Construct a complicated graph and use an iterator to erase edges") {
   GIVEN("A new graph 'g' is created"){
     std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
     std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
@@ -605,22 +629,46 @@ SCENARIO("Construct a complicated graph and use an iterator to erase nodes") {
     std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
     auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
     gdwg::Graph<std::string, double> g{e.begin(), e.end()};
-    WHEN("find(a,b,1.8) is called on a iterator of g"){
+    WHEN("erase() is called on (a,b,1.8) using the iterator"){
       auto it = g.find("a","b",1.8);
-      THEN("the resultant iterator can be dereferenced to get node1, node2 and edge"){
+      g.erase(it);
+      THEN("the returned iterator points to edge (a, c, 1.1)"){
         REQUIRE(std::get<0>(*it) == "a");
-        REQUIRE(std::get<1>(*it) == "b");
-        REQUIRE(std::get<2>(*it) == 1.8);
+        REQUIRE(std::get<1>(*it) == "c");
+        REQUIRE(std::get<2>(*it) == 1.1);
       }
     }
-    WHEN("an edge cannot be found using find()"){
+    WHEN("an edge cannot be erased when it = end() of graph)"){
       auto it = g.find("a","b", -2);
+      g.erase(it);
+      THEN("The iterator will be pointing to the end() of the graph"){
+        REQUIRE(it == g.end());
+      }
+    }
+    /* WHEN("erase() is called on (d,a,5.4) using the iterator"){
+      auto it = g.find("d","a", 5.4);
+      g.erase(it);
+      THEN("The iterator will be pointing to the end() of the graph, and node 'd' will have no edges to it"){
+        auto vec = g.GetConnected("d");
+        REQUIRE(vec.empty());
+        REQUIRE(it == g.end());
+      }
+    } */
+  }
+  GIVEN("A new graph 'g' is created with one node connected to itself"){
+    std::tuple<int, int, double> tup1 {1,1,3};
+    auto e = std::vector<std::tuple<int, int, double>>{tup1};
+    gdwg::Graph<int, double> g{e.begin(), e.end()};
+    WHEN("erase() is called on (1,1,3) using the iterator"){
+      auto it = g.find(1,1,3);
+      g.erase(it);
       THEN("The iterator will be pointing to the end() of the graph"){
         REQUIRE(it == g.end());
       }
     }
   }
 }
+
 // Friend operator == (NEED TO TEST ITERATORS BEFORE THIS SINCE WE USE ITERATORS IN FUNCTION)
 SCENARIO("Two graphs can be compared using the == and != operators") {
   GIVEN("Two Equal Graphs") {
