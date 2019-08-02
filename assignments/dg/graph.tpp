@@ -367,8 +367,6 @@ bool gdwg::Graph<N,E>::CompareSort(const std::shared_ptr<Edge>& a, const std::sh
   return false;
 }
 
-/************** FRIENDS ******************/
-
 /************** ITERATORS ******************/
 template<typename N, typename E>
 typename gdwg::Graph<N,E>::const_iterator& gdwg::Graph<N,E>::const_iterator::operator++() {
@@ -457,12 +455,8 @@ typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::erase(const_iterat
 
   // If the iterator is pointing to the last element already, delete it and return end()
   if ((old_it.iterator_ != old_it.end_iterator_) && (next(old_it.iterator_) == old_it.end_iterator_)){
-    bool deleted = this->erase(erase_src,erase_dest,erase_weight);
-    if (deleted){
-      ++old_it.iterator_;
-      //old_it.iterator_ = old_it.end_iterator_;
-      return old_it; 
-    }
+    this->erase(erase_src,erase_dest,erase_weight);
+    return this->end();
   }
   
   ++old_it.iterator_;
@@ -473,8 +467,8 @@ typename gdwg::Graph<N, E>::const_iterator gdwg::Graph<N, E>::erase(const_iterat
 
   // If no erase can be made, the equivalent of gdwg::Graph<N, E>::end() is returned.
   if (deleted == false) {
-    old_it.iterator_ = old_it.end_iterator_;
-    return old_it;
+//    old_it.iterator_ = old_it.end_iterator_;
+    return this->end();
   }
   return this->find(new_src, new_dest, new_weight);
 }

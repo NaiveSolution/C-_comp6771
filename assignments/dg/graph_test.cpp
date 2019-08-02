@@ -640,20 +640,18 @@ SCENARIO("Construct a complicated graph and use an iterator to erase edges") {
     }
     WHEN("an edge cannot be erased when it = end() of graph)"){
       auto it = g.find("a","b", -2);
-      g.erase(it);
       THEN("The iterator will be pointing to the end() of the graph"){
-        REQUIRE(it == g.end());
+        REQUIRE(g.erase(it) == g.end());
       }
     }
-    /* WHEN("erase() is called on (d,a,5.4) using the iterator"){
+    WHEN("erase() is called on (d,a,5.4) using the iterator"){
       auto it = g.find("d","a", 5.4);
-      g.erase(it);
       THEN("The iterator will be pointing to the end() of the graph, and node 'd' will have no edges to it"){
+        REQUIRE(g.erase(it) == g.end());
         auto vec = g.GetConnected("d");
         REQUIRE(vec.empty());
-        REQUIRE(it == g.end());
       }
-    } */
+    }
   }
   GIVEN("A new graph 'g' is created with one node connected to itself"){
     std::tuple<int, int, double> tup1 {1,1,3};
@@ -661,9 +659,8 @@ SCENARIO("Construct a complicated graph and use an iterator to erase edges") {
     gdwg::Graph<int, double> g{e.begin(), e.end()};
     WHEN("erase() is called on (1,1,3) using the iterator"){
       auto it = g.find(1,1,3);
-      g.erase(it);
       THEN("The iterator will be pointing to the end() of the graph"){
-        REQUIRE(it == g.end());
+        REQUIRE(g.erase(it) == g.end());
       }
     }
   }
@@ -715,7 +712,34 @@ SCENARIO("Two graphs can be compared using the == and != operators") {
       }
     }
   }
-  // STILL TO TEST IF DIFFERENT NODES SAME EDGES
+  GIVEN("Two graphs with different nodes but same edge weights") {
+    char s1{'a'};
+    char s2{'b'};
+    char s3{'c'};
+    auto e1 = std::make_tuple(s1, s2, 5.4);
+    auto e2 = std::make_tuple(s2, s3, 7.6);
+    auto e = std::vector<std::tuple<char, char, double>>{e1, e2};
+    char t1{'d'};
+    char t2{'e'};
+    char t3{'f'};
+    auto f1 = std::make_tuple(t1, t2, 5.4);
+    auto f2 = std::make_tuple(t2, t3, 7.6);
+    auto f = std::vector<std::tuple<char, char, double>>{f1,f2};
+    gdwg::Graph<char, double> g1{e.begin(), e.end()};
+    gdwg::Graph<char, double> g2{f.begin(), f.end()};
+    WHEN("They are compared using the == operator") {
+      bool result = (g1 == g2);
+      THEN("The result should return false") {
+        REQUIRE_FALSE(result);
+      }
+    }
+    WHEN("They are compared using the != operator") {
+      bool result = (g1 != g2);
+      THEN("The result should return true") {
+        REQUIRE(result);
+      }
+    }
+  }
 }
 
 /*
