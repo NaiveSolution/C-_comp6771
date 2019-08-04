@@ -213,7 +213,7 @@ SCENARIO("Graphs use copy and move equal operators") {
 }
 
 // IsNode()
-SCENARIO("Graphs have existing nodes that can be checked for existance") {
+SCENARIO("Graphs have existing nodes that can be checked for existence") {
   GIVEN("A Graph<int,int> g1") {
     gdwg::Graph<int,int> g1{1,2,3};
     WHEN("We check if node with value 1 exists in graph g1") {
@@ -600,7 +600,7 @@ SCENARIO("Construct a complicated graph and use an iterator to find edges") {
     const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
     const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
     const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
-    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
     WHEN("find(a,b,1.8) is called on a iterator of g"){
       const auto it = g.find("a","b",1.8);
       THEN("the resultant iterator can be dereferenced to get node1, node2 and edge"){
@@ -646,8 +646,9 @@ SCENARIO("Construct a complicated graph and use an iterator to erase edges") {
     }
     WHEN("erase() is called on (d,a,5.4) using the iterator"){
       auto it = g.find("d","a", 5.4);
+      it = g.erase(it);
       THEN("The iterator will be pointing to the end() of the graph, and node 'd' will have no edges to it"){
-        REQUIRE(g.erase(it) == g.end());
+        REQUIRE(it == g.end());
         auto vec = g.GetConnected("d");
         REQUIRE(vec.empty());
       }
@@ -659,15 +660,16 @@ SCENARIO("Construct a complicated graph and use an iterator to erase edges") {
     gdwg::Graph<int, double> g{e.begin(), e.end()};
     WHEN("erase() is called on (1,1,3) using the iterator"){
       auto it = g.find(1,1,3);
+      it = g.erase(it);
       THEN("The iterator will be pointing to the end() of the graph"){
-        REQUIRE(g.erase(it) == g.end());
+        REQUIRE(it == g.end());
       }
     }
   }
 }
 
 // const_iterator cbegin()
-SCENARIO("A graph has a const iterator"){
+SCENARIO("A graph has a const iterator that points to the beginning of the graph"){
   GIVEN("A new const graph 'g' is created"){
     const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
     const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
@@ -676,7 +678,7 @@ SCENARIO("A graph has a const iterator"){
     const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
     const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
     const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
-    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
     WHEN("cbegin() is called on the graph"){
       auto it = g.cbegin();
       THEN("The iterator can be dereferenced to get the first element in edges_"){
@@ -697,6 +699,46 @@ SCENARIO("A graph has a const iterator"){
     gdwg::Graph<std::string, double> g{e.begin(), e.end()};
     WHEN("cbegin() is called on the graph"){
       auto it = g.cbegin();
+      THEN("The iterator can be dereferenced to get the first element in edges_"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
+      }
+    }
+  }
+}
+
+// const_iterator begin()
+SCENARIO("Calling begin() is the same as calling cbegin()"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("begin() is called on the graph"){
+      auto it = g.begin();
+      THEN("The iterator can be dereferenced to get the first element in edges_"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("begin() is called on the graph"){
+      auto it = g.begin();
       THEN("The iterator can be dereferenced to get the first element in edges_"){
         REQUIRE(std::get<0>(*it) == "a");
         REQUIRE(std::get<1>(*it) == "b");
@@ -707,7 +749,7 @@ SCENARIO("A graph has a const iterator"){
 }
 
 // const_iterator cend()
-SCENARIO("A graph has a const iterator"){
+SCENARIO("A graph has a const iterator that points to the end of the graph"){
   GIVEN("A new const graph 'g' is created"){
     const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
     const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
@@ -716,10 +758,135 @@ SCENARIO("A graph has a const iterator"){
     const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
     const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
     const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("cend() is called on the graph"){
+      auto it = g.cend();
+      THEN("The iterator can be decremented to get the last element in the graph"){
+        it = --it;
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
     gdwg::Graph<std::string, double> g{e.begin(), e.end()};
     WHEN("cend() is called on the graph"){
       auto it = g.cend();
-      THEN("The iterator can be dereferenced to get the first element in edges_"){
+      THEN("The iterator can be decremented to get the last element in the graph"){
+        it = --it;
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+}
+
+// const_iterator end()
+SCENARIO("Calling end() using an iterator is the same as cend()"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("end() is called on the graph"){
+      auto it = g.end();
+      THEN("The iterator can be decremented to get the last element in the graph"){
+        it = --it;
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("end() is called on the graph"){
+      auto it = g.end();
+      THEN("The iterator can be decremented to get the last element in the graph"){
+        it = --it;
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+}
+
+// const_reverse_iterator crbegin()
+SCENARIO("A graph has a reverse begin iterator that points to the last element"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("crbegin() is called on the graph"){
+      auto it = g.crbegin();
+      THEN("The iterator can be dereferenced to get the last element in edges_"){
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("crbegin() is called on the graph"){
+      auto it = g.crbegin();
+      THEN("The iterator can be dereferenced to get the last element in edges_"){
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+}
+
+// const_reverse_iterator crend()
+SCENARIO("A graph has a reverse end iterator that points in front of the first element"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("crend() is called on the graph"){
+      auto it = g.crend();
+      THEN("The iterator can be decremented to get the first element in edges_"){
+        it = --it;
         REQUIRE(std::get<0>(*it) == "a");
         REQUIRE(std::get<1>(*it) == "b");
         REQUIRE(std::get<2>(*it) == -3.4);
@@ -735,9 +902,10 @@ SCENARIO("A graph has a const iterator"){
     std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
     auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
     gdwg::Graph<std::string, double> g{e.begin(), e.end()};
-    WHEN("cend() is called on the graph"){
-      auto it = g.cend();
-      THEN("The iterator can be dereferenced to get the first element in edges_"){
+    WHEN("crend() is called on the graph"){
+      auto it = g.crend();
+      THEN("The iterator can be decremented to get the first element in edges_"){
+        it = --it;
         REQUIRE(std::get<0>(*it) == "a");
         REQUIRE(std::get<1>(*it) == "b");
         REQUIRE(std::get<2>(*it) == -3.4);
@@ -746,7 +914,89 @@ SCENARIO("A graph has a const iterator"){
   }
 }
 
-// Friend operator == (NEED TO TEST ITERATORS BEFORE THIS SINCE WE USE ITERATORS IN FUNCTION)
+// const_reverse_iterator rbegin()
+SCENARIO("Calling rbegin() is the same as crbegin()"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("rbegin() is called on the graph"){
+      auto it = g.rbegin();
+      THEN("The iterator can be dereferenced to get the last element in edges_"){
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("rbegin() is called on the graph"){
+      auto it = g.rbegin();
+      THEN("The iterator can be dereferenced to get the last element in edges_"){
+        REQUIRE(std::get<0>(*it) == "d");
+        REQUIRE(std::get<1>(*it) == "a");
+        REQUIRE(std::get<2>(*it) == 5.4);
+      }
+    }
+  }
+}
+
+// const_reverse_iterator rend()
+SCENARIO("Calling rend() is the same is crend()"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("rend() is called on the graph"){
+      auto it = g.rend();
+      THEN("The iterator can be decremented to get the first element in edges_"){
+        it = --it;
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("rend() is called on the graph"){
+      auto it = g.rend();
+      THEN("The iterator can be decremented to get the first element in edges_"){
+        it = --it;
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
+      }
+    }
+  }
+}
+
+// Friend operator== and operator!=
 SCENARIO("Two graphs can be compared using the == and != operators") {
   GIVEN("Two Equal Graphs") {
     char s1{'a'};
@@ -817,6 +1067,62 @@ SCENARIO("Two graphs can be compared using the == and != operators") {
       bool result = (g1 != g2);
       THEN("The result should return true") {
         REQUIRE(result);
+      }
+    }
+  }
+}
+
+// Friend operator<<
+SCENARIO("A graph can be printed out for the user"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    const gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("the user calls std::cout << g"){
+      std::ostringstream stream;
+      stream << g;
+      THEN("The graph is printed to screen"){
+        REQUIRE(stream.str() == "a (\n  b | -3.4\n  b | 1.8\n  c | 1.1\n  c | 3.7\n)\nb (\n)\nc (\n  a | 8.6\n)\nd (\n  a | 5.4\n)\n");
+      }
+    }
+  }
+  GIVEN("A new empty graph 'g' is created"){
+    const gdwg::Graph<std::string, double> g;
+    WHEN("the user calls std::cout << g"){
+      std::ostringstream stream;
+      stream << g;
+      THEN("A newline is printed to screen"){
+        REQUIRE(stream.str() == "\n");
+      }
+    }
+  }
+  GIVEN("A graph with no connected nodes is printed") {
+    gdwg::Graph<int,int> g{1,2,3};
+    WHEN("the user calls std::cout << g"){
+      std::ostringstream stream;
+      stream << g;
+      THEN("The graph is printed to screen"){
+        REQUIRE(stream.str() == "1 (\n)\n2 (\n)\n3 (\n)\n");
+      }
+    }
+  }
+  GIVEN("A graph with 1 node and self edges is printed") {
+    std::tuple<int, int, int> m1{1,1,-1};
+    std::tuple<int, int, int> m2{1,1,1};
+    std::tuple<int, int, int> m3{1,1,2};
+    std::tuple<int, int, int> m4{1,1,-8};
+    auto h = std::vector<std::tuple<int, int, int>>{m1, m2, m3, m4};
+    gdwg::Graph<int, int> g{h.begin(), h.end()};
+    WHEN("the user calls std::cout << g"){
+      std::ostringstream stream;
+      stream << g;
+      THEN("The graph is printed to screen"){
+        REQUIRE(stream.str() == "1 (\n  1 | -8\n  1 | -1\n  1 | 1\n  1 | 2\n)\n");
       }
     }
   }

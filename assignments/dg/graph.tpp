@@ -76,6 +76,7 @@ gdwg::Graph<N, E>::Graph(typename std::vector<std::tuple<N, N, E>>::const_iterat
         this->nodes_.push_back(std::make_shared<Node>(src_node));
         new_edge.src_ = this->nodes_.back();
         new_edge.dest_ = this->nodes_.back();
+        this->edges_.push_back(std::make_shared<Edge>(new_edge));
         continue;
       }
       if (exists_src == false) {

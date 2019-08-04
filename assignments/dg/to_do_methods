@@ -20,32 +20,32 @@
 
 //std::vector<E> GetWeights(const N& src, const N& dst) -- COMPLETED / TESTED
 
-// const_iterator find(const N&, const N&, const E&); -- COMPLETED / TESTED
+//const_iterator find(const N&, const N&, const E&); -- COMPLETED / TESTED
 
 //bool erase(const N& src, const N& dst, const E& w) -- COMPELTED / TESTED
 
-// **** const_iterator erase(const_iterator it); -- COMPLETED / PARTIALLY TESTED
+//const_iterator erase(const_iterator it); -- COMPLETED / TESTED
 
-// const_iterator cbegin(); -- COMPLETED / TESTED
+//const_iterator cbegin(); -- COMPLETED / TESTED
 
-const_iterator cend(); -- COMPLETED / TODO TESTING
+//const_iterator cend(); -- COMPLETED / TESTED
 
-const_reverse_iterator crbegin(); -- COMPLETED / TODO TESTING
+//const_reverse_iterator crbegin(); -- COMPLETED / TESTED
 
-const_reverse_iterator crend(); -- COMPLETED / TODO TESTING
+//const_reverse_iterator crend(); -- COMPLETED / TESTED
 
-const_iterator begin(); -- COMPLETED / TODO TESTING
+//const_iterator begin(); -- COMPLETED / TESTED
 
-const_iterator end(); -- COMPLETED / TODO TESTING
+//const_iterator end(); -- COMPLETED / TESTED
 
-const_reverse_iterator rbegin(); -- COMPLETED / TODO TESTING
+//const_reverse_iterator rbegin(); -- COMPLETED / TESTED
 
-const_reverse_iterator rend(); -- COMPLETED / TODO TESTING
+//const_reverse_iterator rend(); -- COMPLETED / TESTED
 
 /************** FRIENDS ******************/
 
-bool operator==(const gdwg::Graph<N, E>&, const gdwg::Graph<N, E>&) -- COMPLETED / TODO PARTIALLY TESTED
+//bool operator==(const gdwg::Graph<N, E>&, const gdwg::Graph<N, E>&) -- COMPLETED / TESTED
 
-bool operator!=(const gdwg::Graph<N, E>&, const gdwg::Graph<N, E>&) -- COMPLETED / TODO PARTIALLY TESTED
+//bool operator!=(const gdwg::Graph<N, E>&, const gdwg::Graph<N, E>&) -- COMPLETED / TESTED
 
 std::ostream& operator<<(std::ostream&, const gdwg::Graph<N, E>&) -- TODO
