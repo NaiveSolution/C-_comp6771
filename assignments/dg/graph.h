@@ -5,7 +5,7 @@
  * This file contains the class description for a Directed Weighted Graph:
  * a graph object that contains 0 or more nodes that may or may not be connected with one or more edges
  * that have an orientation. The Directed Weighted Graph (DG) described in this 
- * file is able to perform multiple operations including (but not limited to): adding nodes
+ * file is able to perform multiple operations including (but not limited to): adding nodes,
  * adding edges, removing nodes, removing edges, iterating through the graph and finding 
  * and/or erasing specific nodes.
  *

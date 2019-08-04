@@ -173,7 +173,7 @@ bool gdwg::Graph<N, E>::InsertNode(const N& new_node) {
 
 template <typename N, typename E>
 bool gdwg::Graph<N, E>::InsertEdge(const N& src, const N& dest, const E& w) {
-  if (IsNode(src) == false || IsNode(dest) == false) {
+  if (!IsNode(src) || !IsNode(dest)) {
     throw std::runtime_error("Cannot call Graph::InsertEdge when "
                              "either src or dst node does not exist");
   }
@@ -343,11 +343,15 @@ void gdwg::Graph<N, E>::MergeReplace(const N& oldData, const N& newData) {
 
   auto future_edges = GetWeights(newData, newData);
 
+  // loop through nodes_, find the node we want to change to (newData)
   for (auto& node : nodes_) {
     if (node->value_ == newData) {
+      // loop through edges_, replace all the src_ and dest_ nodes in each edge with newData
       for (const auto& edge : edges_) {
         if (edge->src_.lock()->value_ == oldData) {
           auto current_edge = edge->weight_;
+          // if the edge of newData -> newData + weight already exists in the graph, the current
+          // edge, oldData -> newData + weight, wont be inserted into the graph
           if (std::find(future_edges.begin(), future_edges.end(), current_edge) != future_edges.end())
             continue;
           edge->src_ = node;
@@ -355,6 +359,7 @@ void gdwg::Graph<N, E>::MergeReplace(const N& oldData, const N& newData) {
         }
         if (edge->dest_.lock()->value_ == oldData) {
           auto current_edge = edge->weight_;
+          // as above
           if (std::find(future_edges.begin(), future_edges.end(), current_edge) != future_edges.end())
             continue;
           edge->dest_ = node;

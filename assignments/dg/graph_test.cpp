@@ -627,7 +627,9 @@ SCENARIO("Construct a complicated graph and use an iterator to find edges") {
     }
     WHEN("an edge cannot be found using find()") {
       auto it = g.find("a", "b", -2);
-      THEN("The iterator will be pointing to the end() of the graph") { REQUIRE(it == g.end()); }
+      THEN("The iterator will be pointing to the end() of the graph") { 
+        REQUIRE(it == g.end()); 
+      }
     }
   }
   GIVEN("A new graph 'g' is created (const)") {
