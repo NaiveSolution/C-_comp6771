@@ -26,7 +26,7 @@
 
 // **** const_iterator erase(const_iterator it); -- COMPLETED / PARTIALLY TESTED
 
-const_iterator cbegin(); -- COMPLETED / TODO TESTING
+// const_iterator cbegin(); -- COMPLETED / TESTED
 
 const_iterator cend(); -- COMPLETED / TODO TESTING
 

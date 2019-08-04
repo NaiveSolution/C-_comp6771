@@ -137,34 +137,34 @@ SCENARIO("Construct a complicated graph and get its nodes after operations") {
     WHEN("DeleteNode('a') is called on g"){
       g.DeleteNode("a");
       auto vec = g.GetNodes();
-      THEN("vec will have {b,c,d}"){
+      THEN("GetNodes() will return vec with {b,c,d}"){
         std::vector<std::string> expected{ "b", "c", "d"};
         REQUIRE(vec == expected);
       }
       WHEN("DeleteNode('c') is called on g"){
-      g.DeleteNode("c");
-      auto vec = g.GetNodes();
-      THEN("vec will have {b,d}"){
-        std::vector<std::string> expected{ "b", "d"};
-        REQUIRE(vec == expected);
+        g.DeleteNode("c");
+        auto vec = g.GetNodes();
+        THEN("GetNodes() will return vec with {b,d}"){
+          std::vector<std::string> expected{ "b", "d"};
+          REQUIRE(vec == expected);
+        }
+        WHEN("DeleteNode('d') is called on g"){
+          g.DeleteNode("d");
+          auto vec = g.GetNodes();
+          THEN("GetNodes() will return vec with  {b}"){
+            std::vector<std::string> expected{ "b"};
+            REQUIRE(vec == expected);
+          }
+          WHEN("DeleteNode('b') is called on g"){
+            g.DeleteNode("b");
+            auto vec = g.GetNodes();
+            THEN("GetNodes() will return empty vec "){
+              std::vector<std::string> expected{};
+              REQUIRE(vec == expected);
+            }
+          }
+        }
       }
-      WHEN("DeleteNode('d') is called on g"){
-      g.DeleteNode("d");
-      auto vec = g.GetNodes();
-      THEN("vec will have {b}"){
-        std::vector<std::string> expected{ "b"};
-        REQUIRE(vec == expected);
-      }
-      WHEN("DeleteNode('b') is called on g"){
-      g.DeleteNode("b");
-      auto vec = g.GetNodes();
-      THEN("vec will be empty"){
-        std::vector<std::string> expected{};
-        REQUIRE(vec == expected);
-      }
-    }
-    }
-    }
     }
   }
   GIVEN("The default constructor is used to get graph 'g'"){
@@ -661,6 +661,86 @@ SCENARIO("Construct a complicated graph and use an iterator to erase edges") {
       auto it = g.find(1,1,3);
       THEN("The iterator will be pointing to the end() of the graph"){
         REQUIRE(g.erase(it) == g.end());
+      }
+    }
+  }
+}
+
+// const_iterator cbegin()
+SCENARIO("A graph has a const iterator"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("cbegin() is called on the graph"){
+      auto it = g.cbegin();
+      THEN("The iterator can be dereferenced to get the first element in edges_"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("cbegin() is called on the graph"){
+      auto it = g.cbegin();
+      THEN("The iterator can be dereferenced to get the first element in edges_"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
+      }
+    }
+  }
+}
+
+// const_iterator cend()
+SCENARIO("A graph has a const iterator"){
+  GIVEN("A new const graph 'g' is created"){
+    const std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    const std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    const std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    const std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    const std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    const std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    const auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("cend() is called on the graph"){
+      auto it = g.cend();
+      THEN("The iterator can be dereferenced to get the first element in edges_"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
+      }
+    }
+  }
+  GIVEN("A new non-const graph 'g' is created"){
+    std::tuple<std::string, std::string, double> tup1 {"d","a",5.4};
+    std::tuple<std::string, std::string, double> tup2 {"a","b",-3.4};
+    std::tuple<std::string, std::string, double> tup3 {"a","b",1.8};
+    std::tuple<std::string, std::string, double> tup4 {"a","c",3.7};
+    std::tuple<std::string, std::string, double> tup5 {"a","c",1.1};
+    std::tuple<std::string, std::string, double> tup6 {"c","a",8.6};
+    auto e = std::vector<std::tuple<std::string, std::string, double>>{tup1, tup2, tup3, tup4, tup5, tup6};
+    gdwg::Graph<std::string, double> g{e.begin(), e.end()};
+    WHEN("cend() is called on the graph"){
+      auto it = g.cend();
+      THEN("The iterator can be dereferenced to get the first element in edges_"){
+        REQUIRE(std::get<0>(*it) == "a");
+        REQUIRE(std::get<1>(*it) == "b");
+        REQUIRE(std::get<2>(*it) == -3.4);
       }
     }
   }
