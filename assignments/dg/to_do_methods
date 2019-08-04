@@ -48,4 +48,4 @@
 
 //bool operator!=(const gdwg::Graph<N, E>&, const gdwg::Graph<N, E>&) -- COMPLETED / TESTED
 
-std::ostream& operator<<(std::ostream&, const gdwg::Graph<N, E>&) -- TODO
+//std::ostream& operator<<(std::ostream&, const gdwg::Graph<N, E>&) -- COMPLETED / TESTED
