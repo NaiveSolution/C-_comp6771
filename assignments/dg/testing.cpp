@@ -107,16 +107,24 @@ int main() {
     //  will still be in here.
 //    std::cout << g4.IsNode("Hello") << "\n"; // prints 'true';
 
-   tuple<int, int, int> m1{1,1,-1};
-   tuple<int, int, int> m2{1,1,1};
-   tuple<int, int, int> m3{1,1,2};
-   tuple<int, int, int> m4{1,1,-8};
-   auto h = std::vector<std::tuple<int, int, int>>{m2, m1, m3, m4};
-   gdwg::Graph<int, int> g5{h.begin(), h.end()};
-   cout << g5;
+//    tuple<int, int, int> m1{1,1,-1};
+//    tuple<int, int, int> m2{1,1,1};
+//    tuple<int, int, int> m3{1,1,2};
+//    tuple<int, int, int> m4{1,1,-8};
+//    auto h = std::vector<std::tuple<int, int, int>>{m2, m1, m3, m4};
+//    gdwg::Graph<int, int> g5{h.begin(), h.end()};
+//    cout << g5;
 
+    std::tuple<std::string, std::string, int> tup1{"A","B", 1};
+    std::tuple<std::string, std::string, int> tup2{"A","C", 2};
+    std::tuple<std::string, std::string, int> tup3{"A","D", 3};
+    std::tuple<std::string, std::string, int> tup4{"B","B", 1};
+    auto e = std::vector<std::tuple<std::string, std::string, int>>{tup1, tup2, tup3, tup4};
+    gdwg::Graph<std::string, int> g{e.begin(), e.end()};
+    g.MergeReplace("A", "B");
+    cout << g;
 //    for (const auto& it : g) {
-//        std::cout << '<' << std::get<0>(it) << ", ";
+//        std::cout << '<' << std::get<0>(it) << ", ";p
 //        std::cout << std::get<1>(it) << ", ";
 //        std::cout << std::get<2>(it) << '>' << '\n';
 //    }

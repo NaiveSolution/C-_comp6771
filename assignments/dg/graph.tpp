@@ -340,16 +340,25 @@ void gdwg::Graph<N, E>::MergeReplace(const N& oldData, const N& newData) {
     throw std::runtime_error("Cannot call Graph::MergeReplace "
                              "on old or new data if they don't exist in the graph");
   }
+
+  auto future_edges = GetWeights(newData, newData);
+
   for (auto& node : nodes_) {
     if (node->value_ == newData) {
       for (const auto& edge : edges_) {
         if (edge->src_.lock()->value_ == oldData) {
+          auto current_edge = edge->weight_;
+          if (std::find(future_edges.begin(), future_edges.end(), current_edge) != future_edges.end())
+            continue;
           edge->src_ = node;
-          node->indegree_++;
+          node->outdegree_++;
         }
         if (edge->dest_.lock()->value_ == oldData) {
+          auto current_edge = edge->weight_;
+          if (std::find(future_edges.begin(), future_edges.end(), current_edge) != future_edges.end())
+            continue;
           edge->dest_ = node;
-          node->outdegree_++;
+          node->indegree_++;
         }
       }
       break;

@@ -558,7 +558,7 @@ SCENARIO("A graph can merge replace nodes") {
       }
     }
   }
-  GIVEN("The graph example used in the assignment spec"){
+  GIVEN("The graph example 2 used in the assignment spec"){
     std::tuple<std::string, std::string, int> tup1{"A","B", 1};
     std::tuple<std::string, std::string, int> tup2{"A","C", 2};
     std::tuple<std::string, std::string, int> tup3{"A","D", 3};
@@ -578,6 +578,28 @@ SCENARIO("A graph can merge replace nodes") {
         REQUIRE(g.GetWeights("B", "C") == expected_2);
         std::vector<int> expected_3{3};
         REQUIRE(g.GetWeights("B", "D") == expected_3);
+      }
+    }
+  }
+  GIVEN("The graph example 3 used in the assignment spec"){
+    std::tuple<std::string, std::string, int> tup1{"A","B", 3};
+    std::tuple<std::string, std::string, int> tup2{"C","B", 2};
+    std::tuple<std::string, std::string, int> tup3{"D","B", 4};
+    auto e = std::vector<std::tuple<std::string, std::string, int>>{tup1, tup2, tup3};
+    gdwg::Graph<std::string, int> g{e.begin(), e.end()};
+    WHEN("MergeReplace is used on (B,A)"){
+      g.MergeReplace("B", "A");
+      THEN("all instances of B will be replaced with A"){
+        std::vector<std::string> expected{"A", "C", "D"};
+        REQUIRE(g.GetNodes() == expected);
+      }
+      AND_THEN("Node B will be connected as: A-A-3, C-A-2, D-A-4"){
+        std::vector<int> expected_1{3};
+        REQUIRE(g.GetWeights("A", "A") == expected_1);
+        std::vector<int> expected_2{2};
+        REQUIRE(g.GetWeights("C", "A") == expected_2);
+        std::vector<int> expected_3{4};
+        REQUIRE(g.GetWeights("D", "A") == expected_3);
       }
     }
   }
